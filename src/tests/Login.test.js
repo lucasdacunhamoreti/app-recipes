@@ -13,7 +13,7 @@ describe('Testes da tela de Login', () => {
     expect(pathname).toBe('/');
   });
 
-  it('Testa se é exibido os elementos na tela', () => {
+  it('Testa se é exibido os elementos na tela.', () => {
     renderWithRouter(
       <Login />,
     );

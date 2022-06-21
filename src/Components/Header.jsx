@@ -1,11 +1,11 @@
 import React from 'react';
-// import imgProfile from 'src/images/profileIcon.svg'
 import imgProfile from '../images/profileIcon.svg';
 import imgSearch from '../images/searchIcon.svg';
+// import RecipesContext from '../Context/RecipesContext';
 
 function Header() {
   return (
-    <div className="header">
+    <header className="header">
       <button
         type="button"
         data-testid="profile-top-btn"
@@ -23,7 +23,7 @@ function Header() {
       >
         <img src={ imgSearch } alt="Search" />
       </button>
-    </div>);
+    </header>);
 }
 
 export default Header;

@@ -7,7 +7,6 @@ import SearchMenu from './SearchMenu';
 function Header() {
   const history = useHistory();
   const [showInput, setShowInput] = useState(false);
-  // const [showSearch, setShowSearch] = useState(true);
 
   const handleShowInput = () => setShowInput(!showInput);
 
@@ -31,16 +30,18 @@ function Header() {
         Foods
       </p>
 
-      <button
-        type="button"
-        data-testid="search-top-btn"
-        onClick={ handleShowInput }
-      >
-        <img src={ imgSearch } alt="Search" />
-      </button>
-
       { showInput && <SearchMenu /> }
 
+      { history.location.pathname !== '/profile'
+      && (
+        <button
+          type="button"
+          data-testid="search-top-btn"
+          onClick={ handleShowInput }
+        >
+          <img src={ imgSearch } alt="Search" />
+        </button>
+      )}
     </header>);
 }
 

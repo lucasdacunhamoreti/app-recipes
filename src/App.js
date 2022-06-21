@@ -9,6 +9,7 @@ import {
 import Login from './Pages/Login';
 import Foods from './Pages/Foods';
 import RecipesProvider from './Provider/RecipesProvider';
+import Profile from './Pages/Profile';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           <Route exact component={ Foods } path="/explore/foods/ingredients" />
           <Route exact component={ Foods } path="/explore/drinks/ingredients" />
           <Route exact component={ Foods } path="/explore/foods/nationalities" />
-          <Route exact component={ Foods } path="/profile" />
+          <Route exact component={ Profile } path="/profile" />
           <Route exact component={ Foods } path="/done-recipes" />
           <Route exact component={ Foods } path="/favorite-recipes" />
         </Switch>

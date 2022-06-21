@@ -1,28 +1,47 @@
-import React from 'react';
+import React, { useState } from 'react';
+import { useHistory } from 'react-router-dom';
 import imgProfile from '../images/profileIcon.svg';
 import imgSearch from '../images/searchIcon.svg';
-// import RecipesContext from '../Context/RecipesContext';
+import SearchMenu from './SearchMenu';
 
 function Header() {
+  const history = useHistory();
+  const [showInput, setShowInput] = useState(false);
+
+  const handleShowInput = () => setShowInput(!showInput);
+
+  const handleProfile = () => {
+    history.push('/profile');
+  };
+
   return (
     <header className="header">
       <button
         type="button"
         data-testid="profile-top-btn"
+        onClick={ handleProfile }
       >
         <img src={ imgProfile } alt="Profile" />
       </button>
+
       <p
         data-testid="page-title"
       >
         Foods
       </p>
-      <button
-        type="button"
-        data-testid="search-top-btn"
-      >
-        <img src={ imgSearch } alt="Search" />
-      </button>
+
+      { showInput && <SearchMenu /> }
+
+      { history.location.pathname !== '/profile'
+      && (
+        <button
+          type="button"
+          data-testid="search-top-btn"
+          onClick={ handleShowInput }
+        >
+          <img src={ imgSearch } alt="Search" />
+        </button>
+      )}
     </header>);
 }
 

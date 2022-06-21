@@ -16,7 +16,7 @@ export default function Login() {
   };
 
   const validitypassword = (newPassword) => {
-    const min = 6;
+    const min = 7;
     const response = newPassword.length >= min;
     setPassword(newPassword);
     setVerifyPassword(response);

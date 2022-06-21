@@ -5,23 +5,6 @@ function Foods() {
   return (
     <div>
       <Header />
-      {/* <input
-
-      >
-
-      </input> */}
-      <button
-        type="button"
-        data-testid="profile-top-btn"
-      >
-        search
-      </button>
-      <button
-        type="button"
-        data-testid="profile-top-btn"
-      >
-        search
-      </button>
     </div>
   );
 }

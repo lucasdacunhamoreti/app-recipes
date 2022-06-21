@@ -10,7 +10,7 @@ function Foods() {
       >
 
       </input> */}
-      <button
+      {/* <button
         type="button"
         data-testid="profile-top-btn"
       >
@@ -21,7 +21,7 @@ function Foods() {
         data-testid="profile-top-btn"
       >
         search
-      </button>
+      </button> */}
     </div>
   );
 }

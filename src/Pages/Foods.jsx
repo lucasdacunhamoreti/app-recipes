@@ -1,8 +1,10 @@
 import React, { useContext } from 'react';
+import { useHistory } from 'react-router-dom';
 import Header from '../Components/Header';
 import RecipesContext from '../Context/RecipesContext';
 
 function Foods() {
+  const history = useHistory();
   const {
     dataApiFoods,
     // setDataApiFoods,
@@ -12,6 +14,16 @@ function Foods() {
 
   // FALTA FAZER MENSAGEM DE ERRO CASO NAO ENCONTRE NENHUMA RECEITA!!!!!
   // ALERT
+
+  const handleResponse = () => {
+    if (dataApiFoods.length === 1) {
+      console.log(dataApiFoods);
+      const { idFood } = dataApiFoods[0];
+      history.push(`/foods/${idFood}`);
+    } else {
+      global.alert('Sorry, we haven\'t found any recipes for these filters.');
+    }
+  };
 
   const MAX_QUANTITY_RECIPES = 12;
   return (
@@ -29,8 +41,9 @@ function Foods() {
               alt={ item.strMealThumb }
             />
             <span data-testid={ `${index}-card-name` }>{ item.strMeal }</span>
+            { console.log(dataApiFoods) }
           </div>
-        ))) : null}
+        ))) : handleResponse()}
     </div>
   );
 }

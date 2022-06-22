@@ -19,6 +19,7 @@ import ExploreDrinks from './Pages/ExploreDrinks';
 import ExploreNationalities from './Pages/ExploreNationalities';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
+import FoodDetails from './Pages/FoodDetails';
 
 function App() {
   return (
@@ -28,7 +29,7 @@ function App() {
           <Route exact component={ Login } path="/" />
           <Route exact component={ Foods } path="/foods" />
           <Route exact component={ Drinks } path="/drinks" />
-          <Route exact component={ Foods } path="/foods/:id" />
+          <Route exact component={ FoodDetails } path="/foods/:id" />
           <Route exact component={ Drinks } path="/drinks/:id" />
           <Route exact component={ Foods } path="/foods/id/:in-progress" />
           <Route exact component={ Drinks } path="/drinks/id/:in-progress" />

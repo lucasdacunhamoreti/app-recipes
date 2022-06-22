@@ -15,8 +15,33 @@ function Header() {
   };
 
   function setTitle() {
-    if (history.location.pathname === '/foods') return 'Foods';
-    if (history.location.pathname === '/profile') return 'Profile';
+    switch (history.location.pathname) {
+    case '/foods':
+      return 'Foods';
+    case '/profile':
+      return 'Profile';
+    case '/drinks':
+      return 'Drinks';
+    case '/explore':
+      return 'Explore';
+    case '/explore/foods':
+      return 'Explore Foods';
+    case '/explore/foods/ingredients':
+      return 'Explore Ingredients';
+    case '/explore/drinks':
+      return 'Explore Drinks';
+    case '/explore/drinks/ingredients':
+      return 'Explore Ingredients';
+    case '/done-recipes':
+      return 'Done Recipes';
+    case '/favorite-recipes':
+      return 'Favorite Recipes';
+    case '/explore/drinks/nationalities':
+      return 'Explore Nationalities';
+    case '/explore/foods/nationalities':
+      return 'Explore Nationalities';
+    default: return 'error';
+    }
   }
 
   return (
@@ -41,7 +66,9 @@ function Header() {
       { (history.location.pathname !== '/profile')
         && (history.location.pathname !== '/explore')
         && (history.location.pathname !== '/explore/foods')
+        && (history.location.pathname !== '/explore/drinks')
         && (history.location.pathname !== '/explore/foods/ingredients')
+        && (history.location.pathname !== '/explore/drinks/ingredients')
         && (history.location.pathname !== '/done-recipes')
         && (history.location.pathname !== '/favorite-recipes') === true ? (
           <button

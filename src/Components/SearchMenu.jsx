@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import RecipesContext from '../Context/RecipesContext';
 import apiFoods from './services/dataFoods';
 import apiDrinks from './services/dataDrinks';
+// import { useEffect } from 'react';
 
 export default function SearchMenu() {
   const history = useHistory();
@@ -27,10 +28,20 @@ export default function SearchMenu() {
   const handleGetApi = async () => {
     if (history.location.pathname === '/foods') {
       const returnApiFoods = await apiFoods(searchType, searched);
-      setDataApiFoods(returnApiFoods.meals);
+      // console.log(returnApiFoods.meals);
+      // console.log('handle');
+      if (!returnApiFoods.meals) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      } else {
+        setDataApiFoods(returnApiFoods.meals);
+      }
     } else {
       const returnApiDrinks = await apiDrinks(searchType, searched);
-      setDataApiDrinks(returnApiDrinks.drinks);
+      if (!returnApiDrinks.drinks) {
+        global.alert('Sorry, we haven\'t found any recipes for these filters.');
+      } else {
+        setDataApiDrinks(returnApiDrinks.drinks);
+      }
     }
   };
 

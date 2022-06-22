@@ -1,28 +1,36 @@
-import React, { useState } from 'react';
-// import RecipesContext from '../Context/RecipesContext';
+import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import RecipesContext from '../Context/RecipesContext';
 import apiFoods from './services/dataFoods';
 import apiDrinks from './services/dataDrinks';
 
 export default function SearchMenu() {
   const history = useHistory();
+
   const [searched, setSearched] = useState('');
   const [searchType, setSearchType] = useState('');
-  const [letterSelect, setLetterSelect] = useState(false);
+  const [verifyInput, setVerifyInput] = useState(false);
+
+  const {
+    // dataApiFoods,
+    setDataApiFoods,
+    // dataApiDrinks,
+    setDataApiDrinks,
+  } = useContext(RecipesContext);
 
   const verifyFirstLetter = () => {
-    if (letterSelect === true && searched.length > 0) {
+    if (verifyInput === true && searched.length > 0) {
       global.alert('Your search must have only 1 (one) character');
     }
   };
 
   const handleGetApi = async () => {
     if (history.location.pathname === '/foods') {
-      const teste = await apiFoods(searchType, searched);
-      console.log(teste);
+      const returnApiFoods = await apiFoods(searchType, searched);
+      setDataApiFoods(returnApiFoods.meals);
     } else {
-      const teste2 = await apiDrinks(searchType, searched);
-      console.log(teste2);
+      const returnApiDrinks = await apiDrinks(searchType, searched);
+      setDataApiDrinks(returnApiDrinks.drinks);
     }
   };
 
@@ -30,15 +38,15 @@ export default function SearchMenu() {
     const { value, name } = target;
     if (name === 'search-input') {
       setSearched(value);
-      if (letterSelect) {
+      if (verifyInput) {
         verifyFirstLetter();
       }
     } else {
       if (value === 'first-letter') {
-        setLetterSelect(true);
+        setVerifyInput(true);
         verifyFirstLetter();
       } else {
-        setLetterSelect(false);
+        setVerifyInput(false);
       }
       setSearchType(value);
     }
@@ -65,7 +73,6 @@ export default function SearchMenu() {
           value="ingredient"
           onChange={ inputHandleChange }
         />
-
       </label>
 
       <label htmlFor="name-ingredient">
@@ -91,13 +98,13 @@ export default function SearchMenu() {
           onChange={ inputHandleChange }
         />
       </label>
+
       <button
         onClick={ handleGetApi }
         data-testid="exec-search-btn"
         type="button"
       >
         Search
-
       </button>
     </div>
   );

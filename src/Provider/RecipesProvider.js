@@ -1,15 +1,16 @@
 import React, { useState } from 'react';
 import PropTypes from 'prop-types';
 import RecipesContext from '../Context/RecipesContext';
-// import dataFoods from '../Components/services/dataFoods';
 
 function RecipesProvider({ children }) {
-  const [searchRecipes, setSearchRecipe] = useState([]);
-  // const [dataFood, setDataFood] = useState([]);
+  const [dataApiFoods, setDataApiFoods] = useState([]);
+  const [dataApiDrinks, setDataApiDrinks] = useState([]);
 
   const context = {
-    setSearchRecipe,
-    searchRecipes,
+    dataApiFoods,
+    setDataApiFoods,
+    dataApiDrinks,
+    setDataApiDrinks,
   };
 
   return (

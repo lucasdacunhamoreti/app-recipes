@@ -30,7 +30,7 @@ function Foods() {
       setDataApiFoods(returnApiFoods.meals);
     }
     fetch();
-  }, []);
+  }, [setDataApiFoods]);
 
   const MAX_QUANTITY_RECIPES = 12;
   return (

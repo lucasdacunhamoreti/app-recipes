@@ -23,7 +23,7 @@ function Drinks() {
       setDataApiDrinks(returnApiDrinks.drinks);
     }
     fetch();
-  }, []);
+  }, [setDataApiDrinks]);
 
   const MAX_QUANTITY_RECIPES = 12;
   return (

@@ -1,10 +1,10 @@
 .container {
-  position: fixed;
+  background-color: gray;
+  bottom: 0;
   display: flex;
   justify-content: space-between;
   max-width: 340px;
-  bottom: 0;
-  background-color: gray;
+  position: fixed;
 }
 
 img {

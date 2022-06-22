@@ -2,8 +2,9 @@ import React, { useContext, useEffect } from 'react';
 // import React, { useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../Components/Header';
-import apiDrinks from '../Components/services/dataDrinks';
+import apiDrinks from '../services/dataDrinks';
 import RecipesContext from '../Context/RecipesContext';
+import Footer from '../Components/Footer';
 
 function Drinks() {
   const history = useHistory();
@@ -48,6 +49,7 @@ function Drinks() {
             {/* {console.log(drink)} */}
           </div>)
         ))}
+      <Footer />
     </div>
   );
 }

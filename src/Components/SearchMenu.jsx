@@ -1,8 +1,8 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
 import RecipesContext from '../Context/RecipesContext';
-import apiFoods from './services/dataFoods';
-import apiDrinks from './services/dataDrinks';
+import apiFoods from '../services/dataFoods';
+import apiDrinks from '../services/dataDrinks';
 // import { useEffect } from 'react';
 
 export default function SearchMenu() {

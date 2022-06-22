@@ -2,7 +2,7 @@ import React from 'react';
 import Footer from '../Components/Footer';
 import Header from '../Components/Header';
 
-function Profile() {
+function drinksIngredients() {
   return (
     <div>
       <Header />
@@ -11,4 +11,4 @@ function Profile() {
   );
 }
 
-export default Profile;
+export default drinksIngredients;

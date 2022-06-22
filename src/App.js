@@ -16,11 +16,14 @@ import Foods from './Pages/Foods';
 import Explore from './Pages/Explore';
 import ExploreFoods from './Pages/ExploreFoods';
 import ExploreDrinks from './Pages/ExploreDrinks';
-import ExploreNationalities from './Pages/ExploreNationalities';
+import ExploreNationalitiesFoods from './Pages/ExploreNationalitiesFoods';
 import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import FoodDetails from './Pages/FoodDetails';
 import DrinkDetails from './Pages/DrinkDetails';
+import foodsIngredients from './Pages/foodsIngredients';
+import drinksIngredients from './Pages/drinksIngredients';
+import ExploreNationalitiesDrinks from './Pages/ExploreNationalitiesDrinks';
 
 function App() {
   return (
@@ -37,12 +40,21 @@ function App() {
           <Route exact component={ Explore } path="/explore" />
           <Route exact component={ ExploreFoods } path="/explore/foods" />
           <Route exact component={ ExploreDrinks } path="/explore/drinks" />
-          <Route exact component={ ExploreFoods } path="/explore/foods/ingredients" />
-          <Route exact component={ ExploreDrinks } path="/explore/drinks/ingredients" />
+          <Route exact component={ foodsIngredients } path="/explore/foods/ingredients" />
           <Route
             exact
-            component={ ExploreNationalities }
+            component={ drinksIngredients }
+            path="/explore/drinks/ingredients"
+          />
+          <Route
+            exact
+            component={ ExploreNationalitiesFoods }
             path="/explore/foods/nationalities"
+          />
+          <Route
+            exact
+            component={ ExploreNationalitiesDrinks }
+            path="/explore/drinks/nationalities"
           />
           <Route exact component={ Profile } path="/profile" />
           <Route exact component={ DoneRecipes } path="/done-recipes" />

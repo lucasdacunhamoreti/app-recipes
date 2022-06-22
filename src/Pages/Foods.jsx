@@ -1,49 +1,58 @@
-import React, { useContext } from 'react';
+import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../Components/Header';
 import RecipesContext from '../Context/RecipesContext';
+import apiFoods from '../Components/services/dataFoods';
 
 function Foods() {
   const history = useHistory();
   const {
     dataApiFoods,
-    // setDataApiFoods,
+    setDataApiFoods,
     // dataApiDrinks,
     // setDataApiDrinks,
   } = useContext(RecipesContext);
+  // const [foodsSerch, setFoodsSerch] = useState([]);
 
   // FALTA FAZER MENSAGEM DE ERRO CASO NAO ENCONTRE NENHUMA RECEITA!!!!!
   // ALERT
 
   const handleResponse = () => {
-    if (dataApiFoods.length === 1) {
-      console.log(dataApiFoods);
-      const { idFood } = dataApiFoods[0];
-      history.push(`/foods/${idFood}`);
-    } else {
-      global.alert('Sorry, we haven\'t found any recipes for these filters.');
-    }
+    const { idMeal } = dataApiFoods[0];
+    // console.log(dataApiFoods);
+    history.push(`/foods/${idMeal}`);
   };
+
+  useEffect(() => {
+    // console.log(apiFoods);
+    async function fetch() {
+      const returnApiFoods = await apiFoods('name-ingredient', '');
+      setDataApiFoods(returnApiFoods.meals);
+    }
+    fetch();
+  }, []);
 
   const MAX_QUANTITY_RECIPES = 12;
   return (
     <div>
       <Header />
-      {dataApiFoods.length > 1 ? (
-        dataApiFoods.slice(0, MAX_QUANTITY_RECIPES).map((item, index) => (
+      {dataApiFoods.length === 1 ? handleResponse()
+        : dataApiFoods.map((food, index) => (
+          (index < MAX_QUANTITY_RECIPES)
+        && (
           <div
             key={ index }
             data-testid={ `${index}-recipe-card` }
           >
             <img
               data-testid={ `${index}-card-img` }
-              src={ item.strMealThumb }
-              alt={ item.strMealThumb }
+              src={ food.strMealThumb }
+              alt={ food.strMealThumb }
             />
-            <span data-testid={ `${index}-card-name` }>{ item.strMeal }</span>
-            { console.log(dataApiFoods) }
-          </div>
-        ))) : handleResponse()}
+            <span data-testid={ `${index}-card-name` }>{ food.strMeal }</span>
+            {/* { console.log(food) } */}
+          </div>)
+        ))}
     </div>
   );
 }

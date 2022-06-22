@@ -2,7 +2,8 @@ import React, { useContext, useEffect } from 'react';
 import { useHistory } from 'react-router-dom';
 import Header from '../Components/Header';
 import RecipesContext from '../Context/RecipesContext';
-import apiFoods from '../Components/services/dataFoods';
+import apiFoods from '../services/dataFoods';
+import Footer from '../Components/Footer';
 
 function Foods() {
   const history = useHistory();
@@ -53,6 +54,7 @@ function Foods() {
             {/* { console.log(food) } */}
           </div>)
         ))}
+      <Footer />
     </div>
   );
 }

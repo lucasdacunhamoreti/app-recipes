@@ -1,0 +1,12 @@
+.container {
+  position: fixed;
+  display: flex;
+  justify-content: space-between;
+  max-width: 340px;
+  bottom: 0;
+  background-color: #ccc;
+}
+
+img {
+  max-width: 100px;
+}

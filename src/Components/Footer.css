@@ -8,11 +8,11 @@
 }
 
 .container button {
-  border: none;
   background-color: burlywood;
+  border: none;
 }
 
 img {
-  max-width: 120px;
   max-height: 100px;
+  max-width: 120px;
 }

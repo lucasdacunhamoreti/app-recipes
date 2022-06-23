@@ -7,6 +7,25 @@ export default function FoodDetails() {
 
   const [recipes, setRecipes] = useState([]);
 
+  function populateIngredients(recipe) {
+    const min = 8;
+    const minM = 28;
+    const max = 29;
+    const maxM = 49;
+    const ingredients = (Object.values(recipe)
+      .filter((value, index) => (index > min && index < max && value !== '')));
+    const measure = (Object.values(recipe)
+      .filter((value, index) => (index > minM && index < maxM && value !== ' ')));
+    console.log(ingredients, measure);
+    return ingredients.map((item, index) => (
+      <li
+        data-testid={ `${index}-ingredient-name-and-measure` }
+        key={ index }
+      >
+        {`${ingredients[index]} - ${measure[index]}`}
+      </li>));
+  }
+
   useEffect(() => {
     const idRecipe = history.location.pathname.split('s/')[1];
     async function getRecipe() {
@@ -34,15 +53,21 @@ export default function FoodDetails() {
           {/* <span data-testid="${index}-ingredient-name-and-measure">Ingredientes</span> */}
           {/* { console.log(recipe.strYoutube) } */}
           <span data-testid="instructions">{ recipe.strInstructions }</span>
+          {/* { console.log(recipe)} */}
+          {/* {console.log(Object.values(recipe)
+            .filter((value, index) => (index > min && index < max && value !== '')))} */}
+          <ul>
+            {populateIngredients(recipe)}
+          </ul>
           <div>
             <iframe
             // src={ recipe.strYoutube }
-              src="https://www.youtube.com/embed/YsJXZwE5pdY"
-              // src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('?v=').at(1)}` }
+              // src="https://www.youtube.com/embed/YsJXZwE5pdY"
+              src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
               data-testid="video"
-              title="#"
+              title="video player"
               width="360"
-              heigth="360"
+              heigth="420"
             />
           </div>
 

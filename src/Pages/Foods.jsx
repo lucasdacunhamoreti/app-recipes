@@ -6,19 +6,18 @@ import apiFoods from '../services/dataFoods';
 import Footer from '../Components/Footer';
 import './Foods.css';
 import './Card.css';
+import Category from '../Components/Category';
 
 function Foods() {
   const history = useHistory();
   const {
     dataApiFoods,
     setDataApiFoods,
+    typeFilter,
     // dataApiDrinks,
     // setDataApiDrinks,
   } = useContext(RecipesContext);
   // const [foodsSerch, setFoodsSerch] = useState([]);
-
-  // FALTA FAZER MENSAGEM DE ERRO CASO NAO ENCONTRE NENHUMA RECEITA!!!!!
-  // ALERT
 
   const handleResponse = () => {
     const { idMeal } = dataApiFoods[0];
@@ -27,7 +26,6 @@ function Foods() {
   };
 
   useEffect(() => {
-    // console.log(apiFoods);
     async function fetch() {
       const returnApiFoods = await apiFoods('name-ingredient', '');
       setDataApiFoods(returnApiFoods.meals);
@@ -39,7 +37,8 @@ function Foods() {
   return (
     <div className="foods">
       <Header />
-      {dataApiFoods.length === 1 ? handleResponse()
+      <Category />
+      {dataApiFoods.length === 1 && typeFilter === 'input' ? handleResponse()
         : dataApiFoods.map((food, index) => (
           (index < MAX_QUANTITY_RECIPES)
         && (

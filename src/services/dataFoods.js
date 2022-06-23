@@ -13,4 +13,18 @@ const apiFoods = async (type, search) => {
   return apiFirstLetterJson;
 };
 
+export const getCategoryFoods = async () => {
+  const MAX_QUANTITY_CATEGORY = 5;
+  const apiCategory = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?c=list');
+  const apiCategoryJson = await apiCategory.json();
+  return apiCategoryJson.meals.slice(0, MAX_QUANTITY_CATEGORY);
+};
+
+export const getFoodsCategorySpecify = async (food) => {
+  const MAX_QUANTITY_CATEGORY = 12;
+  const apiCategory = await fetch(`https://www.themealdb.com/api/json/v1/1/filter.php?c=${food}`);
+  const apiCategoryJson = await apiCategory.json();
+  return apiCategoryJson.meals.slice(0, MAX_QUANTITY_CATEGORY);
+};
+
 export default apiFoods;

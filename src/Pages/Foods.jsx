@@ -4,6 +4,8 @@ import Header from '../Components/Header';
 import RecipesContext from '../Context/RecipesContext';
 import apiFoods from '../services/dataFoods';
 import Footer from '../Components/Footer';
+import './Foods.css';
+import './Card.css';
 
 function Foods() {
   const history = useHistory();
@@ -35,13 +37,14 @@ function Foods() {
 
   const MAX_QUANTITY_RECIPES = 12;
   return (
-    <div>
+    <div className="foods">
       <Header />
       {dataApiFoods.length === 1 ? handleResponse()
         : dataApiFoods.map((food, index) => (
           (index < MAX_QUANTITY_RECIPES)
         && (
           <div
+            className="card"
             key={ index }
             data-testid={ `${index}-recipe-card` }
           >

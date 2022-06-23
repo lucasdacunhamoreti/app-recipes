@@ -3,6 +3,7 @@ import { useHistory } from 'react-router-dom';
 import RecipesContext from '../Context/RecipesContext';
 import apiFoods from '../services/dataFoods';
 import apiDrinks from '../services/dataDrinks';
+import './SearchMenu.css';
 // import { useEffect } from 'react';
 
 export default function SearchMenu() {
@@ -64,8 +65,9 @@ export default function SearchMenu() {
   };
 
   return (
-    <div>
+    <div className="search-menu">
       <input
+        className="search-input"
         onChange={ inputHandleChange }
         value={ searched }
         name="search-input"
@@ -73,50 +75,52 @@ export default function SearchMenu() {
         type="text"
         placeholder="search"
       />
+      <div className="filter-container">
+        <label htmlFor="ingredient">
+          Ingredients
+          <input
+            id="ingredient"
+            name="radioSearch"
+            data-testid="ingredient-search-radio"
+            type="radio"
+            value="ingredient"
+            onChange={ inputHandleChange }
+          />
+        </label>
 
-      <label htmlFor="ingredient">
-        Ingredients
-        <input
-          id="ingredient"
-          name="radioSearch"
-          data-testid="ingredient-search-radio"
-          type="radio"
-          value="ingredient"
-          onChange={ inputHandleChange }
-        />
-      </label>
+        <label htmlFor="name-ingredient">
+          Name
+          <input
+            name="radioSearch"
+            id="name-ingredient"
+            data-testid="name-search-radio"
+            type="radio"
+            value="name-ingredient"
+            onChange={ inputHandleChange }
+          />
+        </label>
 
-      <label htmlFor="name-ingredient">
-        Name
-        <input
-          name="radioSearch"
-          id="name-ingredient"
-          data-testid="name-search-radio"
-          type="radio"
-          value="name-ingredient"
-          onChange={ inputHandleChange }
-        />
-      </label>
+        <label htmlFor="first-letter">
+          First Letter
+          <input
+            name="radioSearch"
+            id="first-letter"
+            data-testid="first-letter-search-radio"
+            type="radio"
+            value="first-letter"
+            onChange={ inputHandleChange }
+          />
+        </label>
 
-      <label htmlFor="first-letter">
-        First Letter
-        <input
-          name="radioSearch"
-          id="first-letter"
-          data-testid="first-letter-search-radio"
-          type="radio"
-          value="first-letter"
-          onChange={ inputHandleChange }
-        />
-      </label>
+        <button
+          onClick={ handleGetApi }
+          data-testid="exec-search-btn"
+          type="button"
+        >
+          Search
+        </button>
+      </div>
 
-      <button
-        onClick={ handleGetApi }
-        data-testid="exec-search-btn"
-        type="button"
-      >
-        Search
-      </button>
     </div>
   );
 }

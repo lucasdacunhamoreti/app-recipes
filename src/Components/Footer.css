@@ -1,5 +1,5 @@
 .container {
-  background-color: gray;
+  background-color: burlywood;
   bottom: 0;
   display: flex;
   justify-content: space-between;
@@ -7,6 +7,12 @@
   position: fixed;
 }
 
+.container button {
+  border: none;
+  background-color: burlywood;
+}
+
 img {
-  max-width: 100px;
+  max-width: 120px;
+  max-height: 100px;
 }

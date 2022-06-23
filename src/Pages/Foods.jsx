@@ -1,5 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 
 import RecipesContext from '../Context/RecipesContext';
 
@@ -41,18 +41,20 @@ function Foods() {
         : dataApiFoods.map((food, index) => (
           (index < MAX_QUANTITY_RECIPES)
         && (
-          <div
-            className="card"
-            key={ index }
-            data-testid={ `${index}-recipe-card` }
-          >
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ food.strMealThumb }
-              alt={ food.strMealThumb }
-            />
-            <span data-testid={ `${index}-card-name` }>{ food.strMeal }</span>
-          </div>)
+          <Link key={ index } to={ `/foods/${food.idMeal}` }>
+            <div
+              className="card"
+              data-testid={ `${index}-recipe-card` }
+            >
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ food.strMealThumb }
+                alt={ food.strMealThumb }
+              />
+              <span data-testid={ `${index}-card-name` }>{ food.strMeal }</span>
+            </div>
+          </Link>)
+
         ))}
       <Footer />
     </div>

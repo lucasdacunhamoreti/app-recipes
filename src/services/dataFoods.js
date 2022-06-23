@@ -27,4 +27,10 @@ export const getFoodsCategorySpecify = async (food) => {
   return apiCategoryJson.meals.slice(0, MAX_QUANTITY_CATEGORY);
 };
 
+export const getRecipeFood = async (id) => {
+  const apiCategory = await fetch(`https://www.themealdb.com/api/json/v1/1/lookup.php?i=${id}`);
+  const apiCategoryJson = await apiCategory.json();
+  return apiCategoryJson.meals;
+};
+
 export default apiFoods;

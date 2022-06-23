@@ -44,7 +44,7 @@ export default function Category() {
     const { value } = target;
     if (history.location.pathname === '/foods') {
       const fetchFoods = async () => {
-        if (value !== buttonClicked) {
+        if (value !== buttonClicked && value !== 'All') {
           const returnApiFoods = await getFoodsCategorySpecify(value);
           setButtonClicked(value);
           setDataApiFoods(returnApiFoods);
@@ -57,7 +57,7 @@ export default function Category() {
       fetchFoods();
     } else {
       const fetchDrinks = async () => {
-        if (value !== buttonClicked) {
+        if (value !== buttonClicked && value !== 'All') {
           const returnApiDrinks = await getDrinksCategorySpecify(value);
           setButtonClicked(value);
           setDataApiDrinks(returnApiDrinks);
@@ -73,7 +73,14 @@ export default function Category() {
 
   return (
     <div>
-      {/* <button value="All" data-testid="All-category-filter" type="button" onClick={  }>All</button> */}
+      <button
+        value="All"
+        data-testid="All-category-filter"
+        type="button"
+        onClick={ handleButtonCategory }
+      >
+        All
+      </button>
       { category.map((item) => (
         <button
           key={ item.strCategory }

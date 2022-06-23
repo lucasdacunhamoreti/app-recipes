@@ -6,27 +6,25 @@ header {
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  /* width: 340ox; */
 }
 
 .btn-icon {
-  color: white;
-  width: 60px;
-  height: 60px;
-  border: none;
   background-color: burlywood;
-  /* padding: 1px 6px; */
+  border: none;
+  color: white;
+  height: 60px;
+  width: 60px;
 }
 
-.search-bar{
+.search-bar {
+  align-items: center;
+  background-color: burlywood;
   display: flex;
   justify-content: space-around;
   width: 340px;
-  background-color: burlywood;
-  align-items: center;
 }
 
-.search-bar label{
-  padding: 3px;
+.search-bar label {
   margin: 10px;
+  padding: 3px;
 }

@@ -5,12 +5,15 @@ import RecipesContext from '../Context/RecipesContext';
 function RecipesProvider({ children }) {
   const [dataApiFoods, setDataApiFoods] = useState([]);
   const [dataApiDrinks, setDataApiDrinks] = useState([]);
+  const [typeFilter, setTypeFilter] = useState('');
 
   const context = {
     dataApiFoods,
     setDataApiFoods,
     dataApiDrinks,
     setDataApiDrinks,
+    typeFilter,
+    setTypeFilter,
   };
 
   return (

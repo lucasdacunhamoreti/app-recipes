@@ -1,21 +1,21 @@
-.search-menu{
+.search-menu {
   background-color: burlywood;
   display: flex;
   flex-direction: column;
   width: 340px;
 }
 
-.filter-container{
-  padding: 3px;
-  margin: 3px; 
-}
-
-.search-menu label{
-  padding: 2px;
-  margin: 2px;
-}
-
-.search-input{
-  padding: 3px;
+.filter-container {
   margin: 3px;
+  padding: 3px;
+}
+
+.search-menu label {
+  margin: 2px;
+  padding: 2px;
+}
+
+.search-input {
+  margin: 3px;
+  padding: 3px;
 }

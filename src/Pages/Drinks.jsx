@@ -5,12 +5,14 @@ import Header from '../Components/Header';
 import apiDrinks from '../services/dataDrinks';
 import RecipesContext from '../Context/RecipesContext';
 import Footer from '../Components/Footer';
+import Category from '../Components/Category';
 
 function Drinks() {
   const history = useHistory();
   const {
     dataApiDrinks,
     setDataApiDrinks,
+    typeFilter,
   } = useContext(RecipesContext);
 
   const handleResponse = () => {
@@ -30,8 +32,9 @@ function Drinks() {
   return (
     <div>
       <Header />
+      <Category />
       {/* {console.log(dataApiDrinks)} */}
-      {dataApiDrinks.length === 1 ? handleResponse()
+      {dataApiDrinks.length === 1 && typeFilter === 'input' ? handleResponse()
         : dataApiDrinks.map((drink, index) => (
         // console.log(drink)
           (index < MAX_QUANTITY_RECIPES)

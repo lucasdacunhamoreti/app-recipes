@@ -18,6 +18,7 @@ export default function SearchMenu() {
     setDataApiFoods,
     // dataApiDrinks,
     setDataApiDrinks,
+    setTypeFilter,
   } = useContext(RecipesContext);
 
   const verifyFirstLetter = () => {
@@ -27,6 +28,7 @@ export default function SearchMenu() {
   };
 
   const handleGetApi = async () => {
+    setTypeFilter('input');
     if (history.location.pathname === '/foods') {
       const returnApiFoods = await apiFoods(searchType, searched);
       // console.log(returnApiFoods.meals);

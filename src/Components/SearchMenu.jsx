@@ -1,10 +1,12 @@
 import React, { useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+
 import RecipesContext from '../Context/RecipesContext';
+
 import apiFoods from '../services/dataFoods';
 import apiDrinks from '../services/dataDrinks';
+
 import './SearchMenu.css';
-// import { useEffect } from 'react';
 
 export default function SearchMenu() {
   const history = useHistory();
@@ -14,9 +16,7 @@ export default function SearchMenu() {
   const [verifyInput, setVerifyInput] = useState(false);
 
   const {
-    // dataApiFoods,
     setDataApiFoods,
-    // dataApiDrinks,
     setDataApiDrinks,
     setTypeFilter,
   } = useContext(RecipesContext);
@@ -24,6 +24,7 @@ export default function SearchMenu() {
   const verifyFirstLetter = () => {
     if (verifyInput === true && searched.length > 0) {
       global.alert('Your search must have only 1 (one) character');
+      setSearched('');
     }
   };
 
@@ -31,8 +32,6 @@ export default function SearchMenu() {
     setTypeFilter('input');
     if (history.location.pathname === '/foods') {
       const returnApiFoods = await apiFoods(searchType, searched);
-      // console.log(returnApiFoods.meals);
-      // console.log('handle');
       if (!returnApiFoods.meals) {
         global.alert('Sorry, we haven\'t found any recipes for these filters.');
       } else {
@@ -122,7 +121,6 @@ export default function SearchMenu() {
           Search
         </button>
       </div>
-
     </div>
   );
 }

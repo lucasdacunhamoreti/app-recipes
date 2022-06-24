@@ -10,33 +10,25 @@ export default function FoodDetails() {
   const [recommended, setRecommended] = useState([]);
 
   function populateIngredients(recipe) {
-    const ingredientsKeys = Object.keys(recipe)
-      .map((key, index) => {
+    // console.log(recipe);
+    const ingredients = Object.entries(recipe)
+      .map(([key, value]) => {
         if (key.includes('strIngredient')) {
-          return index;
+          return value;
         }
-        return null;
+        return '';
       })
-      .filter((arr) => arr !== null);
-    const measureKeys = Object.keys(recipe)
-      .map((key, index) => {
-        if (key.includes('strMeasure')) {
-          return index;
-        }
-        return null;
-      })
-      .filter((arr) => arr !== null);
-    const min = Math.min(...ingredientsKeys);
-    const max = Math.max(...ingredientsKeys);
-    const minM = Math.min(...measureKeys);
-    const maxM = Math.max(...measureKeys);
+      .filter((arr) => arr !== '' && arr !== null);
 
-    const ingredients = (Object.values(recipe)
-      .filter((value, index) => (index > min && index < max && value !== '')));
-    const measure = (Object.values(recipe)
-      // .filter((value, index) => (index > minM && index < maxM && value.length > 1)));
-      .filter((value, index) => (index > minM && index < maxM && value !== ' ')));
-    console.log(ingredients, measure);
+    const measure = Object.entries(recipe)
+      .map(([key, value]) => {
+        if (key.includes('strMeasure')) {
+          return value;
+        }
+        return '';
+      })
+      .filter((arr) => arr !== '' && arr !== null);
+
     return ingredients.map((item, index) => (
       <li
         data-testid={ `${index}-ingredient-name-and-measure` }
@@ -87,7 +79,7 @@ export default function FoodDetails() {
     const idRecipe = history.location.pathname.split('s/')[1];
     async function getRecipe() {
       const api = await getRecipeFood(idRecipe);
-      console.log(api);
+      // console.log(api);
       setRecipes(api);
     }
     getRecipe();

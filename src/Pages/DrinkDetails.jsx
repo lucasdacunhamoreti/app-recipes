@@ -1,7 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
 import { getRecipeDrinks, getRecomendedCardFood } from '../services/dataDrinks';
-import './DrinkDetails.css';
+import './FoodDetails.css';
 
 export default function DrinkDetails() {
   const history = useHistory();
@@ -10,17 +10,23 @@ export default function DrinkDetails() {
   const [recommended, setRecommended] = useState([]);
 
   function populateIngredients(recipe) {
-    const min = 16;
-    const minM = 31;
-    const max = 32;
-    const maxM = 47;
-    const ingredients = (Object.values(recipe)
-      .filter((value, index) => (
-        index > min && index < max && value !== null && value !== '')));
+    const ingredients = Object.entries(recipe)
+      .map(([key, value]) => {
+        if (key.includes('strIngredient')) {
+          return value;
+        }
+        return '';
+      })
+      .filter((arr) => arr !== '' && arr !== null);
 
-    const measure = (Object.values(recipe)
-      .filter((value, index) => (
-        index > minM && index < maxM && value !== null && value !== '')));
+    const measure = Object.entries(recipe)
+      .map(([key, value]) => {
+        if (key.includes('strMeasure')) {
+          return value;
+        }
+        return '';
+      })
+      .filter((arr) => arr !== '' && arr !== null);
 
     return ingredients.map((item, index) => (
       <li
@@ -112,8 +118,9 @@ export default function DrinkDetails() {
             {setRecommendedCard()}
           </div>
 
-          <div>
+          <div className="btn-start-recipe-container">
             <button
+              className="btn-start-recipe"
               data-testid="start-recipe-btn"
               type="button"
             >

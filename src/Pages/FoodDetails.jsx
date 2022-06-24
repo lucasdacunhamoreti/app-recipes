@@ -8,26 +8,23 @@ export default function FoodDetails() {
 
   const [recipes, setRecipes] = useState([]);
   const [recommended, setRecommended] = useState([]);
+  const [inProgress, setInProgress] = useState(false);
+
+  function filterIngredientsAndMeasures(recipe, str) {
+    const result = Object.entries(recipe)
+      .map(([key, value]) => {
+        if (key.includes(str)) {
+          return value;
+        }
+        return '';
+      })
+      .filter((arr) => arr !== '' && arr !== null);
+    return result;
+  }
 
   function populateIngredients(recipe) {
-    // console.log(recipe);
-    const ingredients = Object.entries(recipe)
-      .map(([key, value]) => {
-        if (key.includes('strIngredient')) {
-          return value;
-        }
-        return '';
-      })
-      .filter((arr) => arr !== '' && arr !== null);
-
-    const measure = Object.entries(recipe)
-      .map(([key, value]) => {
-        if (key.includes('strMeasure')) {
-          return value;
-        }
-        return '';
-      })
-      .filter((arr) => arr !== '' && arr !== null);
+    const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
+    const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
 
     return ingredients.map((item, index) => (
       <li
@@ -38,6 +35,26 @@ export default function FoodDetails() {
           ? `${ingredients[index]} - ${measure[index]}`
           : `${ingredients[index]}`}
       </li>));
+  }
+
+  function populateIngredientsList(recipe) {
+    const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
+    const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
+
+    return ingredients.map((item, index) => (
+      <div key={ index }>
+        <input
+          id={ index }
+          type="checkbox"
+          name={ item }
+          data-testid={ `${index}-ingredient-name-and-measure` }
+        />
+        <label htmlFor={ index }>
+          { measure[index]
+            ? `${ingredients[index]} - ${measure[index]}`
+            : `${ingredients[index]}`}
+        </label>
+      </div>));
   }
 
   function setRecommendedCard() {
@@ -69,11 +86,21 @@ export default function FoodDetails() {
   useEffect(() => {
     async function fetch() {
       const result = await getRecomendedCardDrink();
-      // console.log(result);
       setRecommended(result);
     }
     fetch();
   }, []);
+
+  // useEffect(() => {
+  //   const { meals: [] }
+  //   const mealsInfo = { name, score, picture };
+  //   if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+  //     const ranking = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //     localStorage.setItem('inProgressRecipes', JSON.stringify([...ranking, playerInfo]));
+  //   } else {
+  //     localStorage.setItem('inProgressRecipes', JSON.stringify([playerInfo]));
+  //   }
+  // }, []);
 
   useEffect(() => {
     const idRecipe = history.location.pathname.split('s/')[1];
@@ -84,6 +111,14 @@ export default function FoodDetails() {
     }
     getRecipe();
   }, [history]);
+
+  function recipeStatus() {
+    if (inProgress) {
+      history.push('/foods');
+      setInProgress(false);
+    }
+    setInProgress(true);
+  }
 
   return (
     <div>
@@ -98,34 +133,54 @@ export default function FoodDetails() {
           <button type="button" data-testid="share-btn">Compartilhar</button>
           <button type="button" data-testid="favorite-btn">Favoritar</button>
           <span data-testid="recipe-category">{recipe.strCategory}</span>
-
+          {!inProgress ? (
+            <ul>
+              {populateIngredients(recipe)}
+            </ul>)
+            : (
+              <ul>
+                {populateIngredientsList(recipe)}
+              </ul>
+            )}
           <span data-testid="instructions">{ recipe.strInstructions }</span>
-          <ul>
-            {populateIngredients(recipe)}
-          </ul>
           <div>
-            <iframe
-            // src={ recipe.strYoutube }
-              // src="https://www.youtube.com/embed/YsJXZwE5pdY"
-              src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
-              data-testid="video"
-              title="video player"
-              width="360"
-              heigth="420"
-            />
+            {!inProgress
+            && (
+              <section>
+                <iframe
+                  // src={ recipe.strYoutube }
+                  // src="https://www.youtube.com/embed/YsJXZwE5pdY"
+                  src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
+                  data-testid="video"
+                  title="video player"
+                  width="360"
+                  heigth="420"
+                />
+                <div className="recommended-card">
+                  {setRecommendedCard()}
+                </div>
+              </section>
+            )}
           </div>
-          <div className="recommended-card">
-            {setRecommendedCard()}
-          </div>
-
           <div className="btn-start-recipe-container">
-            <button
-              className="btn-start-recipe"
-              data-testid="start-recipe-btn"
-              type="button"
-            >
-              Start Recipe
-            </button>
+            {!inProgress ? (
+              <button
+                className="btn-start-recipe"
+                data-testid="start-recipe-btn"
+                type="button"
+                onClick={ recipeStatus }
+              >
+                Start Recipe
+              </button>)
+              : (
+                <button
+                  className="btn-start-recipe"
+                  data-testid="finish-recipe-btn"
+                  type="button"
+                  onClick={ recipeStatus }
+                >
+                  Finish Recipe
+                </button>)}
           </div>
         </div>
       )) }

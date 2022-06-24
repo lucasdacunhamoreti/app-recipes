@@ -15,7 +15,7 @@ export default function FoodDetails() {
     const ingredients = (Object.values(recipe)
       .filter((value, index) => (index > min && index < max && value !== '')));
     const measure = (Object.values(recipe)
-      .filter((value, index) => (index > minM && index < maxM && value !== ' ')));
+      .filter((value, index) => (index > minM && index < maxM && value.length > 1)));
     console.log(ingredients, measure);
     return ingredients.map((item, index) => (
       <li

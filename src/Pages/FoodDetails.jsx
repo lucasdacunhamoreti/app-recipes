@@ -110,7 +110,6 @@ export default function FoodDetails() {
             {setRecommendedCard()}
           </div>
 
-          {/* <div data-testid="${index}-recomendation-card" /> */}
           <div className="btn-start-recipe-container">
             <button
               className="btn-start-recipe"

@@ -10,17 +10,33 @@ export default function FoodDetails() {
   const [recommended, setRecommended] = useState([]);
 
   function populateIngredients(recipe) {
-    const min = 8;
-    const minM = 28;
-    const max = 29;
-    const maxM = 49;
+    const ingredientsKeys = Object.keys(recipe)
+      .map((key, index) => {
+        if (key.includes('strIngredient')) {
+          return index;
+        }
+        return null;
+      })
+      .filter((arr) => arr !== null);
+    const measureKeys = Object.keys(recipe)
+      .map((key, index) => {
+        if (key.includes('strMeasure')) {
+          return index;
+        }
+        return null;
+      })
+      .filter((arr) => arr !== null);
+    const min = Math.min(...ingredientsKeys);
+    const max = Math.max(...ingredientsKeys);
+    const minM = Math.min(...measureKeys);
+    const maxM = Math.max(...measureKeys);
+
     const ingredients = (Object.values(recipe)
-      // .filter((value, index) => (index > min && index < max && value.length > 1)));
       .filter((value, index) => (index > min && index < max && value !== '')));
     const measure = (Object.values(recipe)
       // .filter((value, index) => (index > minM && index < maxM && value.length > 1)));
       .filter((value, index) => (index > minM && index < maxM && value !== ' ')));
-    // console.log(ingredients, measure);
+    console.log(ingredients, measure);
     return ingredients.map((item, index) => (
       <li
         data-testid={ `${index}-ingredient-name-and-measure` }

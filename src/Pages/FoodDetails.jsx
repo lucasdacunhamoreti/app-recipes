@@ -1,6 +1,6 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getRecipeFood, getRecomendedCard } from '../services/dataFoods';
+import { getRecipeFood, getRecomendedCardDrink } from '../services/dataFoods';
 import './FoodDetails.css';
 
 export default function FoodDetails() {
@@ -60,8 +60,8 @@ export default function FoodDetails() {
 
   useEffect(() => {
     async function fetch() {
-      const result = await getRecomendedCard();
-      console.log(result);
+      const result = await getRecomendedCardDrink();
+      // console.log(result);
       setRecommended(result);
     }
     fetch();
@@ -71,7 +71,7 @@ export default function FoodDetails() {
     const idRecipe = history.location.pathname.split('s/')[1];
     async function getRecipe() {
       const api = await getRecipeFood(idRecipe);
-      // console.log(api);
+      console.log(api);
       setRecipes(api);
     }
     getRecipe();

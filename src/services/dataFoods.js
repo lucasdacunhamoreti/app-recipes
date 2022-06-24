@@ -33,4 +33,11 @@ export const getRecipeFood = async (id) => {
   return apiCategoryJson.meals;
 };
 
+export const getRecomendedCard = async () => {
+  const MAX_QUANTITY = 6;
+  const apiResponse = await fetch('https://www.thecocktaildb.com/api/json/v1/1/search.php?s=');
+  const apiResponseJson = await apiResponse.json();
+  return apiResponseJson.drinks.slice(0, MAX_QUANTITY);
+};
+
 export default apiFoods;

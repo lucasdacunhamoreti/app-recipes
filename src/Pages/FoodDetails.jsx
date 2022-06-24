@@ -1,11 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getRecipeFood } from '../services/dataFoods';
+import { getRecipeFood, getRecomendedCard } from '../services/dataFoods';
+import './FoodDetails.css';
 
 export default function FoodDetails() {
   const history = useHistory();
 
   const [recipes, setRecipes] = useState([]);
+  const [recommended, setRecommended] = useState([]);
 
   function populateIngredients(recipe) {
     const min = 8;
@@ -13,24 +15,63 @@ export default function FoodDetails() {
     const max = 29;
     const maxM = 49;
     const ingredients = (Object.values(recipe)
+      // .filter((value, index) => (index > min && index < max && value.length > 1)));
       .filter((value, index) => (index > min && index < max && value !== '')));
     const measure = (Object.values(recipe)
-      .filter((value, index) => (index > minM && index < maxM && value.length > 1)));
-    console.log(ingredients, measure);
+      // .filter((value, index) => (index > minM && index < maxM && value.length > 1)));
+      .filter((value, index) => (index > minM && index < maxM && value !== ' ')));
+    // console.log(ingredients, measure);
     return ingredients.map((item, index) => (
       <li
         data-testid={ `${index}-ingredient-name-and-measure` }
         key={ index }
       >
-        {`${ingredients[index]} - ${measure[index]}`}
+        { measure[index]
+          ? `${ingredients[index]} - ${measure[index]}`
+          : `${ingredients[index]}`}
       </li>));
   }
+
+  function setRecommendedCard() {
+    return (
+      <>
+        <h1>Recommended</h1>
+        <div className="card-container">
+          {recommended.map((drink, index) => (
+            <div
+              key={ index }
+              className="recomended-card"
+              data-testid={ `${index}-recomendation-card` }
+            >
+              <img
+                src={ drink.strDrinkThumb }
+                alt={ drink.strDrinkThumb }
+              />
+              <span>{ drink.strAlcoholic }</span>
+              <span data-testid={ `${index}-recomendation-title` }>
+                { drink.strDrink }
+              </span>
+            </div>
+          ))}
+        </div>
+      </>
+    );
+  }
+
+  useEffect(() => {
+    async function fetch() {
+      const result = await getRecomendedCard();
+      console.log(result);
+      setRecommended(result);
+    }
+    fetch();
+  }, []);
 
   useEffect(() => {
     const idRecipe = history.location.pathname.split('s/')[1];
     async function getRecipe() {
       const api = await getRecipeFood(idRecipe);
-      console.log(api);
+      // console.log(api);
       setRecipes(api);
     }
     getRecipe();
@@ -50,12 +91,7 @@ export default function FoodDetails() {
           <button type="button" data-testid="favorite-btn">Favoritar</button>
           <span data-testid="recipe-category">{recipe.strCategory}</span>
 
-          {/* <span data-testid="${index}-ingredient-name-and-measure">Ingredientes</span> */}
-          {/* { console.log(recipe.strYoutube) } */}
           <span data-testid="instructions">{ recipe.strInstructions }</span>
-          {/* { console.log(recipe)} */}
-          {/* {console.log(Object.values(recipe)
-            .filter((value, index) => (index > min && index < max && value !== '')))} */}
           <ul>
             {populateIngredients(recipe)}
           </ul>
@@ -70,9 +106,20 @@ export default function FoodDetails() {
               heigth="420"
             />
           </div>
+          <div className="recommended-card">
+            {setRecommendedCard()}
+          </div>
 
           {/* <div data-testid="${index}-recomendation-card" /> */}
-          <button data-testid="start-recipe-btn" type="button">Start Recipe</button>
+          <div className="btn-start-recipe-container">
+            <button
+              className="btn-start-recipe"
+              data-testid="start-recipe-btn"
+              type="button"
+            >
+              Start Recipe
+            </button>
+          </div>
         </div>
       )) }
     </div>

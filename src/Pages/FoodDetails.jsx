@@ -120,22 +120,24 @@ export default function FoodDetails() {
   }
 
   function recipeInProgress() {
-    // console.log(recipe);
-    // const inProgressRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (recipes[0]) {
-      const arr = ['a', 'b'];
-
-      const item = { meals: `${recipes[0].idMeal}: ${['ing 1', 'ing 2']}` };
-      // const item = { meals: `${recipes[0].idMeal}: ${arr}` };
-      // const item = { meals: `${recipes[0].idMeal}` }};
-      console.log(item);
+    if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
+      const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      console.log('local', local);
+      const arr = filterIngredientsAndMeasures(recipes[0], 'strIngredient');
+      // console.log('arr', arr);
+      const item = [{ meals: { [recipes[0].idMeal]: arr } }];
+      console.log('item', item);
+      localStorage.setItem('inProgressRecipes', JSON.stringify([...local, item]));
+      // localStorage.setItem('inProgressRecipes', JSON.stringify([...ranking, playerInfo]));
+    } else if (recipes[0]) {
+      // localStorage.setItem('inProgressRecipes', JSON.stringify([playerInfo]));
+      const arr = filterIngredientsAndMeasures(recipes[0], 'strIngredient');
+      const item = [{ meals: { [recipes[0].idMeal]: arr } }];
+      // console.log(item);
       localStorage.setItem('inProgressRecipes', JSON.stringify(item));
     }
-    // const { idMeal } = recipe
-    // console.log(item);
   }
 
-  // const getRecipeInProgress = recipeInProgress();
   recipeInProgress();
 
   return (

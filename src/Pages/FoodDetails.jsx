@@ -91,8 +91,6 @@ export default function FoodDetails() {
     fetch();
   }, []);
 
-  // useEffect(() => {
-  //   const { meals: [] }
   //   const mealsInfo = { name, score, picture };
   //   if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
   //     const ranking = JSON.parse(localStorage.getItem('inProgressRecipes'));
@@ -100,7 +98,7 @@ export default function FoodDetails() {
   //   } else {
   //     localStorage.setItem('inProgressRecipes', JSON.stringify([playerInfo]));
   //   }
-  // }, []);
+  // }
 
   useEffect(() => {
     const idRecipe = history.location.pathname.split('s/')[1];
@@ -108,6 +106,7 @@ export default function FoodDetails() {
       const api = await getRecipeFood(idRecipe);
       // console.log(api);
       setRecipes(api);
+      // setLocalStorage(api);
     }
     getRecipe();
   }, [history]);
@@ -119,6 +118,25 @@ export default function FoodDetails() {
     }
     setInProgress(true);
   }
+
+  function recipeInProgress() {
+    // console.log(recipe);
+    // const inProgressRecipe = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (recipes[0]) {
+      const arr = ['a', 'b'];
+
+      const item = { meals: `${recipes[0].idMeal}: ${['ing 1', 'ing 2']}` };
+      // const item = { meals: `${recipes[0].idMeal}: ${arr}` };
+      // const item = { meals: `${recipes[0].idMeal}` }};
+      console.log(item);
+      localStorage.setItem('inProgressRecipes', JSON.stringify(item));
+    }
+    // const { idMeal } = recipe
+    // console.log(item);
+  }
+
+  // const getRecipeInProgress = recipeInProgress();
+  recipeInProgress();
 
   return (
     <div>

@@ -1,0 +1,27 @@
+.card-container {
+  display: flex;
+  flex-flow: column wrap;
+  max-height: 200px;
+  overflow-x: scroll;
+}
+
+.recomended-card {
+  align-items: center;
+  background-color: bisque;
+  display: flex;
+  flex-direction: column;
+  padding: 10px;
+  width: 175px;
+}
+
+.btn-start-recipe {
+  bottom: 0;
+  display: flex;
+  padding: 10px;
+  position: fixed;
+  width: 360px;
+}
+
+::-webkit-scrollbar {
+  display: none;
+}

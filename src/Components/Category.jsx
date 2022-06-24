@@ -1,7 +1,14 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
-import { getCategoryFoods, getFoodsCategorySpecify } from '../services/dataFoods';
-import { getCategoryDrinks, getDrinksCategorySpecify } from '../services/dataDrinks';
+
+import
+apiFoods,
+{ getCategoryFoods, getFoodsCategorySpecify } from '../services/dataFoods';
+
+import
+apiDrinks,
+{ getCategoryDrinks, getDrinksCategorySpecify } from '../services/dataDrinks';
+
 import RecipesContext from '../Context/RecipesContext';
 
 export default function Category() {
@@ -14,6 +21,7 @@ export default function Category() {
   } = useContext(RecipesContext);
 
   const [category, setCategory] = useState([]);
+  const [buttonClicked, setButtonClicked] = useState('');
 
   useEffect(() => {
     if (history.location.pathname === '/foods') {
@@ -31,22 +39,33 @@ export default function Category() {
     }
   }, [history.location.pathname]);
 
-  // CONSERTAR: O ULTIMO BOTÃO DE BUSCA ESTÁ FALHANDO PELO FATO DA LOGICA DA TELA PRINCIPAL
-
   const handleButtonCategory = ({ target }) => {
     setTypeFilter('filter');
     const { value } = target;
     if (history.location.pathname === '/foods') {
       const fetchFoods = async () => {
-        const returnApiFoods = await getFoodsCategorySpecify(value);
-        console.log(returnApiFoods);
-        setDataApiFoods(returnApiFoods);
+        if (value !== buttonClicked && value !== 'All') {
+          const returnApiFoods = await getFoodsCategorySpecify(value);
+          setButtonClicked(value);
+          setDataApiFoods(returnApiFoods);
+        } else {
+          const returnApiFoods = await apiFoods('name-ingredient', '');
+          setDataApiFoods(returnApiFoods.meals);
+          setButtonClicked('');
+        }
       };
       fetchFoods();
     } else {
       const fetchDrinks = async () => {
-        const returnApiFoods = await getDrinksCategorySpecify(value);
-        setDataApiDrinks(returnApiFoods);
+        if (value !== buttonClicked && value !== 'All') {
+          const returnApiDrinks = await getDrinksCategorySpecify(value);
+          setButtonClicked(value);
+          setDataApiDrinks(returnApiDrinks);
+        } else {
+          const returnApiDrinks = await apiDrinks('name-ingredient', '');
+          setDataApiDrinks(returnApiDrinks.drinks);
+          setButtonClicked('');
+        }
       };
       fetchDrinks();
     }
@@ -54,6 +73,14 @@ export default function Category() {
 
   return (
     <div>
+      <button
+        value="All"
+        data-testid="All-category-filter"
+        type="button"
+        onClick={ handleButtonCategory }
+      >
+        All
+      </button>
       { category.map((item) => (
         <button
           key={ item.strCategory }

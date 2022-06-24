@@ -1,6 +1,5 @@
 import React, { useContext, useEffect } from 'react';
-// import React, { useContext } from 'react';
-import { useHistory } from 'react-router-dom';
+import { useHistory, Link } from 'react-router-dom';
 import Header from '../Components/Header';
 import apiDrinks from '../services/dataDrinks';
 import RecipesContext from '../Context/RecipesContext';
@@ -33,24 +32,23 @@ function Drinks() {
     <div>
       <Header />
       <Category />
-      {/* {console.log(dataApiDrinks)} */}
       {dataApiDrinks.length === 1 && typeFilter === 'input' ? handleResponse()
         : dataApiDrinks.map((drink, index) => (
-        // console.log(drink)
           (index < MAX_QUANTITY_RECIPES)
         && (
-          <div
-            key={ index }
-            data-testid={ `${index}-recipe-card` }
-          >
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ drink.strDrinkThumb }
-              alt={ drink.strDrinkThumb }
-            />
-            <span data-testid={ `${index}-card-name` }>{ drink.strDrink }</span>
-            {/* {console.log(drink)} */}
-          </div>)
+          <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
+            <div
+              data-testid={ `${index}-recipe-card` }
+            >
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ drink.strDrinkThumb }
+                alt={ drink.strDrinkThumb }
+              />
+              <span data-testid={ `${index}-card-name` }>{ drink.strDrink }</span>
+            </div>
+          </Link>)
+
         ))}
       <Footer />
     </div>

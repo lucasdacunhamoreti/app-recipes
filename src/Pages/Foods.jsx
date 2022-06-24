@@ -1,12 +1,15 @@
 import React, { useContext, useEffect } from 'react';
-import { useHistory } from 'react-router-dom';
-import Header from '../Components/Header';
+import { useHistory, Link } from 'react-router-dom';
+
 import RecipesContext from '../Context/RecipesContext';
+
+import Header from '../Components/Header';
 import apiFoods from '../services/dataFoods';
 import Footer from '../Components/Footer';
+import Category from '../Components/Category';
+
 import './Foods.css';
 import './Card.css';
-import Category from '../Components/Category';
 
 function Foods() {
   const history = useHistory();
@@ -14,14 +17,10 @@ function Foods() {
     dataApiFoods,
     setDataApiFoods,
     typeFilter,
-    // dataApiDrinks,
-    // setDataApiDrinks,
   } = useContext(RecipesContext);
-  // const [foodsSerch, setFoodsSerch] = useState([]);
 
   const handleResponse = () => {
     const { idMeal } = dataApiFoods[0];
-    // console.log(dataApiFoods);
     history.push(`/foods/${idMeal}`);
   };
 
@@ -42,19 +41,20 @@ function Foods() {
         : dataApiFoods.map((food, index) => (
           (index < MAX_QUANTITY_RECIPES)
         && (
-          <div
-            className="card"
-            key={ index }
-            data-testid={ `${index}-recipe-card` }
-          >
-            <img
-              data-testid={ `${index}-card-img` }
-              src={ food.strMealThumb }
-              alt={ food.strMealThumb }
-            />
-            <span data-testid={ `${index}-card-name` }>{ food.strMeal }</span>
-            {/* { console.log(food) } */}
-          </div>)
+          <Link key={ index } to={ `/foods/${food.idMeal}` }>
+            <div
+              className="card"
+              data-testid={ `${index}-recipe-card` }
+            >
+              <img
+                data-testid={ `${index}-card-img` }
+                src={ food.strMealThumb }
+                alt={ food.strMealThumb }
+              />
+              <span data-testid={ `${index}-card-name` }>{ food.strMeal }</span>
+            </div>
+          </Link>)
+
         ))}
       <Footer />
     </div>

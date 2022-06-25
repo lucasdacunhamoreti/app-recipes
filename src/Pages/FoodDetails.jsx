@@ -138,38 +138,37 @@ export default function FoodDetails() {
     if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
       const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const objs = Object.values(local);
-      // vai entrar caso a receita NÃO seja a da página
-      // if (!(objs.some(({ meals }) => meals === idRecipe))) {
-      const rdc = objs.reduce((acc, curr) => {
-        console.log('acc', acc);
-        console.log('curr', curr);
-        console.log('Obj.curr', Object.keys(curr));
-        const objCurr = Object.keys(curr)[0];
-        console.log('objCurr', objCurr);
-        // console.log(objCurr.map((key) => key === idRecipe));
-        console.log('idRecipe', idRecipe);
-        if (objCurr === idRecipe) {
-          acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
-        } else {
-          acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
-        }
+      const recipeList = objs.reduce((acc, curr) => {
+        acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
         return acc;
-        // });
-      }, { meals: '' });
-      console.log('reduce', rdc);
-
-      localStorage.setItem('inProgressRecipes', JSON.stringify(rdc));
-      // }
-      // if (!(objs.some(({ meals }) => meals === idRecipe))) {
-      // const item = { meals: { [idRecipe]: inProgressRecipe } };
-      //   console.log(item);
-      // }
+      }, { meals: '' }, { cocktails: '' });
+      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
     } else if (recipes[0]) {
-      const item = { meals: { [idRecipe]: inProgressRecipe } };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(item));
-      // localStorage.setItem('inProgressRecipes', JSON.stringify([item]));
+      const recipeList = { meals: { [idRecipe]: inProgressRecipe } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
     }
   }
+  // function recipeInProgress() {
+  //   const idRecipe = history.location.pathname.split('s/')[1];
+  //   if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
+  //     const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //     const objs = Object.values(local);
+  //     const rdc = objs.reduce((acc, curr) => {
+  //       const objCurr = Object.keys(curr)[0];
+  //       if (objCurr === idRecipe) {
+  //         acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
+  //       } else {
+  //         acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
+  //       }
+  //       return acc;
+  //     }, { meals: '' });
+
+  //     localStorage.setItem('inProgressRecipes', JSON.stringify(rdc));
+  //   } else if (recipes[0]) {
+  //     const item = { meals: { [idRecipe]: inProgressRecipe } };
+  //     localStorage.setItem('inProgressRecipes', JSON.stringify(item));
+  //   }
+  // }
 
   useEffect(() => {
     recipeInProgress();

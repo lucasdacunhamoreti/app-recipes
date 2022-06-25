@@ -8,7 +8,8 @@ export default function FoodDetails() {
 
   const [recipes, setRecipes] = useState([]);
   const [recommended, setRecommended] = useState([]);
-  const [inProgress, setInProgress] = useState(false);
+  const [inProgressStatus, setInProgressStatus] = useState(false);
+  const [inProgressRecipe, setInProgressRecipe] = useState([]);
 
   function filterIngredientsAndMeasures(recipe, str) {
     const result = Object.entries(recipe)
@@ -37,6 +38,14 @@ export default function FoodDetails() {
       </li>));
   }
 
+  function listProgressChange({ target }) {
+    if (target.checked) {
+      setInProgressRecipe([...inProgressRecipe, target.name]);
+    } else {
+      setInProgressRecipe(inProgressRecipe.filter((recipe) => recipe !== target.name));
+    }
+  }
+
   function populateIngredientsList(recipe) {
     const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
     const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
@@ -48,6 +57,7 @@ export default function FoodDetails() {
           type="checkbox"
           name={ item }
           data-testid={ `${index}-ingredient-name-and-measure` }
+          onChange={ listProgressChange }
         />
         <label htmlFor={ index }>
           { measure[index]
@@ -91,54 +101,58 @@ export default function FoodDetails() {
     fetch();
   }, []);
 
-  //   const mealsInfo = { name, score, picture };
-  //   if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
-  //     const ranking = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //     localStorage.setItem('inProgressRecipes', JSON.stringify([...ranking, playerInfo]));
-  //   } else {
-  //     localStorage.setItem('inProgressRecipes', JSON.stringify([playerInfo]));
-  //   }
-  // }
-
   useEffect(() => {
     const idRecipe = history.location.pathname.split('s/')[1];
     async function getRecipe() {
       const api = await getRecipeFood(idRecipe);
-      // console.log(api);
       setRecipes(api);
-      // setLocalStorage(api);
     }
     getRecipe();
   }, [history]);
 
-  function recipeStatus() {
-    if (inProgress) {
-      history.push('/foods');
-      setInProgress(false);
+  function handleProgressList() {
+    const idRecipe = history.location.pathname.split('s/')[1];
+    const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+    if (local) {
+      const objs = Object.values(local);
+      const keys = objs.map((item) => Number(Object.keys(item)));
+      keys.forEach((key) => {
+        if (key === Number(idRecipe)) {
+          // setInProgressRecipe(/* local.value*/);
+        }
+      });
     }
-    setInProgress(true);
+  }
+
+  function recipeStatus() {
+    if (inProgressStatus) {
+      history.push('/foods');
+      setInProgressStatus(false);
+    }
+    setInProgressStatus(true);
+    handleProgressList();
   }
 
   function recipeInProgress() {
+    const idRecipe = history.location.pathname.split('s/')[1];
     if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
       const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      console.log('local', local);
-      const arr = filterIngredientsAndMeasures(recipes[0], 'strIngredient');
-      // console.log('arr', arr);
-      const item = [{ meals: { [recipes[0].idMeal]: arr } }];
-      console.log('item', item);
-      localStorage.setItem('inProgressRecipes', JSON.stringify([...local, item]));
-      // localStorage.setItem('inProgressRecipes', JSON.stringify([...ranking, playerInfo]));
+      const objs = Object.values(local);
+      if (!(objs.some(({ meals }) => meals === idRecipe))) {
+        const item = { meals: { [idRecipe]: inProgressRecipe } };
+        localStorage.setItem('inProgressRecipes', JSON.stringify(item));
+        // localStorage.setItem('inProgressRecipes', JSON.stringify([...local, item]));
+      }
     } else if (recipes[0]) {
-      // localStorage.setItem('inProgressRecipes', JSON.stringify([playerInfo]));
-      const arr = filterIngredientsAndMeasures(recipes[0], 'strIngredient');
-      const item = [{ meals: { [recipes[0].idMeal]: arr } }];
-      // console.log(item);
+      const item = { meals: { [idRecipe]: inProgressRecipe } };
       localStorage.setItem('inProgressRecipes', JSON.stringify(item));
+      // localStorage.setItem('inProgressRecipes', JSON.stringify([item]));
     }
   }
 
-  recipeInProgress();
+  useEffect(() => {
+    recipeInProgress();
+  }, [inProgressRecipe]);
 
   return (
     <div>
@@ -153,7 +167,7 @@ export default function FoodDetails() {
           <button type="button" data-testid="share-btn">Compartilhar</button>
           <button type="button" data-testid="favorite-btn">Favoritar</button>
           <span data-testid="recipe-category">{recipe.strCategory}</span>
-          {!inProgress ? (
+          {!inProgressStatus ? (
             <ul>
               {populateIngredients(recipe)}
             </ul>)
@@ -164,7 +178,7 @@ export default function FoodDetails() {
             )}
           <span data-testid="instructions">{ recipe.strInstructions }</span>
           <div>
-            {!inProgress
+            {!inProgressStatus
             && (
               <section>
                 <iframe
@@ -183,7 +197,7 @@ export default function FoodDetails() {
             )}
           </div>
           <div className="btn-start-recipe-container">
-            {!inProgress ? (
+            {!inProgressStatus ? (
               <button
                 className="btn-start-recipe"
                 data-testid="start-recipe-btn"

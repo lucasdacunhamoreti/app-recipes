@@ -138,11 +138,32 @@ export default function FoodDetails() {
     if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
       const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const objs = Object.values(local);
-      if (!(objs.some(({ meals }) => meals === idRecipe))) {
-        const item = { meals: { [idRecipe]: inProgressRecipe } };
-        localStorage.setItem('inProgressRecipes', JSON.stringify(item));
-        // localStorage.setItem('inProgressRecipes', JSON.stringify([...local, item]));
-      }
+      // vai entrar caso a receita NÃO seja a da página
+      // if (!(objs.some(({ meals }) => meals === idRecipe))) {
+      const rdc = objs.reduce((acc, curr) => {
+        console.log('acc', acc);
+        console.log('curr', curr);
+        console.log('Obj.curr', Object.keys(curr));
+        const objCurr = Object.keys(curr)[0];
+        console.log('objCurr', objCurr);
+        // console.log(objCurr.map((key) => key === idRecipe));
+        console.log('idRecipe', idRecipe);
+        if (objCurr === idRecipe) {
+          acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
+        } else {
+          acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
+        }
+        return acc;
+        // });
+      }, { meals: '' });
+      console.log('reduce', rdc);
+
+      localStorage.setItem('inProgressRecipes', JSON.stringify(rdc));
+      // }
+      // if (!(objs.some(({ meals }) => meals === idRecipe))) {
+      // const item = { meals: { [idRecipe]: inProgressRecipe } };
+      //   console.log(item);
+      // }
     } else if (recipes[0]) {
       const item = { meals: { [idRecipe]: inProgressRecipe } };
       localStorage.setItem('inProgressRecipes', JSON.stringify(item));

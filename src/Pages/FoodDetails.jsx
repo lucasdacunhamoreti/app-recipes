@@ -7,6 +7,7 @@ export default function FoodDetails() {
   const history = useHistory();
 
   const [recipes, setRecipes] = useState([]);
+  const [currentRecipe, setCurrentRecipe] = useState('');
   const [recommended, setRecommended] = useState([]);
   const [inProgressStatus, setInProgressStatus] = useState(false);
   const [inProgressRecipe, setInProgressRecipe] = useState([]);
@@ -46,9 +47,42 @@ export default function FoodDetails() {
     }
   }
 
-  function populateIngredientsList(recipe) {
+  function isChecked(name) {
+    const idRecipe = history.location.pathname.split('s/')[1];
+    if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+      const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const objs = Object.values(local);
+      // console.log(objs);
+      objs.forEach((chave) => {
+        Object.entries(chave).forEach(([key, value]) => {
+          if (key === idRecipe) {
+            console.log(name);
+            // console.log('inProgress', inProgressRecipe);
+            console.log('value', value);
+            // console.log('key', key);
+            // return value.includes(param);
+            // return true;
+            // inProgressRecipe.forEach((ingredient) => console.log(ingredient));
+            if (value.includes(name)) {
+              console.log('return true');
+              return true;
+            }
+            console.log('return false');
+            return false;
+          }
+        });
+      });
+    }
+    // return false;
+  }
+
+  function populateIngredientsCheckedList(recipe) {
     const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
     const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
+
+    // defaultProps = {
+    //   checked: false,
+    // };
 
     return ingredients.map((item, index) => (
       <div key={ index }>
@@ -56,8 +90,12 @@ export default function FoodDetails() {
           id={ index }
           type="checkbox"
           name={ item }
+          // checked={ () => isChecked(item) }
+          // checked={ true }
           data-testid={ `${index}-ingredient-name-and-measure` }
           onChange={ listProgressChange }
+          // onClick={ isChecked(item) }
+          // onClick={ (event) => isChecked(recipe, event) }
         />
         <label htmlFor={ index }>
           { measure[index]
@@ -66,6 +104,35 @@ export default function FoodDetails() {
         </label>
       </div>));
   }
+
+  // function populateIngredientsList(recipe) {
+  //   const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
+  //   const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
+
+  //   // defaultProps = {
+  //   //   checked: false,
+  //   // };
+
+  //   return ingredients.map((item, index) => (
+  //     <div key={ index }>
+  //       <input
+  //         id={ index }
+  //         type="checkbox"
+  //         name={ item }
+  //         checked={ () => isChecked(item) }
+  //         // checked={ true }
+  //         data-testid={ `${index}-ingredient-name-and-measure` }
+  //         onChange={ listProgressChange }
+  //         // onClick={ isChecked(item) }
+  //         // onClick={ (event) => isChecked(recipe, event) }
+  //       />
+  //       <label htmlFor={ index }>
+  //         { measure[index]
+  //           ? `${ingredients[index]} - ${measure[index]}`
+  //           : `${ingredients[index]}`}
+  //       </label>
+  //     </div>));
+  // }
 
   function setRecommendedCard() {
     return (
@@ -93,6 +160,41 @@ export default function FoodDetails() {
     );
   }
 
+  // function handleProgressList() {
+  //   const idRecipe = history.location.pathname.split('s/')[1];
+  //   const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //   if (local) {
+  //     const objs = Object.values(local);
+  //     objs.forEach((chave) => {
+  //       Object.entries(chave).forEach(([key, value]) => {
+  //         if (key === idRecipe) {
+  //           setInProgressRecipe(value);
+  //         }
+  //       });
+  //     });
+  //   }
+  // }
+
+  function recipeInProgress() {
+    const idRecipe = history.location.pathname.split('s/')[1];
+    if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
+      const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const objs = Object.values(local);
+      const recipeList = objs.reduce((acc, curr) => {
+        acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
+        return acc;
+      }, { meals: '' }, { cocktails: '' });
+      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
+    } else if (recipes[0]) {
+      const recipeList = { meals: { [idRecipe]: inProgressRecipe } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
+    }
+  }
+
+  useEffect(() => {
+    recipeInProgress();
+  }, [inProgressRecipe]);
+
   useEffect(() => {
     async function fetch() {
       const result = await getRecomendedCardDrink();
@@ -110,69 +212,19 @@ export default function FoodDetails() {
     getRecipe();
   }, [history]);
 
-  function handleProgressList() {
-    const idRecipe = history.location.pathname.split('s/')[1];
-    const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-    if (local) {
-      const objs = Object.values(local);
-      const keys = objs.map((item) => Number(Object.keys(item)));
-      keys.forEach((key) => {
-        if (key === Number(idRecipe)) {
-          // setInProgressRecipe(/* local.value*/);
-        }
-      });
-    }
-  }
-
   function recipeStatus() {
     if (inProgressStatus) {
       history.push('/foods');
       setInProgressStatus(false);
     }
     setInProgressStatus(true);
-    handleProgressList();
   }
 
-  function recipeInProgress() {
-    const idRecipe = history.location.pathname.split('s/')[1];
-    if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
-      const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const objs = Object.values(local);
-      const recipeList = objs.reduce((acc, curr) => {
-        acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
-        return acc;
-      }, { meals: '' }, { cocktails: '' });
-      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
-    } else if (recipes[0]) {
-      const recipeList = { meals: { [idRecipe]: inProgressRecipe } };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
-    }
-  }
-  // function recipeInProgress() {
-  //   const idRecipe = history.location.pathname.split('s/')[1];
-  //   if (JSON.parse(localStorage.getItem('inProgressRecipes')) && (recipes[0])) {
-  //     const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //     const objs = Object.values(local);
-  //     const rdc = objs.reduce((acc, curr) => {
-  //       const objCurr = Object.keys(curr)[0];
-  //       if (objCurr === idRecipe) {
-  //         acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
-  //       } else {
-  //         acc.meals = { ...curr, [idRecipe]: inProgressRecipe };
-  //       }
-  //       return acc;
-  //     }, { meals: '' });
-
-  //     localStorage.setItem('inProgressRecipes', JSON.stringify(rdc));
-  //   } else if (recipes[0]) {
-  //     const item = { meals: { [idRecipe]: inProgressRecipe } };
-  //     localStorage.setItem('inProgressRecipes', JSON.stringify(item));
-  //   }
-  // }
-
-  useEffect(() => {
-    recipeInProgress();
-  }, [inProgressRecipe]);
+  // handleProgressList();
+  // before
+  // useEffect(() => {
+  //   recipeInProgress();
+  // }, [inProgressRecipe]);
 
   return (
     <div>
@@ -193,7 +245,7 @@ export default function FoodDetails() {
             </ul>)
             : (
               <ul>
-                {populateIngredientsList(recipe)}
+                {populateIngredientsCheckedList(recipe)}
               </ul>
             )}
           <span data-testid="instructions">{ recipe.strInstructions }</span>

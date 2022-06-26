@@ -7,7 +7,7 @@ export default function FoodDetails() {
   const history = useHistory();
 
   const [recipes, setRecipes] = useState([]);
-  const [currentRecipe, setCurrentRecipe] = useState('');
+  // const [currentRecipe, setCurrentRecipe] = useState('');asd
   const [recommended, setRecommended] = useState([]);
   const [inProgressStatus, setInProgressStatus] = useState(false);
   const [inProgressRecipe, setInProgressRecipe] = useState([]);
@@ -52,17 +52,11 @@ export default function FoodDetails() {
     if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
       const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
       const objs = Object.values(local);
-      // console.log(objs);
       objs.forEach((chave) => {
         Object.entries(chave).forEach(([key, value]) => {
           if (key === idRecipe) {
             console.log(name);
-            // console.log('inProgress', inProgressRecipe);
             console.log('value', value);
-            // console.log('key', key);
-            // return value.includes(param);
-            // return true;
-            // inProgressRecipe.forEach((ingredient) => console.log(ingredient));
             if (value.includes(name)) {
               console.log('return true');
               return true;
@@ -90,11 +84,11 @@ export default function FoodDetails() {
           id={ index }
           type="checkbox"
           name={ item }
-          // checked={ () => isChecked(item) }
+          // checked={ () => isChecked(item) } // Retorna, mas gera um erro
+          checked={ isChecked(item) } // A função funciona, mas não retorna
           // checked={ true }
           data-testid={ `${index}-ingredient-name-and-measure` }
           onChange={ listProgressChange }
-          // onClick={ isChecked(item) }
           // onClick={ (event) => isChecked(recipe, event) }
         />
         <label htmlFor={ index }>
@@ -104,35 +98,6 @@ export default function FoodDetails() {
         </label>
       </div>));
   }
-
-  // function populateIngredientsList(recipe) {
-  //   const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
-  //   const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
-
-  //   // defaultProps = {
-  //   //   checked: false,
-  //   // };
-
-  //   return ingredients.map((item, index) => (
-  //     <div key={ index }>
-  //       <input
-  //         id={ index }
-  //         type="checkbox"
-  //         name={ item }
-  //         checked={ () => isChecked(item) }
-  //         // checked={ true }
-  //         data-testid={ `${index}-ingredient-name-and-measure` }
-  //         onChange={ listProgressChange }
-  //         // onClick={ isChecked(item) }
-  //         // onClick={ (event) => isChecked(recipe, event) }
-  //       />
-  //       <label htmlFor={ index }>
-  //         { measure[index]
-  //           ? `${ingredients[index]} - ${measure[index]}`
-  //           : `${ingredients[index]}`}
-  //       </label>
-  //     </div>));
-  // }
 
   function setRecommendedCard() {
     return (
@@ -159,21 +124,6 @@ export default function FoodDetails() {
       </>
     );
   }
-
-  // function handleProgressList() {
-  //   const idRecipe = history.location.pathname.split('s/')[1];
-  //   const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //   if (local) {
-  //     const objs = Object.values(local);
-  //     objs.forEach((chave) => {
-  //       Object.entries(chave).forEach(([key, value]) => {
-  //         if (key === idRecipe) {
-  //           setInProgressRecipe(value);
-  //         }
-  //       });
-  //     });
-  //   }
-  // }
 
   function recipeInProgress() {
     const idRecipe = history.location.pathname.split('s/')[1];
@@ -219,12 +169,6 @@ export default function FoodDetails() {
     }
     setInProgressStatus(true);
   }
-
-  // handleProgressList();
-  // before
-  // useEffect(() => {
-  //   recipeInProgress();
-  // }, [inProgressRecipe]);
 
   return (
     <div>

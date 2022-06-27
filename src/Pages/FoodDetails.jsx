@@ -9,7 +9,7 @@ import './FoodDetails.css';
 export default function FoodDetails() {
   const history = useHistory();
   const { id } = useParams();
-  const [recipes, setRecipes] = useState([]);
+  const [recipe, setRecipe] = useState([]);
   const [recommended, setRecommended] = useState([]);
   const [inProgressStatus, setInProgressStatus] = useState(false);
 
@@ -50,7 +50,9 @@ export default function FoodDetails() {
   useEffect(() => {
     async function getRecipe() {
       const api = await getRecipeFood(id);
-      setRecipes(api);
+      console.log(api);
+      console.log(api[0]);
+      setRecipe(api[0]);
       setCurrentRecipe(api[0]);
     }
     getRecipe();
@@ -66,68 +68,66 @@ export default function FoodDetails() {
 
   return (
     <div>
-      { recipes.map((recipe) => (
-        <div key={ recipe.idMeal }>
-          <img
-            data-testid="recipe-photo"
-            src={ recipe.strMealThumb }
-            alt={ recipe.strMealThumb }
-          />
-          <span data-testid="recipe-title">{recipe.strMeal}</span>
-          <button type="button" data-testid="share-btn">Compartilhar</button>
-          <button type="button" data-testid="favorite-btn">Favoritar</button>
-          <span data-testid="recipe-category">{recipe.strCategory}</span>
-          {!inProgressStatus ? (
+      <div key={ recipe.idMeal }>
+        <img
+          data-testid="recipe-photo"
+          src={ recipe.strMealThumb }
+          alt={ recipe.strMealThumb }
+        />
+        <span data-testid="recipe-title">{recipe.strMeal}</span>
+        <button type="button" data-testid="share-btn">Compartilhar</button>
+        <button type="button" data-testid="favorite-btn">Favoritar</button>
+        <span data-testid="recipe-category">{recipe.strCategory}</span>
+        {!inProgressStatus ? (
+          <ul>
+            <IngredientsRecipe recipe={ recipe } />
+          </ul>)
+          : (
             <ul>
-              <IngredientsRecipe recipe={ recipe } />
-            </ul>)
+              <IngredientsRecipeInProgress recipe={ recipe } />
+            </ul>
+          )}
+        <span data-testid="instructions">{ recipe.strInstructions }</span>
+        <div>
+          {!inProgressStatus
+          && (
+            <section>
+              <iframe
+                // src={ recipe.strYoutube }
+                // src="https://www.youtube.com/embed/YsJXZwE5pdY"
+                // src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
+                data-testid="video"
+                title="video player"
+                width="360"
+                heigth="420"
+              />
+              <div className="recommended-card">
+                {setRecommendedCard()}
+              </div>
+            </section>
+          )}
+        </div>
+        <div className="btn-start-recipe-container">
+          {!inProgressStatus ? (
+            <button
+              className="btn-start-recipe"
+              data-testid="start-recipe-btn"
+              type="button"
+              onClick={ recipeStatus }
+            >
+              Start Recipe
+            </button>)
             : (
-              <ul>
-                <IngredientsRecipeInProgress recipe={ recipe } />
-              </ul>
-            )}
-          <span data-testid="instructions">{ recipe.strInstructions }</span>
-          <div>
-            {!inProgressStatus
-            && (
-              <section>
-                <iframe
-                  // src={ recipe.strYoutube }
-                  // src="https://www.youtube.com/embed/YsJXZwE5pdY"
-                  src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
-                  data-testid="video"
-                  title="video player"
-                  width="360"
-                  heigth="420"
-                />
-                <div className="recommended-card">
-                  {setRecommendedCard()}
-                </div>
-              </section>
-            )}
-          </div>
-          <div className="btn-start-recipe-container">
-            {!inProgressStatus ? (
               <button
                 className="btn-start-recipe"
-                data-testid="start-recipe-btn"
+                data-testid="finish-recipe-btn"
                 type="button"
                 onClick={ recipeStatus }
               >
-                Start Recipe
-              </button>)
-              : (
-                <button
-                  className="btn-start-recipe"
-                  data-testid="finish-recipe-btn"
-                  type="button"
-                  onClick={ recipeStatus }
-                >
-                  Finish Recipe
-                </button>)}
-          </div>
+                Finish Recipe
+              </button>)}
         </div>
-      )) }
+      </div>
     </div>
   );
 }

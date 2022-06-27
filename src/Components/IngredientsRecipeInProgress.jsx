@@ -3,7 +3,6 @@ import React, { useState } from 'react';
 import { useParams } from 'react-router-dom';
 
 function IngredientsRecipeInProgress({ recipe }) {
-  // console.log('recipe', recipe);
   const { id } = useParams();
   // const history = useHistory();
   const local = JSON.parse(localStorage.getItem('inProgressRecipes'));

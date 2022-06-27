@@ -43,15 +43,16 @@ function IngredientsRecipeInProgress({ recipe }) {
       const objs = Object.values(local);
       objs.forEach((chave) => {
         Object.entries(chave).forEach(([key, value]) => {
-          if (key === id) {
+          if (key === id && value.includes(name)) {
+            result = true;
             // console.log(name);
             // console.log('value', value);
-            if (value.includes(name)) {
-              // console.log('return true');
-              result = true;
-              // setInProgressRecipe([...inProgressRecipe, name]);
-              // return true;
-            }
+            // if (value.includes(name)) {
+            //   // console.log('return true');
+            //   result = true;
+            //   // setInProgressRecipe([...inProgressRecipe, name]);
+            //   // return true;
+            // }
             // console.log('return false');
             // return false;
           }
@@ -96,8 +97,8 @@ function IngredientsRecipeInProgress({ recipe }) {
         // checked={ true }
         data-testid={ `${index}-ingredient-name-and-measure` }
         onChange={ listProgressChange }
-        // checked={ isChecked(item) }
-        checked={ () => inProgressRecipe.includes(item) }
+        checked={ isChecked(item) }
+        // checked={ () => inProgressRecipe.includes(item) }
         // onClick={ isChecked(item) }
         // onClick={ (event) => isChecked(recipe, event) }
       />

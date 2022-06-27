@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 function IngredientsRecipeInProgress({ recipe }) {
@@ -31,39 +31,33 @@ function IngredientsRecipeInProgress({ recipe }) {
     } else {
       setInProgressRecipe(inProgressRecipe.filter((recipeI) => recipeI !== target.name));
     }
-    recipeInProgress();
     // setIsChecked(!isChecked);
   }
 
   function isChecked(name) {
     let result = false;
-    if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
-      // const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const objs = Object.values(local);
-      objs.forEach((chave) => {
-        Object.entries(chave).forEach(([key, value]) => {
-          if (key === id && value.includes(name)) {
-            result = true;
-            // console.log(name);
-            // console.log('value', value);
-            // if (value.includes(name)) {
-            //   // console.log('return true');
-            //   result = true;
-            //   // setInProgressRecipe([...inProgressRecipe, name]);
-            //   // return true;
-            // }
-            // console.log('return false');
-            // return false;
-          }
-        });
-      });
-    }
-    // console.log('result', result);
-    // setInProgressRecipe([inProgressRecipe]);
+    inProgressRecipe.forEach((iten) => {
+      if (iten === name) {
+        result = true;
+      }
+    });
     return result;
-    // console.log('saiu com return false');
-    // return false;
   }
+  // function isChecked(name) {
+  //   let result = false;
+  //   if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
+  //     // const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+  //     const objs = Object.values(local);
+  //     objs.forEach((chave) => {
+  //       Object.entries(chave).forEach(([key, value]) => {
+  //         if (key === id && value.includes(name)) {
+  //           result = true;
+  //         }
+  //       });
+  //     });
+  //   }
+  //   return result;
+  // }
 
   function filterIngredientsAndMeasures(recipeIten, str) {
     const result = Object.entries(recipeIten)
@@ -85,6 +79,9 @@ function IngredientsRecipeInProgress({ recipe }) {
   // defaultProps = {
   //   checked: false,
   // };
+  useEffect(() => {
+    recipeInProgress();
+  }, [inProgressRecipe]);
 
   return (ingredients.map((item, index) => (
     <div key={ index }>

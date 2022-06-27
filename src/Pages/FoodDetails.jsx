@@ -10,7 +10,6 @@ export default function FoodDetails() {
   const history = useHistory();
   const { id } = useParams();
   const [recipes, setRecipes] = useState([]);
-  // const [currentRecipe, setCurrentRecipe] = useState({});
   const [recommended, setRecommended] = useState([]);
   const [inProgressStatus, setInProgressStatus] = useState(false);
 

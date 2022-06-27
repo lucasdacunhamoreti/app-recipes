@@ -9,7 +9,7 @@ import './FoodDetails.css';
 export default function FoodDetails() {
   const history = useHistory();
   const { id } = useParams();
-  const [recipe, setRecipe] = useState([]);
+  const [recipe, setRecipe] = useState({});
   const [recommended, setRecommended] = useState([]);
   const [inProgressStatus, setInProgressStatus] = useState(false);
 
@@ -50,10 +50,10 @@ export default function FoodDetails() {
   useEffect(() => {
     async function getRecipe() {
       const api = await getRecipeFood(id);
-      console.log(api);
-      console.log(api[0]);
+      // console.log('api', api);
+      // console.log('api[0]', api[0]);
+      // api.map((e) => console.log('e', e));
       setRecipe(api[0]);
-      setCurrentRecipe(api[0]);
     }
     getRecipe();
   }, [history]);
@@ -94,8 +94,9 @@ export default function FoodDetails() {
             <section>
               <iframe
                 // src={ recipe.strYoutube }
+                // https://www.youtube.com/watch?v=VVnZd8A84z4
                 // src="https://www.youtube.com/embed/YsJXZwE5pdY"
-                // src={ `https://www.youtube.com/embed/${recipe.strYoutube.split('=')[1]}` }
+                src={ `https://www.youtube.com/embed/${recipe?.strYoutube?.split('=')[1]}` }
                 data-testid="video"
                 title="video player"
                 width="360"

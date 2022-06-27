@@ -11,6 +11,8 @@ export default function FoodDetails() {
   const [recommended, setRecommended] = useState([]);
   const [inProgressStatus, setInProgressStatus] = useState(false);
   const [inProgressRecipe, setInProgressRecipe] = useState([]);
+  // const [isChecked, setIsChecked] = useState(false);
+  // const [isChecked, setIsChecked] = useState([]);
 
   function filterIngredientsAndMeasures(recipe, str) {
     const result = Object.entries(recipe)
@@ -45,6 +47,7 @@ export default function FoodDetails() {
     } else {
       setInProgressRecipe(inProgressRecipe.filter((recipe) => recipe !== target.name));
     }
+    // setIsChecked(!isChecked);
   }
 
   function isChecked(name) {
@@ -61,11 +64,12 @@ export default function FoodDetails() {
               console.log('return true');
               return true;
             }
-            console.log('return false');
-            return false;
+            // return false;
           }
         });
       });
+      console.log('return false');
+      return false;
     }
     // return false;
   }
@@ -78,17 +82,19 @@ export default function FoodDetails() {
     //   checked: false,
     // };
 
-    return ingredients.map((item, index) => (
+    return ingredients.map((ingredient, index) => (
       <div key={ index }>
         <input
           id={ index }
           type="checkbox"
-          name={ item }
-          // checked={ () => isChecked(item) } // Retorna, mas gera um erro
-          checked={ isChecked(item) } // A função funciona, mas não retorna
+          name={ ingredient }
+          // checked={ () => isChecked(ingredient) } // Retorna, mas gera um erro
+          checked={ isChecked(ingredient) } // A função funciona, mas não retorna
+          // checked={ isChecked } // A função funciona, mas não retorna
           // checked={ true }
           data-testid={ `${index}-ingredient-name-and-measure` }
           onChange={ listProgressChange }
+          // onClick={ () => isChecked(ingredient) }
           // onClick={ (event) => isChecked(recipe, event) }
         />
         <label htmlFor={ index }>

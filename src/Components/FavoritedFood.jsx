@@ -69,9 +69,9 @@ export default function FavoritedFood({ recipe }) {
 
   function copyLinkRecipe() {
     if (!alertCopyboard) {
-      copy(recipe.strYoutube);
-      setAlertCopyboard(true);
+      copy(`http://localhost:3000/foods/${id}`);
     }
+    setAlertCopyboard(true);
   }
 
   return (

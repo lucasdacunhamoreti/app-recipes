@@ -69,7 +69,7 @@ export default function FavoritedDrink({ recipe }) {
 
   function copyLinkRecipe() {
     if (!alertCopyboard) {
-      copy(recipe.strVideo);
+      copy(`http://localhost:3000/drinks/${id}`);
     }
     setAlertCopyboard(true);
   }

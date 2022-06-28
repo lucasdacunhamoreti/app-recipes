@@ -12,12 +12,14 @@ function IngredientsRecipeFoodInProgress({ recipe }) {
 
   function recipeInProgress() {
     if (local) {
-      const objs = Object.values(local);
-      const recipeList = objs.reduce((acc, curr) => {
-        acc.meals = { ...curr, [id]: inProgressRecipe };
-        return acc;
-      }, { meals: '' });
-      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
+      // const objs = Object.values(local);
+      console.log(local.meals[id]);
+      // const recipeList = objs.reduce((acc, curr) => {
+      //   acc.meals = { ...curr, [id]: inProgressRecipe };
+      //   return acc;
+      // }, { meals: '' });
+      const test = { ...local, meals: { ...local.meals, [id]: inProgressRecipe } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(test));
     } else {
       const recipeList = { meals: { [id]: inProgressRecipe } };
       localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
@@ -62,14 +64,13 @@ function IngredientsRecipeFoodInProgress({ recipe }) {
 
   return (ingredients.map((item, index) => (
     <div key={ index }>
-      <input
-        type="checkbox"
-        name={ item }
-        data-testid={ `${index}-ingredient-step` }
-        onChange={ listProgressChange }
-        checked={ isChecked(item) }
-      />
-      <label htmlFor={ index }>
+      <label data-testid={ `${index}-ingredient-step` } htmlFor={ index }>
+        <input
+          type="checkbox"
+          name={ item }
+          onChange={ listProgressChange }
+          checked={ isChecked(item) }
+        />
         { measure[index]
           ? `${ingredients[index]} - ${measure[index]}`
           : `${ingredients[index]}`}

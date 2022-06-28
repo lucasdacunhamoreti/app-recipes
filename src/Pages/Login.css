@@ -1,0 +1,19 @@
+.container-login {
+  align-items: center;
+  background-image: url('../images//tela-login.png');
+  display: flex;
+  height: 640px;
+  justify-content: center;
+  width: 360px;
+}
+
+.login {
+  display: flex;
+  flex-direction: column;
+}
+
+.login input {
+  margin-bottom: 25px;
+  opacity: 80%;
+}
+

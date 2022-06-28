@@ -1,134 +1,88 @@
 import React, { useEffect, useState } from 'react';
-import { useHistory } from 'react-router-dom';
-import { getRecipeDrinks, getRecomendedCardFood } from '../services/dataDrinks';
+import { useHistory, useParams } from 'react-router-dom';
+
+import { getRecipeDrinks } from '../services/dataDrinks';
+import IngredientsRecipeDrink from '../Components/IngredientsRecipeDrink';
+
 import './FoodDetails.css';
+
+import RecomendationCardDrink from '../Components/RecomendationCardDrink';
+import FavoritedDrink from '../Components/FavoritedDrink';
 
 export default function DrinkDetails() {
   const history = useHistory();
-
-  const [recipes, setRecipes] = useState([]);
-  const [recommended, setRecommended] = useState([]);
-
-  function populateIngredients(recipe) {
-    const ingredients = Object.entries(recipe)
-      .map(([key, value]) => {
-        if (key.includes('strIngredient')) {
-          return value;
-        }
-        return '';
-      })
-      .filter((arr) => arr !== '' && arr !== null);
-
-    const measure = Object.entries(recipe)
-      .map(([key, value]) => {
-        if (key.includes('strMeasure')) {
-          return value;
-        }
-        return '';
-      })
-      .filter((arr) => arr !== '' && arr !== null);
-
-    return ingredients.map((item, index) => (
-      <li
-        data-testid={ `${index}-ingredient-name-and-measure` }
-        key={ index }
-      >
-        { measure[index]
-          ? `${ingredients[index]} - ${measure[index]}`
-          : `${ingredients[index]}`}
-      </li>));
-  }
-
-  function setRecommendedCard() {
-    return (
-      <>
-        <h1>Recommended</h1>
-        <div className="card-container">
-          {recommended.map((food, index) => (
-            <div
-              key={ index }
-              className="recomended-card"
-              data-testid={ `${index}-recomendation-card` }
-            >
-              <img
-                src={ food.strMealThumb }
-                alt={ food.strMealThumb }
-              />
-              <span>{ food.strCategory }</span>
-              <span data-testid={ `${index}-recomendation-title` }>
-                { food.strMeal }
-              </span>
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  }
+  const { id } = useParams();
+  const [recipe, setRecipe] = useState({});
+  const [status, setStatus] = useState('');
 
   useEffect(() => {
-    async function fetch() {
-      const result = await getRecomendedCardFood();
-      setRecommended(result);
-    }
-    fetch();
-  }, []);
-
-  useEffect(() => {
-    const idRecipe = history.location.pathname.split('s/')[1];
     async function getRecipe() {
-      const api = await getRecipeDrinks(idRecipe);
-      console.log(api);
-      setRecipes(api);
+      const api = await getRecipeDrinks(id);
+      setRecipe(api[0]);
     }
     getRecipe();
-  }, [history]);
+  }, [id]);
+
+  function recipeStatus() {
+    history.push(`/drinks/${id}/in-progress`);
+  }
+
+  function verifyRecipeInitialized() {
+    const startRecipe = 'Start Recipe';
+
+    if (!localStorage.getItem('inProgressRecipes')) {
+      setStatus(startRecipe);
+    } else {
+      const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const localKeys = Object.keys(local);
+      const verifyKey = localKeys.some((e) => e === 'cocktails');
+      if (verifyKey) {
+        const objs = Object.keys(local.cocktails);
+        if (objs.some((item) => item === id)) {
+          const verifyContent = Object.values(local.cocktails[id]);
+          return verifyContent.length === 0 || verifyContent.length !== 0
+            ? setStatus('Continue Recipe') : setStatus(startRecipe);
+        }
+      }
+      setStatus(startRecipe);
+    }
+  }
+
+  useEffect(() => {
+    verifyRecipeInitialized();
+  }, []);
 
   return (
     <div>
-      { recipes.map((recipe) => (
-        <div key={ recipe.idDrink }>
-          <img
-            data-testid="recipe-photo"
-            src={ recipe.strDrinkThumb }
-            alt={ recipe.strDrinkThumb }
-          />
-          <span data-testid="recipe-title">{recipe.strDrink}</span>
-          <button type="button" data-testid="share-btn">Compartilhar</button>
-          <button type="button" data-testid="favorite-btn">Favoritar</button>
-          <span data-testid="recipe-category">{recipe.strAlcoholic}</span>
+      <div key={ recipe.idDrink }>
+        <img
+          data-testid="recipe-photo"
+          src={ recipe.strDrinkThumb }
+          alt={ recipe.strDrinkThumb }
+        />
+        <span data-testid="recipe-title">{recipe.strDrink}</span>
+        <span data-testid="recipe-category">{recipe.strAlcoholic}</span>
 
-          <div>
-            <h4>Ingredients</h4>
-            <div>
-              <ul>
-                {populateIngredients(recipe)}
-              </ul>
-            </div>
-          </div>
+        <FavoritedDrink recipe={ recipe } />
 
-          <div>
-            <h4>Instructions</h4>
-            <div>
-              <span data-testid="instructions">{ recipe.strInstructions }</span>
+        <ul>
+          <IngredientsRecipeDrink recipe={ recipe } />
+        </ul>
+        <span data-testid="instructions">{ recipe.strInstructions }</span>
 
-            </div>
-          </div>
+        <RecomendationCardDrink />
 
-          <div className="recommended-card">
-            {setRecommendedCard()}
-          </div>
-
-          <div className="btn-start-recipe-container">
-            <button
-              className="btn-start-recipe"
-              data-testid="start-recipe-btn"
-              type="button"
-            >
-              Start Recipe
-            </button>
-          </div>
+        <div className="btn-start-recipe-container">
+          <button
+            className="btn-start-recipe"
+            data-testid="start-recipe-btn"
+            type="button"
+            onClick={ recipeStatus }
+          >
+            { status }
+          </button>
         </div>
-      )) }
+      </div>
     </div>
   );
 }

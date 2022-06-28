@@ -5,6 +5,7 @@ import IngredientsRecipeFoodInProgress
 from '../Components/IngredientsRecipeFoodInProgress';
 
 import { getRecipeFood } from '../services/dataFoods';
+import FavoritedFood from '../Components/FavoritedFood';
 
 export default function FoodInProgress() {
   const { id } = useParams();
@@ -28,8 +29,9 @@ export default function FoodInProgress() {
           alt={ recipe.strMealThumb }
         />
         <span data-testid="recipe-title">{recipe.strMeal}</span>
-        <button type="button" data-testid="share-btn">Compartilhar</button>
-        <button type="button" data-testid="favorite-btn">Favoritar</button>
+
+        <FavoritedFood recipe={ recipe } />
+
         <span data-testid="recipe-category">{recipe.strCategory}</span>
 
         <ul>

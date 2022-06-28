@@ -16,7 +16,7 @@ function IngredientsRecipeDrinkInProgress({ recipe }) {
       const recipeList = objs.reduce((acc, curr) => {
         acc.cocktails = { ...curr, [id]: inProgressRecipe };
         return acc;
-      }, { meals: '' }, { cocktails: '' });
+      }, { cocktails: '' }, { meals: '' });
       localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
     } else {
       const recipeList = { cocktails: { [id]: inProgressRecipe } };

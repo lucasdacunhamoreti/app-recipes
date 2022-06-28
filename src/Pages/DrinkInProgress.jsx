@@ -5,6 +5,7 @@ import IngredientsRecipeDrinkInProgress
 from '../Components/IngredientsRecipeDrinkInProgress';
 
 import { getRecipeDrinks } from '../services/dataDrinks';
+import FavoritedDrink from '../Components/FavoritedDrink';
 
 export default function DrinkInProgress() {
   const { id } = useParams();
@@ -29,8 +30,8 @@ export default function DrinkInProgress() {
         />
         <span data-testid="recipe-title">{recipe.strDrink}</span>
         <span data-testid="recipe-category">{recipe.strAlcoholic}</span>
-        <button type="button" data-testid="share-btn">Compartilhar</button>
-        <button type="button" data-testid="favorite-btn">Favoritar</button>
+
+        <FavoritedDrink recipe={ recipe } />
 
         <ul>
           <IngredientsRecipeDrinkInProgress recipe={ recipe } />

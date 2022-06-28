@@ -1,57 +1,20 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
-import { getRecipeFood, getRecomendedCardDrink } from '../services/dataFoods';
+import { getRecipeFood } from '../services/dataFoods';
 import IngredientsRecipeFood from '../Components/IngredientsRecipeFood';
 
-import blackHeartIcon from '../images/blackHeartIcon.svg';
-import whiteHearthIcon from '../images/whiteHeartIcon.svg';
-import shareIcon from '../images/shareIcon.svg';
-
 import './FoodDetails.css';
+
+import RecomendationCardFood from '../Components/RecomendationCardFood';
+import FavoritedFood from '../Components/FavoritedFood';
 
 export default function FoodDetails() {
   const history = useHistory();
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
-  const [recommended, setRecommended] = useState([]);
+
   const [status, setStatus] = useState('');
-  const [isFavorited, setIsFavorited] = useState(false);
-  const [alertCopyboard, setAlertCopyboard] = useState(false);
-
-  function setRecommendedCard() {
-    return (
-      <>
-        <h1>Recommended</h1>
-        <div className="card-container">
-          {recommended.map((drink, index) => (
-            <div
-              key={ index }
-              className="recomended-card"
-              data-testid={ `${index}-recomendation-card` }
-            >
-              <img
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrinkThumb }
-              />
-              <span>{ drink.strAlcoholic }</span>
-              <span data-testid={ `${index}-recomendation-title` }>
-                { drink.strDrink }
-              </span>
-            </div>
-          ))}
-        </div>
-      </>
-    );
-  }
-
-  useEffect(() => {
-    async function fetch() {
-      const result = await getRecomendedCardDrink();
-      setRecommended(result);
-    }
-    fetch();
-  }, []);
 
   useEffect(() => {
     async function getRecipe() {
@@ -67,15 +30,20 @@ export default function FoodDetails() {
 
   function verifyRecipeInitialized() {
     const startRecipe = 'Start Recipe';
+
     if (!localStorage.getItem('inProgressRecipes')) {
       setStatus(startRecipe);
     } else {
       const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-      const objs = Object.keys(local.meals);
-      if (objs.some((item) => item === id)) {
-        const verifyContent = Object.values(local.meals[id]);
-        return verifyContent.length === 0 || verifyContent.length !== 0
-          ? setStatus('Continue Recipe') : setStatus(startRecipe);
+      const local2Keys = Object.keys(local);
+      const verifyKey = local2Keys.some((e) => e === 'meals');
+      if (verifyKey) {
+        const objs = Object.keys(local.meals);
+        if (objs.some((item) => item === id)) {
+          const verifyContent = Object.values(local.meals[id]);
+          return verifyContent.length === 0 || verifyContent.length !== 0
+            ? setStatus('Continue Recipe') : setStatus(startRecipe);
+        }
       }
       setStatus(startRecipe);
     }
@@ -84,68 +52,6 @@ export default function FoodDetails() {
   useEffect(() => {
     verifyRecipeInitialized();
   }, []);
-
-  function handleFavorite() {
-    const favoriteRecipe = {
-      id: recipe.idMeal,
-      type: 'food',
-      nationality: recipe.strArea,
-      category: recipe.strCategory,
-      alcoholicOrNot: '',
-      name: recipe.strMeal,
-      image: recipe.strMealThumb,
-    };
-    const favoriteRecipeString = JSON.stringify([favoriteRecipe]);
-    if (!localStorage.getItem('favoriteRecipes')) {
-      localStorage.setItem('favoriteRecipes', favoriteRecipeString);
-      setIsFavorited(true);
-    } else {
-      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      const verifiedLocalStorage = getLocalStorage.some(
-        (item) => item.id === recipe.idMeal,
-      );
-      if (verifiedLocalStorage) {
-        const deletedRecipe = getLocalStorage.filter(
-          (favorite) => favorite.id !== favoriteRecipe.id,
-        );
-        const deletedRecipeString = JSON.stringify(deletedRecipe);
-        localStorage.setItem('favoriteRecipes', deletedRecipeString);
-        setIsFavorited(false);
-      } else {
-        getLocalStorage.push(favoriteRecipe);
-        const newLocalStorageString = JSON.stringify(getLocalStorage);
-        localStorage.setItem('favoriteRecipes', [newLocalStorageString]);
-        setIsFavorited(true);
-      }
-    }
-  }
-
-  useEffect(() => {
-    if (localStorage.getItem('favoriteRecipes')) {
-      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      const verifyLocalStorage = getLocalStorage.some((item) => item.id === id);
-      if (verifyLocalStorage) {
-        setIsFavorited(true);
-      } else {
-        setIsFavorited(false);
-      }
-    }
-  }, [id, isFavorited]);
-
-  function iconFavorite() {
-    if (isFavorited) {
-      return blackHeartIcon;
-    }
-    return whiteHearthIcon;
-  }
-
-  function copyLinkRecipe() {
-    if (!alertCopyboard) {
-      return navigator.clipboard.writeText(recipe.strYoutube)
-        .then(() => global.alert('Link copied!'));
-    }
-    setAlertCopyboard(true);
-  }
 
   return (
     <div>
@@ -156,24 +62,8 @@ export default function FoodDetails() {
           alt={ recipe.strMealThumb }
         />
         <span data-testid="recipe-title">{recipe.strMeal}</span>
-        <button
-          type="button"
-          data-testid="share-btn"
-          onClick={ copyLinkRecipe }
-          src={ shareIcon }
-        >
-          <img src={ shareIcon } alt={ shareIcon } />
+        <FavoritedFood recipe={ recipe } />
 
-        </button>
-        <button
-          type="button"
-          data-testid="favorite-btn"
-          src={ iconFavorite() }
-          onClick={ handleFavorite }
-        >
-          <img src={ iconFavorite() } alt={ iconFavorite() } />
-
-        </button>
         <span data-testid="recipe-category">{recipe.strCategory}</span>
         <ul>
           <IngredientsRecipeFood recipe={ recipe } />
@@ -188,9 +78,7 @@ export default function FoodDetails() {
               width="360"
               heigth="420"
             />
-            <div className="recommended-card">
-              {setRecommendedCard()}
-            </div>
+            <RecomendationCardFood />
           </section>
         </div>
         <div className="btn-start-recipe-container">

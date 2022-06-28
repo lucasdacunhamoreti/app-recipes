@@ -24,6 +24,8 @@ import DrinkDetails from './Pages/DrinkDetails';
 import foodsIngredients from './Pages/foodsIngredients';
 import drinksIngredients from './Pages/drinksIngredients';
 import ExploreNationalitiesDrinks from './Pages/ExploreNationalitiesDrinks';
+import FoodInProgress from './Pages/FoodInProgress';
+import DrinkInProgress from './Pages/DrinkInProgress';
 
 function App() {
   return (
@@ -35,8 +37,8 @@ function App() {
           <Route exact component={ Drinks } path="/drinks" />
           <Route exact component={ FoodDetails } path="/foods/:id" />
           <Route exact component={ DrinkDetails } path="/drinks/:id" />
-          <Route exact component={ Foods } path="/foods/id/:in-progress" />
-          <Route exact component={ Drinks } path="/drinks/id/:in-progress" />
+          <Route exact component={ FoodInProgress } path="/foods/:id/in-progress" />
+          <Route exact component={ DrinkInProgress } path="/drinks/:id/in-progress" />
           <Route exact component={ Explore } path="/explore" />
           <Route exact component={ ExploreFoods } path="/explore/foods" />
           <Route exact component={ ExploreDrinks } path="/explore/drinks" />

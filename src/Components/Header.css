@@ -1,5 +1,5 @@
 body {
-  width: 340px;
+  width: 360px;
 }
 
 header {
@@ -21,7 +21,7 @@ header {
   background-color: burlywood;
   display: flex;
   justify-content: space-around;
-  width: 340px;
+  width: 360px;
 }
 
 .search-bar label {

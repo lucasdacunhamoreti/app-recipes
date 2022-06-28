@@ -1,9 +1,13 @@
 import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
+
 import { getRecipeFood, getRecomendedCardDrink } from '../services/dataFoods';
-// import InProgressIngList from '../Components/inProgressIngList';
-import IngredientsRecipeInProgress from '../Components/IngredientsRecipeInProgress';
-import IngredientsRecipe from '../Components/IngredientsRecipe';
+import IngredientsRecipeFood from '../Components/IngredientsRecipeFood';
+
+import blackHeartIcon from '../images/blackHeartIcon.svg';
+import whiteHearthIcon from '../images/whiteHeartIcon.svg';
+import shareIcon from '../images/shareIcon.svg';
+
 import './FoodDetails.css';
 
 export default function FoodDetails() {
@@ -11,7 +15,9 @@ export default function FoodDetails() {
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
   const [recommended, setRecommended] = useState([]);
-  const [inProgressStatus, setInProgressStatus] = useState(false);
+  const [status, setStatus] = useState('');
+  const [isFavorited, setIsFavorited] = useState(false);
+  const [alertCopyboard, setAlertCopyboard] = useState(false);
 
   function setRecommendedCard() {
     return (
@@ -50,20 +56,95 @@ export default function FoodDetails() {
   useEffect(() => {
     async function getRecipe() {
       const api = await getRecipeFood(id);
-      // console.log('api', api);
-      // console.log('api[0]', api[0]);
-      // api.map((e) => console.log('e', e));
       setRecipe(api[0]);
     }
     getRecipe();
-  }, [history]);
+  }, [id]);
 
   function recipeStatus() {
-    if (inProgressStatus) {
-      history.push('/foods');
-      setInProgressStatus(false);
+    history.push(`/foods/${id}/in-progress`);
+  }
+
+  function verifyRecipeInitialized() {
+    const startRecipe = 'Start Recipe';
+    if (!localStorage.getItem('inProgressRecipes')) {
+      setStatus(startRecipe);
+    } else {
+      const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
+      const objs = Object.keys(local.meals);
+      if (objs.some((item) => item === id)) {
+        const verifyContent = Object.values(local.meals[id]);
+        return verifyContent.length === 0 || verifyContent.length !== 0
+          ? setStatus('Continue Recipe') : setStatus(startRecipe);
+      }
+      setStatus(startRecipe);
     }
-    setInProgressStatus(true);
+  }
+
+  useEffect(() => {
+    verifyRecipeInitialized();
+  }, []);
+
+  function handleFavorite() {
+    const favoriteRecipe = {
+      id: recipe.idMeal,
+      type: 'food',
+      nationality: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: '',
+      name: recipe.strMeal,
+      image: recipe.strMealThumb,
+    };
+    const favoriteRecipeString = JSON.stringify([favoriteRecipe]);
+    if (!localStorage.getItem('favoriteRecipes')) {
+      localStorage.setItem('favoriteRecipes', favoriteRecipeString);
+      setIsFavorited(true);
+    } else {
+      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const verifiedLocalStorage = getLocalStorage.some(
+        (item) => item.id === recipe.idMeal,
+      );
+      if (verifiedLocalStorage) {
+        const deletedRecipe = getLocalStorage.filter(
+          (favorite) => favorite.id !== favoriteRecipe.id,
+        );
+        const deletedRecipeString = JSON.stringify(deletedRecipe);
+        localStorage.setItem('favoriteRecipes', deletedRecipeString);
+        setIsFavorited(false);
+      } else {
+        getLocalStorage.push(favoriteRecipe);
+        const newLocalStorageString = JSON.stringify(getLocalStorage);
+        localStorage.setItem('favoriteRecipes', [newLocalStorageString]);
+        setIsFavorited(true);
+      }
+    }
+  }
+
+  useEffect(() => {
+    if (localStorage.getItem('favoriteRecipes')) {
+      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
+      const verifyLocalStorage = getLocalStorage.some((item) => item.id === id);
+      if (verifyLocalStorage) {
+        setIsFavorited(true);
+      } else {
+        setIsFavorited(false);
+      }
+    }
+  }, [id, isFavorited]);
+
+  function iconFavorite() {
+    if (isFavorited) {
+      return blackHeartIcon;
+    }
+    return whiteHearthIcon;
+  }
+
+  function copyLinkRecipe() {
+    if (!alertCopyboard) {
+      return navigator.clipboard.writeText(recipe.strYoutube)
+        .then(() => global.alert('Link copied!'));
+    }
+    setAlertCopyboard(true);
   }
 
   return (
@@ -75,58 +156,52 @@ export default function FoodDetails() {
           alt={ recipe.strMealThumb }
         />
         <span data-testid="recipe-title">{recipe.strMeal}</span>
-        <button type="button" data-testid="share-btn">Compartilhar</button>
-        <button type="button" data-testid="favorite-btn">Favoritar</button>
+        <button
+          type="button"
+          data-testid="share-btn"
+          onClick={ copyLinkRecipe }
+          src={ shareIcon }
+        >
+          <img src={ shareIcon } alt={ shareIcon } />
+
+        </button>
+        <button
+          type="button"
+          data-testid="favorite-btn"
+          src={ iconFavorite() }
+          onClick={ handleFavorite }
+        >
+          <img src={ iconFavorite() } alt={ iconFavorite() } />
+
+        </button>
         <span data-testid="recipe-category">{recipe.strCategory}</span>
-        {!inProgressStatus ? (
-          <ul>
-            <IngredientsRecipe recipe={ recipe } />
-          </ul>)
-          : (
-            <ul>
-              <IngredientsRecipeInProgress recipe={ recipe } />
-            </ul>
-          )}
+        <ul>
+          <IngredientsRecipeFood recipe={ recipe } />
+        </ul>
         <span data-testid="instructions">{ recipe.strInstructions }</span>
         <div>
-          {!inProgressStatus
-          && (
-            <section>
-              <iframe
-                // src={ recipe.strYoutube }
-                // https://www.youtube.com/watch?v=VVnZd8A84z4
-                // src="https://www.youtube.com/embed/YsJXZwE5pdY"
-                src={ `https://www.youtube.com/embed/${recipe?.strYoutube?.split('=')[1]}` }
-                data-testid="video"
-                title="video player"
-                width="360"
-                heigth="420"
-              />
-              <div className="recommended-card">
-                {setRecommendedCard()}
-              </div>
-            </section>
-          )}
+          <section>
+            <iframe
+              src={ `https://www.youtube.com/embed/${recipe?.strYoutube?.split('=')[1]}` }
+              data-testid="video"
+              title="video player"
+              width="360"
+              heigth="420"
+            />
+            <div className="recommended-card">
+              {setRecommendedCard()}
+            </div>
+          </section>
         </div>
         <div className="btn-start-recipe-container">
-          {!inProgressStatus ? (
-            <button
-              className="btn-start-recipe"
-              data-testid="start-recipe-btn"
-              type="button"
-              onClick={ recipeStatus }
-            >
-              Start Recipe
-            </button>)
-            : (
-              <button
-                className="btn-start-recipe"
-                data-testid="finish-recipe-btn"
-                type="button"
-                onClick={ recipeStatus }
-              >
-                Finish Recipe
-              </button>)}
+          <button
+            className="btn-start-recipe"
+            data-testid="start-recipe-btn"
+            type="button"
+            onClick={ recipeStatus }
+          >
+            { status }
+          </button>
         </div>
       </div>
     </div>

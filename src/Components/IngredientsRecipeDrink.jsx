@@ -1,7 +1,7 @@
 import PropTypes from 'prop-types';
 import React from 'react';
 
-function IngredientsRecipe({ recipe }) {
+function IngredientsRecipeDrink({ recipe }) {
   function filterIngredientsAndMeasures(recipeIten, str) {
     const result = Object.entries(recipeIten)
       .map(([key, value]) => {
@@ -28,8 +28,8 @@ function IngredientsRecipe({ recipe }) {
     </li>));
 }
 
-IngredientsRecipe.prototypes = {
+IngredientsRecipeDrink.prototypes = {
   recipe: PropTypes.string,
 }.isRequired;
 
-export default IngredientsRecipe;
+export default IngredientsRecipeDrink;

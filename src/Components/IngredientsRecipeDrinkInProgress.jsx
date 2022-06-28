@@ -2,25 +2,24 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-function IngredientsRecipeInProgress({ recipe }) {
+function IngredientsRecipeDrinkInProgress({ recipe }) {
   const { id } = useParams();
-  // const history = useHistory();
   const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
   const [inProgressRecipe, setInProgressRecipe] = useState(
-    local?.meals?.[id] || [],
+    local?.cocktails?.[id] || [],
   );
 
   function recipeInProgress() {
     if (local) {
       const objs = Object.values(local);
       const recipeList = objs.reduce((acc, curr) => {
-        acc.meals = { ...curr, [id]: inProgressRecipe };
+        acc.cocktails = { ...curr, [id]: inProgressRecipe };
         return acc;
       }, { meals: '' }, { cocktails: '' });
       localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
     } else {
-      const recipeList = { meals: { [id]: inProgressRecipe } };
+      const recipeList = { cocktails: { [id]: inProgressRecipe } };
       localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
     }
   }
@@ -31,7 +30,6 @@ function IngredientsRecipeInProgress({ recipe }) {
     } else {
       setInProgressRecipe(inProgressRecipe.filter((recipeI) => recipeI !== target.name));
     }
-    // setIsChecked(!isChecked);
   }
 
   function isChecked(name) {
@@ -43,21 +41,6 @@ function IngredientsRecipeInProgress({ recipe }) {
     });
     return result;
   }
-  // function isChecked(name) {
-  //   let result = false;
-  //   if (JSON.parse(localStorage.getItem('inProgressRecipes'))) {
-  //     // const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
-  //     const objs = Object.values(local);
-  //     objs.forEach((chave) => {
-  //       Object.entries(chave).forEach(([key, value]) => {
-  //         if (key === id && value.includes(name)) {
-  //           result = true;
-  //         }
-  //       });
-  //     });
-  //   }
-  //   return result;
-  // }
 
   function filterIngredientsAndMeasures(recipeIten, str) {
     const result = Object.entries(recipeIten)
@@ -73,12 +56,6 @@ function IngredientsRecipeInProgress({ recipe }) {
   const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
   const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
 
-  // console.log(ingredients);
-  // console.log(measure);
-
-  // defaultProps = {
-  //   checked: false,
-  // };
   useEffect(() => {
     recipeInProgress();
   }, [inProgressRecipe]);
@@ -89,14 +66,9 @@ function IngredientsRecipeInProgress({ recipe }) {
         id={ index }
         type="checkbox"
         name={ item }
-        // checked={ () => isChecked(item) }
-        // checked={ true }
-        data-testid={ `${index}-ingredient-name-and-measure` }
+        data-testid={ `${index}-ingredient-step` }
         onChange={ listProgressChange }
         checked={ isChecked(item) }
-        // checked={ () => inProgressRecipe.includes(item) }
-        // onClick={ isChecked(item) }
-        // onClick={ (event) => isChecked(recipe, event) }
       />
       <label htmlFor={ index }>
         { measure[index]
@@ -107,8 +79,8 @@ function IngredientsRecipeInProgress({ recipe }) {
   );
 }
 
-IngredientsRecipeInProgress.prototypes = {
+IngredientsRecipeDrinkInProgress.prototypes = {
   recipe: PropTypes.string,
 }.isRequired;
 
-export default IngredientsRecipeInProgress;
+export default IngredientsRecipeDrinkInProgress;

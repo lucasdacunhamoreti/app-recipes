@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { useHistory } from 'react-router-dom';
+import './Login.css';
 
 export default function Login() {
   const history = useHistory();
@@ -38,31 +39,37 @@ export default function Login() {
   };
 
   return (
-    <div>
-      <input
-        name="email"
-        value={ email }
-        type="email"
-        placeholder="email"
-        data-testid="email-input"
-        onChange={ inputHandleChange }
-      />
-      <input
-        name="password"
-        value={ password }
-        type="password"
-        placeholder="password"
-        data-testid="password-input"
-        onChange={ inputHandleChange }
-      />
-      <button
-        disabled={ !verifyEmail || !verifyPassword }
-        type="submit"
-        data-testid="login-submit-btn"
-        onClick={ saveTokens }
-      >
-        Enter
-      </button>
+    <div className="container-login">
+      <div className="login">
+        <input
+          name="email"
+          value={ email }
+          type="email"
+          placeholder="email"
+          data-testid="email-input"
+          onChange={ inputHandleChange }
+          className="form-control"
+        />
+        <input
+          name="password"
+          value={ password }
+          type="password"
+          placeholder="password"
+          data-testid="password-input"
+          onChange={ inputHandleChange }
+          className="form-control"
+        />
+        <button
+          disabled={ !verifyEmail || !verifyPassword }
+          type="submit"
+          data-testid="login-submit-btn"
+          onClick={ saveTokens }
+          className="btn btn-success"
+        >
+          Enter
+        </button>
+      </div>
     </div>
+
   );
 }

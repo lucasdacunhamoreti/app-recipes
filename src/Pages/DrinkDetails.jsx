@@ -8,10 +8,13 @@ import './FoodDetails.css';
 
 import RecomendationCardDrink from '../Components/RecomendationCardDrink';
 import FavoritedDrink from '../Components/FavoritedDrink';
+import { verifyRecipe } from '../services/localSorage';
 
 export default function DrinkDetails() {
   const history = useHistory();
   const { id } = useParams();
+  const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
+
   const [recipe, setRecipe] = useState({});
   const [status, setStatus] = useState('');
 
@@ -73,14 +76,16 @@ export default function DrinkDetails() {
         <RecomendationCardDrink />
 
         <div className="btn-start-recipe-container">
-          <button
-            className="btn-start-recipe"
-            data-testid="start-recipe-btn"
-            type="button"
-            onClick={ recipeStatus }
-          >
-            { status }
-          </button>
+          {!(verifyRecipe(localDone, id)) && (
+            <button
+              className="btn-start-recipe"
+              data-testid="start-recipe-btn"
+              type="button"
+              onClick={ recipeStatus }
+            >
+              { status }
+            </button>
+          )}
         </div>
       </div>
     </div>

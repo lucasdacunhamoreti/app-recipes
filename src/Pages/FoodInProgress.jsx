@@ -13,10 +13,9 @@ export default function FoodInProgress() {
   const { id } = useParams();
   const history = useHistory();
   const [recipe, setRecipe] = useState({});
-  const [allChecked, setAllChecked] = useState(true);
+  const [isDisabled, setIsDisabled] = useState(true);
 
   const doneRecipe = () => {
-    // console.log(recipe);
     setDoneFoodRecipe(recipe);
     history.push('/done-recipes');
   };
@@ -31,9 +30,9 @@ export default function FoodInProgress() {
 
   const countIngredients = (checked, total) => {
     if (total > 0 && checked === total) {
-      setAllChecked(false);
+      setIsDisabled(false);
     } else {
-      setAllChecked(true);
+      setIsDisabled(true);
     }
   };
 
@@ -61,13 +60,13 @@ export default function FoodInProgress() {
         <span data-testid="instructions">{ recipe.strInstructions }</span>
 
         <div className="btn-start-recipe-container">
-          {console.log(allChecked)}
+          {console.log('isDisabled', isDisabled)}
           <button
             className="btn-start-recipe"
             data-testid="finish-recipe-btn"
             type="button"
             onClick={ doneRecipe }
-            disabled={ allChecked }
+            disabled={ isDisabled }
           >
             Finish Recipe
           </button>

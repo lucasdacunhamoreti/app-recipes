@@ -8,12 +8,14 @@ import './FoodDetails.css';
 
 import RecomendationCardFood from '../Components/RecomendationCardFood';
 import FavoritedFood from '../Components/FavoritedFood';
+import { verifyRecipe } from '../services/localSorage';
 
 export default function FoodDetails() {
   const history = useHistory();
   const { id } = useParams();
-  const [recipe, setRecipe] = useState({});
+  const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
 
+  const [recipe, setRecipe] = useState({});
   const [status, setStatus] = useState('');
 
   useEffect(() => {
@@ -82,14 +84,16 @@ export default function FoodDetails() {
           </section>
         </div>
         <div className="btn-start-recipe-container">
-          <button
-            className="btn-start-recipe"
-            data-testid="start-recipe-btn"
-            type="button"
-            onClick={ recipeStatus }
-          >
-            { status }
-          </button>
+          {!(verifyRecipe(localDone, id)) && (
+            <button
+              className="btn-start-recipe"
+              data-testid="start-recipe-btn"
+              type="button"
+              onClick={ recipeStatus }
+            >
+              { status }
+            </button>
+          )}
         </div>
       </div>
     </div>

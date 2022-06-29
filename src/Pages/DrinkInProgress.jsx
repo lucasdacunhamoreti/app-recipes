@@ -6,7 +6,7 @@ from '../Components/IngredientsRecipeDrinkInProgress';
 
 import { getRecipeDrinks } from '../services/dataDrinks';
 import FavoritedDrink from '../Components/FavoritedDrink';
-import setDoneFoodRecipe from '../services/localSorage';
+import { setDoneDrinkRecipe } from '../services/localSorage';
 
 export default function DrinkInProgress() {
   const { id } = useParams();
@@ -16,8 +16,7 @@ export default function DrinkInProgress() {
   const [allChecked, setAllChecked] = useState(true);
 
   const doneRecipe = () => {
-    // console.log(recipe);
-    setDoneFoodRecipe(recipe);
+    setDoneDrinkRecipe(recipe);
     history.push('/done-recipes');
   };
 

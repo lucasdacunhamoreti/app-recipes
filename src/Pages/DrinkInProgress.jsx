@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import IngredientsRecipeDrinkInProgress
 from '../Components/IngredientsRecipeDrinkInProgress';
 
 import { getRecipeDrinks } from '../services/dataDrinks';
 import FavoritedDrink from '../Components/FavoritedDrink';
+import setDoneFoodRecipe from '../services/localSorage';
 
 export default function DrinkInProgress() {
   const { id } = useParams();
+  const history = useHistory();
 
   const [recipe, setRecipe] = useState({});
+  const [allChecked, setAllChecked] = useState(true);
+
+  const doneRecipe = () => {
+    // console.log(recipe);
+    setDoneFoodRecipe(recipe);
+    history.push('/done-recipes');
+  };
 
   useEffect(() => {
     async function getRecipe() {
@@ -19,6 +28,16 @@ export default function DrinkInProgress() {
     }
     getRecipe();
   }, [id]);
+
+  const countIngredients = (checked, total) => {
+    if (total > 0 && checked === total) {
+      setAllChecked(false);
+    } else {
+      setAllChecked(true);
+    }
+    // console.log('checked', checked);
+    // console.log('total', total);
+  };
 
   return (
     <div>
@@ -34,7 +53,10 @@ export default function DrinkInProgress() {
         <FavoritedDrink recipe={ recipe } />
 
         <ul>
-          <IngredientsRecipeDrinkInProgress recipe={ recipe } />
+          <IngredientsRecipeDrinkInProgress
+            recipe={ recipe }
+            countIngredients={ countIngredients }
+          />
         </ul>
 
         <span data-testid="instructions">{ recipe.strInstructions }</span>
@@ -44,7 +66,8 @@ export default function DrinkInProgress() {
             className="btn-start-recipe"
             data-testid="finish-recipe-btn"
             type="button"
-            // onClick={ recipeStatus }
+            onClick={ doneRecipe }
+            disabled={ allChecked }
           >
             Finish Recipe
           </button>

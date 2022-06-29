@@ -1,16 +1,25 @@
 import React, { useState, useEffect } from 'react';
-import { useParams } from 'react-router-dom';
+import { useParams, useHistory } from 'react-router-dom';
 
 import IngredientsRecipeFoodInProgress
 from '../Components/IngredientsRecipeFoodInProgress';
 
 import { getRecipeFood } from '../services/dataFoods';
 import FavoritedFood from '../Components/FavoritedFood';
+import setDoneFoodRecipe from '../services/localSorage';
 
 export default function FoodInProgress() {
+  // let ingredients = 0;
   const { id } = useParams();
-
+  const history = useHistory();
   const [recipe, setRecipe] = useState({});
+  const [allChecked, setAllChecked] = useState(true);
+
+  const doneRecipe = () => {
+    // console.log(recipe);
+    setDoneFoodRecipe(recipe);
+    history.push('/done-recipes');
+  };
 
   useEffect(() => {
     async function getRecipe() {
@@ -19,6 +28,14 @@ export default function FoodInProgress() {
     }
     getRecipe();
   }, [id]);
+
+  const countIngredients = (checked, total) => {
+    if (total > 0 && checked === total) {
+      setAllChecked(false);
+    } else {
+      setAllChecked(true);
+    }
+  };
 
   return (
     <div>
@@ -35,17 +52,22 @@ export default function FoodInProgress() {
         <span data-testid="recipe-category">{recipe.strCategory}</span>
 
         <ul>
-          <IngredientsRecipeFoodInProgress recipe={ recipe } />
+          <IngredientsRecipeFoodInProgress
+            recipe={ recipe }
+            countIngredients={ countIngredients }
+          />
         </ul>
 
         <span data-testid="instructions">{ recipe.strInstructions }</span>
 
         <div className="btn-start-recipe-container">
+          {console.log(allChecked)}
           <button
             className="btn-start-recipe"
             data-testid="finish-recipe-btn"
             type="button"
-            // onClick={ recipeStatus }
+            onClick={ doneRecipe }
+            disabled={ allChecked }
           >
             Finish Recipe
           </button>

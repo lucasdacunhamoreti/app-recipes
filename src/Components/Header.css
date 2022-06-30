@@ -12,8 +12,13 @@ header {
   background-color: burlywood;
   border: none;
   color: white;
-  height: 60px;
-  width: 60px;
+  height: 45px;
+  width: 45px;
+}
+
+.btn-icon:hover {
+  height: 55px;
+  width: 55px;
 }
 
 .search-bar {

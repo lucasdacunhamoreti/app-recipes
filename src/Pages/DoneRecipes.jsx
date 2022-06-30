@@ -164,7 +164,7 @@ function DoneRecipes() {
       </section>
 
       <section>
-        {doneRecipes
+        {doneRecipes && doneRecipes.length > 0
         && doneRecipes.map((recipe, index) => {
           let result;
           if (recipe.type === 'food') {

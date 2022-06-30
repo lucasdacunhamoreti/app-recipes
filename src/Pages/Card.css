@@ -1,8 +1,10 @@
 .card {
   align-items: center;
   background-color: bisque;
+  /* border: 1px solid brown; */
   border: 1px solid brown;
-  box-shadow: 1px 1px 0.5px 0.5px;
+  /* box-shadow: 1px 1px 0.5px 0.5px; */
+  box-shadow: 2px 2px 0.5px 0.5px rgba(0, 0, 0, 0.2);
   color: brown;
   display: flex;
   height: 182px;

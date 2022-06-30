@@ -9,7 +9,7 @@ function ExploreDrinks() {
 
   const acessRandomRecipe = async () => {
     const apiDrinksCategory = await getRandomRecipeDrinks();
-    history.push(`/drinks/${apiDrinksCategory.idDrink}`);
+    history.push(`/drinks/${apiDrinksCategory[0].idDrink}`);
   };
 
   return (

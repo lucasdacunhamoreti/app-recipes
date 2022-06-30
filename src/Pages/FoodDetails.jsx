@@ -72,10 +72,16 @@ export default function FoodDetails() {
         </div>
         <div className="header-title-conainer">
           <div className="left">
-            <h3 data-testid="recipe-title">
+            <h3 data-testid="recipe-title" className="recipe-title">
               {recipe.strMeal}
             </h3>
-            <p data-testid="recipe-category">{recipe.strCategory}</p>
+            <p
+              data-testid="recipe-category"
+              className="recipe-category"
+            >
+              {recipe.strCategory}
+
+            </p>
           </div>
           <div className="header-details-btns-container">
             <FavoritedFood recipe={ recipe } />
@@ -83,20 +89,29 @@ export default function FoodDetails() {
         </div>
       </div>
 
-      <ul>
+      <ul className="ingredients-list">
         <IngredientsRecipe recipe={ recipe } />
       </ul>
-      <span data-testid="instructions">{ recipe.strInstructions }</span>
+      <span
+        className="instructions"
+        data-testid="instructions"
+      >
+        { recipe.strInstructions }
+
+      </span>
       <div>
         <section>
           <iframe
+            className="video-style"
             src={ `https://www.youtube.com/embed/${recipe?.strYoutube?.split('=')[1]}` }
             data-testid="video"
             title="video player"
-            width="360"
-            heigth="420"
+            // width="360"
+            // heigth="420"
           />
-          <RecomendationCardFood />
+          <div className="recomendation">
+            <RecomendationCardFood />
+          </div>
         </section>
       </div>
       <div className="btn-start-recipe-container">

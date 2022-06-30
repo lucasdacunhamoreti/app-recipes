@@ -52,7 +52,6 @@ function IngredientsRecipeDrinkInProgress({ recipe, countIngredients }) {
       const recipeList = { cocktails: { [id]: inProgressRecipe } };
       localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
     }
-    //recipeInProgress();
     countIngredients(inProgressRecipe.length, ingredients.length);
   }, [inProgressRecipe]);
 

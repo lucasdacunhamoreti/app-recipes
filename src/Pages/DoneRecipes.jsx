@@ -1,4 +1,5 @@
-import React, { useState, useContext, useEffect } from 'react';
+import React, { useState, useContext } from 'react';
+import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import RecipesContext from '../Context/RecipesContext';
@@ -35,11 +36,7 @@ function DoneRecipes() {
   // changeFilter(){
   // }
 
-  useEffect(() => {
-    // filterDoneRecipes();
-  }, [filteredRecipes]);
-
-  function copyLinkRecipe() {
+  function copyLinkRecipe(id) {
     if (!alertCopyboard) {
       copy(`http://localhost:3000/foods/${id}`);
     }
@@ -112,12 +109,15 @@ function DoneRecipes() {
     return (
       <div key={ index }>
         <div>
-          <img
-            src={ recipe.image }
-            data-testid={ `${index}-horizontal-image` }
-            alt={ recipe.name }
-          />
-          <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
+          { alertCopyboard && <p>Link copied!</p>}
+          <Link to={ `/foods/${recipe.id}` }>
+            <img
+              src={ recipe.image }
+              data-testid={ `${index}-horizontal-image` }
+              alt={ recipe.name }
+            />
+            <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
+          </Link>
           <span
             data-testid={ `${index}-horizontal-top-text` }
           >
@@ -132,7 +132,7 @@ function DoneRecipes() {
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
-            onClick={ copyLinkRecipe }
+            onClick={ () => copyLinkRecipe(recipe.id) }
             src={ shareIcon }
           >
             <img src={ shareIcon } alt={ shareIcon } />
@@ -147,12 +147,15 @@ function DoneRecipes() {
     return (
       <div key={ index }>
         <div>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ recipe.image }
-            alt={ recipe.name }
-          />
-          <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
+          { alertCopyboard && <p>Link copied!</p>}
+          <Link to={ `/drinks/${recipe.id}` }>
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt={ recipe.name }
+            />
+            <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
+          </Link>
           <span
             data-testid={ `${index}-horizontal-top-text` }
           >

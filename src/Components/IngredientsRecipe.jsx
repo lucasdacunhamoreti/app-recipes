@@ -14,6 +14,7 @@ export default function IngredientsRecipe({ recipe }) {
     return result;
   }
 
+  // console.log(recipe);
   const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
   const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
 

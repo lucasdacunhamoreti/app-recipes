@@ -29,14 +29,17 @@ export default function setDoneFoodRecipe(recipe) {
       localStorage.setItem('doneRecipes', JSON.stringify([...local, doneRecipe]));
     }
   }
+  setDoneRecipes(doneRecipeString);
 }
 export function setDoneDrinkRecipe(recipe) {
-  console.log('recipe', recipe);
+  // console.log('recipe', recipe);
+  // console.log('recipe.area', recipe.strArea);
   const data = new Date();
   const doneRecipe = {
     id: recipe.idDrink,
     type: 'drink',
-    nationality: recipe.strArea,
+    nationality: '',
+    // nationality: recipe.strArea,
     category: recipe.strCategory,
     alcoholicOrNot: recipe.strAlcoholic,
     name: recipe.strDrink,
@@ -59,4 +62,5 @@ export function setDoneDrinkRecipe(recipe) {
       localStorage.setItem('doneRecipes', JSON.stringify([...local, doneRecipe]));
     }
   }
+  setDoneRecipes(doneRecipeString);
 }

@@ -47,7 +47,7 @@ function DoneRecipes() {
             </p>
           );
         }
-        return ('');
+        return (' ');
       })
     );
   };

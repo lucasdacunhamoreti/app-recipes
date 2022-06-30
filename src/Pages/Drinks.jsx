@@ -6,6 +6,9 @@ import RecipesContext from '../Context/RecipesContext';
 import Footer from '../Components/Footer';
 import Category from '../Components/Category';
 
+import './Foods.css';
+import './Card.css';
+
 function Drinks() {
   const history = useHistory();
   const {
@@ -29,7 +32,7 @@ function Drinks() {
 
   const MAX_QUANTITY_RECIPES = 12;
   return (
-    <div>
+    <div className="foods">
       <Header />
       <Category />
       {dataApiDrinks.length === 1 && typeFilter === 'input' ? handleResponse()
@@ -38,6 +41,7 @@ function Drinks() {
         && (
           <Link key={ index } to={ `/drinks/${drink.idDrink}` }>
             <div
+              className="card"
               data-testid={ `${index}-recipe-card` }
             >
               <img
@@ -45,7 +49,9 @@ function Drinks() {
                 src={ drink.strDrinkThumb }
                 alt={ drink.strDrinkThumb }
               />
-              <span data-testid={ `${index}-card-name` }>{ drink.strDrink }</span>
+              <div className="card-name-container">
+                <span data-testid={ `${index}-card-name` }>{ drink.strDrink }</span>
+              </div>
             </div>
           </Link>)
 

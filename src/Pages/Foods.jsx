@@ -46,12 +46,20 @@ function Foods() {
               className="card"
               data-testid={ `${index}-recipe-card` }
             >
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ food.strMealThumb }
-                alt={ food.strMealThumb }
-              />
-              <span data-testid={ `${index}-card-name` }>{ food.strMeal }</span>
+              <div className="card-container">
+                <div className="card-img-conainer">
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ food.strMealThumb }
+                    alt={ food.strMealThumb }
+                  />
+                </div>
+                <div
+                  className="card-name-conainer"
+                >
+                  <span data-testid={ `${index}-card-name` }>{ food.strMeal }</span>
+                </div>
+              </div>
             </div>
           </Link>)
 

@@ -1,4 +1,7 @@
 .foods {
+  background-color: antiquewhite;
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
+

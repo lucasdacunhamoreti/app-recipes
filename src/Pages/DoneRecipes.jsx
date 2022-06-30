@@ -2,15 +2,24 @@ import React from 'react';
 // import PropTypes from 'prop-types';
 import Header from '../Components/Header';
 // import { useParams } from 'react-router-dom';
+import shareIcon from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function DoneRecipes() {
-  // const [isFavorited, setIsFavorited] = useState(false);
-  // const [alertCopyboard, setAlertCopyboard] = useState(false);
-  // const { id } = useParams();
+  const [alertCopyboard, setAlertCopyboard] = useState(false);
 
   const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
   // const localDone = (localStorage.getItem('doneRecipes'));
   localDone.forEach((local) => console.log('local', local));
+
+  function copyLinkRecipe() {
+    if (!alertCopyboard) {
+      copy(`http://localhost:3000/foods/${id}`);
+    }
+    setAlertCopyboard(true);
+  }
+
 
   return (
     <div>
@@ -22,7 +31,6 @@ function DoneRecipes() {
       </section>
 
       <section>
-        {/* {localDone.map((recipe, index) => { */}
         {localDone.map((recipe, index) => {
           const { tags } = recipe;
           const tagList = [];
@@ -50,24 +58,30 @@ function DoneRecipes() {
                 >
                   {recipe.doneData}
                 </span>
+
                 <button
-                  data-testid={ `${index}-horizontal-share-btn` }
                   type="button"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  onClick={ copyLinkRecipe }
                 >
-                  Compartilhar
+                  <img src={ shareIcon } alt={ shareIcon } />
+
                 </button>
 
-                { tagList
-                  ? tagList.map((tag) => {
+                { tagList.length > 0
+                  ? tagList.map((tag, tagIndex) => {
                     console.log(tag);
-                    return (
-                      <span
-                        key={ index + index }
-                        data-testid={ `${index}-${tag}-horizontal-tag` }
-                      >
-                        {tag}
-                      </span>
-                    );
+                    if (tagIndex < 2) {
+                      return (
+                        <span
+                          key={ index + index }
+                          data-testid={ `${index}-${tag}-horizontal-tag` }
+                        >
+                          {tag}
+                        </span>
+                      );
+                    }
+                    return ('');
                   })
                   : (
                     <span

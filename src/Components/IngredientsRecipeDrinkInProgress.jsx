@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-function IngredientsRecipeDrinkInProgress({ recipe }) {
+function IngredientsRecipeDrinkInProgress({ recipe, countIngredients }) {
   const { id } = useParams();
   const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
@@ -61,6 +61,7 @@ function IngredientsRecipeDrinkInProgress({ recipe }) {
 
   useEffect(() => {
     recipeInProgress();
+    countIngredients(inProgressRecipe.length, ingredients.length);
   }, [inProgressRecipe]);
 
   return (ingredients.map((item, index) => (

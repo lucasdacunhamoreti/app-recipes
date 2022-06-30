@@ -2,7 +2,7 @@ import PropTypes from 'prop-types';
 import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
-function IngredientsRecipeFoodInProgress({ recipe }) {
+function IngredientsRecipeFoodInProgress({ recipe, countIngredients }) {
   const { id } = useParams();
   const local = JSON.parse(localStorage.getItem('inProgressRecipes'));
 
@@ -13,7 +13,7 @@ function IngredientsRecipeFoodInProgress({ recipe }) {
   function recipeInProgress() {
     if (local) {
       // const objs = Object.values(local);
-      console.log(local.meals[id]);
+      // console.log(local.meals[id]);
       // const recipeList = objs.reduce((acc, curr) => {
       //   acc.meals = { ...curr, [id]: inProgressRecipe };
       //   return acc;
@@ -60,6 +60,7 @@ function IngredientsRecipeFoodInProgress({ recipe }) {
 
   useEffect(() => {
     recipeInProgress();
+    countIngredients(inProgressRecipe.length, ingredients.length);
   }, [inProgressRecipe]);
 
   return (ingredients.map((item, index) => (

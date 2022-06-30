@@ -2,6 +2,7 @@ import React, { useState, useContext } from 'react';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import RecipesContext from '../Context/RecipesContext';
+import './DoneRecipes.css';
 
 const copy = require('clipboard-copy');
 
@@ -81,74 +82,93 @@ function DoneRecipes() {
 
   function getFoodCard(recipe, index) {
     return (
-      <div key={ index }>
-        <div>
-          <img
-            src={ recipe.image }
-            data-testid={ `${index}-horizontal-image` }
-            alt={ recipe.name }
-          />
-          <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
-          <span
-            data-testid={ `${index}-horizontal-top-text` }
-          >
-            {recipe.category}
-          </span>
-          <span
-            data-testid={ `${index}-horizontal-done-date` }
-          >
-            {recipe.doneData}
-          </span>
-          <span>
-            {recipe.nationality}
-          </span>
+      <div
+        className="inProgress-container"
+        key={ index }
+      >
+        <div className="header-details">
+          <div className="details-image-container">
+            <img
+              className="details-img"
+              src={ recipe.image }
+              data-testid={ `${index}-horizontal-image` }
+              alt={ recipe.name }
+            />
+          </div>
+          <div className="header-title-conainer">
+            <div className="left">
+              <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
+              <span
+                data-testid={ `${index}-horizontal-top-text` }
+              >
+                {recipe.category}
+              </span>
+              <span
+                data-testid={ `${index}-horizontal-done-date` }
+              >
+                {recipe.doneData}
+              </span>
+              <span>
+                {recipe.nationality}
+              </span>
+              {getTags(recipe, index)}
+            </div>
+            <button
+              className="header-details-btns-container"
+              type="button"
+              data-testid={ `${index}-horizontal-share-btn` }
+              onClick={ copyLinkRecipe }
+            >
+              <img src={ shareIcon } alt={ shareIcon } />
 
-          <button
-            type="button"
-            data-testid={ `${index}-horizontal-share-btn` }
-            onClick={ copyLinkRecipe }
-          >
-            <img src={ shareIcon } alt={ shareIcon } />
-
-          </button>
-          {getTags(recipe, index)}
+            </button>
+          </div>
         </div>
       </div>
     );
   }
   function getDrinkCard(recipe, index) {
     return (
-      <div key={ index }>
-        <div>
-          <img
-            data-testid={ `${index}-horizontal-image` }
-            src={ recipe.image }
-            alt={ recipe.name }
-          />
-          <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
-          {/* <span
+      <div
+        className="inProgress-container"
+        key={ index }
+      >
+        <div className="header-details">
+          <div className="details-image-container">
+            <img
+              data-testid={ `${index}-horizontal-image` }
+              src={ recipe.image }
+              alt={ recipe.name }
+            />
+          </div>
+          <div className="header-title-conainer">
+            <div className="left">
+              <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
+              {/* <span
             data-testid={ `${index}-horizontal-top-text` }
           >
             {recipe.category}
           </span> */}
-          <span
-            data-testid={ `${index}-horizontal-done-date` }
-          >
-            {recipe.doneData}
-          </span>
-          <span>
-            {recipe.alcoholicOrNot}
-          </span>
+              <span
+                data-testid={ `${index}-horizontal-done-date` }
+              >
+                {recipe.doneData}
+              </span>
+              <span>
+                {recipe.alcoholicOrNot}
+              </span>
+              {getTags(recipe, index)}
+            </div>
+            <button
+              className="header-details-btns-container"
+              type="button"
+              data-testid={ `${index}-horizontal-share-btn` }
+              onClick={ copyLinkRecipe }
+            >
+              <img src={ shareIcon } alt={ shareIcon } />
 
-          <button
-            type="button"
-            data-testid={ `${index}-horizontal-share-btn` }
-            onClick={ copyLinkRecipe }
-          >
-            <img src={ shareIcon } alt={ shareIcon } />
-
-          </button>
-          {getTags(recipe, index)}
+            </button>
+          </div>
         </div>
       </div>
     );

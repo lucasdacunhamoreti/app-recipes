@@ -57,37 +57,68 @@ export default function DrinkDetails() {
   }, []);
 
   return (
-    <div>
-      <div key={ recipe.idDrink }>
-        <img
-          data-testid="recipe-photo"
-          src={ recipe.strDrinkThumb }
-          alt={ recipe.strDrinkThumb }
-        />
-        <span data-testid="recipe-title">{recipe.strDrink}</span>
-        <span data-testid="recipe-category">{recipe.strAlcoholic}</span>
-
-        <FavoritedDrink recipe={ recipe } />
-
-        <ul>
-          <IngredientsRecipe recipe={ recipe } />
-        </ul>
-        <span data-testid="instructions">{ recipe.strInstructions }</span>
-
-        <RecomendationCardDrink />
-
-        <div className="btn-start-recipe-container">
-          {!(verifyRecipe(localDone, id)) && (
-            <button
-              className="btn-start-recipe"
-              data-testid="start-recipe-btn"
-              type="button"
-              onClick={ recipeStatus }
-            >
-              { status }
-            </button>
-          )}
+    <div
+      className="details-container"
+      key={ recipe.idDrink }
+    >
+      <div className="header-details">
+        <div className="details-image-container">
+          <img
+            className="details-img"
+            data-testid="recipe-photo"
+            src={ recipe.strDrinkThumb }
+            alt={ recipe.strDrinkThumb }
+          />
         </div>
+        <div className="header-title-conainer">
+          <div className="left">
+            <h3
+              className="recipe-title"
+              data-testid="recipe-title"
+            >
+              {recipe.strDrink}
+
+            </h3>
+            <p
+              className="recipe-category"
+              data-testid="recipe-category"
+            >
+              {recipe.strAlcoholic}
+
+            </p>
+          </div>
+          <div className="header-details-btns-container">
+            <FavoritedDrink recipe={ recipe } />
+          </div>
+        </div>
+      </div>
+
+      <ul className="ingredients-list">
+        <IngredientsRecipe recipe={ recipe } />
+      </ul>
+      <span
+        className="instructions"
+        data-testid="instructions"
+      >
+        { recipe.strInstructions }
+
+      </span>
+
+      <div className="recomendation">
+        <RecomendationCardDrink />
+      </div>
+
+      <div className="btn-start-recipe-container">
+        {!(verifyRecipe(localDone, id)) && (
+          <button
+            className="btn-start-recipe"
+            data-testid="start-recipe-btn"
+            type="button"
+            onClick={ recipeStatus }
+          >
+            { status }
+          </button>
+        )}
       </div>
     </div>
   );

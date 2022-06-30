@@ -1,6 +1,7 @@
 import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
 import RecipesContext from '../Context/RecipesContext';
+import './FoodInProgress.css';
 
 import IngredientsRecipeDrinkInProgress
 from '../Components/IngredientsRecipeDrinkInProgress';
@@ -81,39 +82,55 @@ export default function DrinkInProgress() {
   };
 
   return (
-    <div>
-      <div key={ recipe.idDrink }>
-        <img
-          data-testid="recipe-photo"
-          src={ recipe.strDrinkThumb }
-          alt={ recipe.strDrinkThumb }
-        />
-        <span data-testid="recipe-title">{recipe.strDrink}</span>
-        <span data-testid="recipe-category">{recipe.strAlcoholic}</span>
-
-        <FavoritedDrink recipe={ recipe } />
-
-        <ul>
-          <IngredientsRecipeDrinkInProgress
-            recipe={ recipe }
-            countIngredients={ countIngredients }
+    <div
+      className="inProgress-container"
+      key={ recipe.idDrink }
+    >
+      <div className="header-details">
+        <div className="details-image-container">
+          <img
+            className="details-img"
+            data-testid="recipe-photo"
+            src={ recipe.strDrinkThumb }
+            alt={ recipe.strDrinkThumb }
           />
-        </ul>
-
-        <span data-testid="instructions">{ recipe.strInstructions }</span>
-
-        <div className="btn-start-recipe-container">
-          <button
-            className="btn-start-recipe"
-            data-testid="finish-recipe-btn"
-            type="button"
-            onClick={ doneRecipe }
-            disabled={ allChecked }
-          >
-            Finish Recipe
-          </button>
-
         </div>
+        <div className="header-title-conainer">
+          <div className="left">
+            <span data-testid="recipe-title">{recipe.strDrink}</span>
+            <span data-testid="recipe-category">{recipe.strAlcoholic}</span>
+          </div>
+          <div className="header-details-btns-container">
+            <FavoritedDrink recipe={ recipe } />
+          </div>
+        </div>
+      </div>
+      <ul className="ingredients-list">
+        <IngredientsRecipeDrinkInProgress
+          recipe={ recipe }
+          countIngredients={ countIngredients }
+        />
+      </ul>
+
+      <span
+        className="instructions"
+        data-testid="instructions"
+      >
+        { recipe.strInstructions }
+
+      </span>
+
+      <div className="btn-start-recipe-container">
+        <button
+          className="btn-start-recipe"
+          data-testid="finish-recipe-btn"
+          type="button"
+          onClick={ doneRecipe }
+          disabled={ allChecked }
+        >
+          Finish Recipe
+        </button>
+
       </div>
     </div>
   );

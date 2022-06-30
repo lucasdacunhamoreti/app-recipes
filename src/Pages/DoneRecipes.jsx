@@ -8,7 +8,7 @@ function DoneRecipes() {
   const [alertCopyboard, setAlertCopyboard] = useState(false);
 
   const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
-  // localDone.forEach((local) => console.log('local', local));
+  // localDone.forEach((local) => console.log('local', local));;
 
   function copyLinkRecipe() {
     if (!alertCopyboard) {

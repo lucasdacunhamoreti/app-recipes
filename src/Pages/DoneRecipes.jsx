@@ -28,27 +28,39 @@ function DoneRecipes() {
   const getTags = (recipe, index) => {
     console.log('getTags');
     const { tags } = recipe;
-    const tagList = [];
+    let tagList = [];
+    console.log('tags', tags);
+    if (typeof (tags) === 'object') {
+      tagList = tags;
+    }
     if (typeof (tags) === 'string') {
-      tagList.push(tags.split(','));
+      tagList = tags.split(',');
     }
     console.log('taglist', tagList);
+    const myTags = [];
+    if (tagList) {
+      myTags.push(tagList[0]);
+    }
+    if (tagList) {
+      myTags.push(tagList[1]);
+    }
+    // console.log('myTags', myTags);
     return (
-      tagList.map((tag, tagIndex) => {
-      // tags?.split(',').map((tag, tagIndex) => {
-        console.log(tag);
-        if (tagIndex < 2) {
+      <>
+        {myTags.map((tag) => {
+        // tags?.split(',').map((tag, tagIndex) => {
+          console.log(tag);
           return (
-            <p
+            <div
               key={ tag }
+              name={ tag }
               data-testid={ `${index}-${tag}-horizontal-tag` }
             >
               {tag}
-            </p>
+            </div>
           );
-        }
-        return ('');
-      })
+        })}
+      </>
     );
   };
   // const getTags = (recipe, index) => {
@@ -92,21 +104,19 @@ function DoneRecipes() {
           <span
             data-testid={ `${index}-horizontal-top-text` }
           >
-            {recipe.category}
+            {`${recipe.nationality} - ${recipe.category}`}
           </span>
           <span
             data-testid={ `${index}-horizontal-done-date` }
           >
-            {recipe.doneData}
-          </span>
-          <span>
-            {recipe.nationality}
+            {recipe.doneDate}
           </span>
 
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
             onClick={ copyLinkRecipe }
+            src={ shareIcon }
           >
             <img src={ shareIcon } alt={ shareIcon } />
 
@@ -126,24 +136,23 @@ function DoneRecipes() {
             alt={ recipe.name }
           />
           <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
-          {/* <span
+          <span
             data-testid={ `${index}-horizontal-top-text` }
           >
-            {recipe.category}
-          </span> */}
+            {`${recipe.category} - ${recipe.alcoholicOrNot}`}
+          </span>
           <span
             data-testid={ `${index}-horizontal-done-date` }
           >
-            {recipe.doneData}
-          </span>
-          <span>
-            {recipe.alcoholicOrNot}
+            {console.log('recipe.doneDate', recipe.doneDate)}
+            {recipe.doneDate}
           </span>
 
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
             onClick={ copyLinkRecipe }
+            src={ shareIcon }
           >
             <img src={ shareIcon } alt={ shareIcon } />
 

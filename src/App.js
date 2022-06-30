@@ -21,11 +21,10 @@ import DoneRecipes from './Pages/DoneRecipes';
 import FavoriteRecipes from './Pages/FavoriteRecipes';
 import FoodDetails from './Pages/FoodDetails';
 import DrinkDetails from './Pages/DrinkDetails';
-import foodsIngredients from './Pages/foodsIngredients';
-import drinksIngredients from './Pages/drinksIngredients';
 import ExploreNationalitiesDrinks from './Pages/ExploreNationalitiesDrinks';
 import FoodInProgress from './Pages/FoodInProgress';
 import DrinkInProgress from './Pages/DrinkInProgress';
+import ExploreRecipesByIngredient from './Pages/ExploreRecipesByIngredient';
 
 function App() {
   return (
@@ -42,10 +41,14 @@ function App() {
           <Route exact component={ Explore } path="/explore" />
           <Route exact component={ ExploreFoods } path="/explore/foods" />
           <Route exact component={ ExploreDrinks } path="/explore/drinks" />
-          <Route exact component={ foodsIngredients } path="/explore/foods/ingredients" />
           <Route
             exact
-            component={ drinksIngredients }
+            component={ ExploreRecipesByIngredient }
+            path="/explore/foods/ingredients"
+          />
+          <Route
+            exact
+            component={ ExploreRecipesByIngredient }
             path="/explore/drinks/ingredients"
           />
           <Route

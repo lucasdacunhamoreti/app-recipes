@@ -40,4 +40,19 @@ export const getRecomendedCardDrink = async () => {
   return apiResponseJson.drinks.slice(0, MAX_QUANTITY);
 };
 
+export const getIngredientsFoods = async () => {
+  const MAX_QUANTITY = 12;
+  const apiResponse = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
+  const apiResponseJson = await apiResponse.json();
+  return apiResponseJson.meals.slice(0, MAX_QUANTITY);
+};
+
+export const getRandomRecipeFoods = async () => {
+  const apiCategory = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/random.php',
+  );
+  const apiCategoryJson = await apiCategory.json();
+  return apiCategoryJson;
+};
+
 export default apiFoods;

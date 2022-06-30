@@ -33,7 +33,6 @@ function DoneRecipes() {
           if (typeof (tags) === 'string') {
             tagList.push(tags?.split(','));
           }
-          console.log(tagList);
           return (
             <div key={ index }>
               <div>
@@ -65,7 +64,6 @@ function DoneRecipes() {
 
                 { tagList.length > 0
                   ? tagList.map((tag, tagIndex) => {
-                    console.log(tag);
                     if (tagIndex < 2) {
                       return (
                         <span

@@ -17,6 +17,7 @@ function Foods() {
     dataApiFoods,
     setDataApiFoods,
     typeFilter,
+    exploreSearch,
   } = useContext(RecipesContext);
 
   const handleResponse = () => {
@@ -25,12 +26,20 @@ function Foods() {
   };
 
   useEffect(() => {
-    async function fetch() {
-      const returnApiFoods = await apiFoods('name-ingredient', '');
-      setDataApiFoods(returnApiFoods.meals);
+    if (!exploreSearch.isCameExplore) {
+      const fetch = async () => {
+        const returnApiFoods = await apiFoods('name-ingredient', '');
+        setDataApiFoods(returnApiFoods.meals);
+      };
+      fetch();
+    } else {
+      const getRecipe = async () => {
+        const api = await apiFoods('ingredient', exploreSearch.nameIngredient);
+        setDataApiFoods(api.meals);
+      };
+      getRecipe();
     }
-    fetch();
-  }, [setDataApiFoods]);
+  }, []);
 
   const MAX_QUANTITY_RECIPES = 12;
   return (

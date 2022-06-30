@@ -2,15 +2,18 @@ import React, { useState, useContext } from 'react';
 import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
+
 import RecipesContext from '../Context/RecipesContext';
+
 const copy = require('clipboard-copy');
+
 function DoneRecipes() {
   const {
     doneRecipes,
   } = useContext(RecipesContext);
   const [filteredRecipes, setFilteredRecipes] = useState(doneRecipes);
   const [alertCopyboard, setAlertCopyboard] = useState(false);
-  
+
   const filterDoneRecipes = (recipe) => {
     if (recipe === 'foods') {
       const foods = doneRecipes.filter((type) => type.type === 'food');
@@ -33,7 +36,6 @@ function DoneRecipes() {
     setAlertCopyboard(true);
   }
   const getTags = (recipe, index) => {
-    
     const { tags } = recipe;
     let tagList = [];
 

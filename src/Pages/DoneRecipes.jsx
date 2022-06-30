@@ -1,31 +1,103 @@
 import React from 'react';
+// import PropTypes from 'prop-types';
 import Header from '../Components/Header';
+// import { useParams } from 'react-router-dom';
+import shareIcon from '../images/shareIcon.svg';
+
+const copy = require('clipboard-copy');
 
 function DoneRecipes() {
+  const [alertCopyboard, setAlertCopyboard] = useState(false);
+
+  const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
+  // const localDone = (localStorage.getItem('doneRecipes'));
+  localDone.forEach((local) => console.log('local', local));
+
+  function copyLinkRecipe() {
+    if (!alertCopyboard) {
+      copy(`http://localhost:3000/foods/${id}`);
+    }
+    setAlertCopyboard(true);
+  }
+
+
   return (
     <div>
       <Header />
-      <div>
+      <section>
         <button data-testid="filter-by-all-btn" type="button">All</button>
         <button data-testid="filter-by-food-btn" type="button">Food</button>
         <button data-testid="filter-by-drink-btn" type="button">Drinks</button>
-      </div>
+      </section>
 
-      <div>
-        <img data-testid={ `${index}-horizontal-image` } src={ img } alt="" />
-        <span data-testid={ `${index}-horizontal-top-text` }>Categoria</span>
-        <span data-testid={ `${index}-horizontal-name` }>Nome da Receita</span>
-        <span data-testid={ `${index}-horizontal-done-date` }>Data</span>
-        <button
-          data-testid={ `${index}-horizontal-share-btn` }
-          type="button"
-        >
-          Compartilhar
-        </button>
-        <span data-testid={ `${index}-${tagName}-horizontal-tag` }>tags</span>
-      </div>
+      <section>
+        {localDone.map((recipe, index) => {
+          const { tags } = recipe;
+          const tagList = [];
+          if (typeof (tags) === 'string') {
+            tagList.push(tags?.split(','));
+          }
+          // console.log(tags);
+          console.log(tagList);
+          return (
+            <div key={ index }>
+              <div>
+                <img
+                  data-testid={ `${index}-horizontal-image` }
+                  src={ recipe.image }
+                  alt=""
+                />
+                <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
+                <span
+                  data-testid={ `${index}-horizontal-top-text` }
+                >
+                  {recipe.category}
+                </span>
+                <span
+                  data-testid={ `${index}-horizontal-done-date` }
+                >
+                  {recipe.doneData}
+                </span>
+
+                <button
+                  type="button"
+                  data-testid={ `${index}-horizontal-share-btn` }
+                  onClick={ copyLinkRecipe }
+                >
+                  <img src={ shareIcon } alt={ shareIcon } />
+
+                </button>
+
+                { tagList.length > 0
+                  ? tagList.map((tag, tagIndex) => {
+                    console.log(tag);
+                    if (tagIndex < 2) {
+                      return (
+                        <span
+                          key={ index + index }
+                          data-testid={ `${index}-${tag}-horizontal-tag` }
+                        >
+                          {tag}
+                        </span>
+                      );
+                    }
+                    return ('');
+                  })
+                  : (
+                    <span
+                      key={ index + index }
+                      data-testid={ `${index}-${'Pasta'}-horizontal-tag` }
+                    />)}
+              </div>
+            </div>);
+        })}
+      </section>
     </div>
   );
 }
+
+// DoneRecipes.propTypes = {
+//   recipe: PropTypes.arrayOf.isRequired,
+// };
 
 export default DoneRecipes;

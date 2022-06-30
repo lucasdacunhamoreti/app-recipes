@@ -9,7 +9,7 @@ function ExploreFoods() {
 
   const acessRandomRecipe = async () => {
     const apiFoodsCategory = await getRandomRecipeFoods();
-    return apiFoodsCategory;
+    history.push(`/foods/${apiFoodsCategory[0].idMeal}`);
   };
 
   return (

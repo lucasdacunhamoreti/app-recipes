@@ -1,7 +1,5 @@
-import React from 'react';
-// import PropTypes from 'prop-types';
+import React, { useState } from 'react';
 import Header from '../Components/Header';
-// import { useParams } from 'react-router-dom';
 import shareIcon from '../images/shareIcon.svg';
 
 const copy = require('clipboard-copy');
@@ -10,7 +8,6 @@ function DoneRecipes() {
   const [alertCopyboard, setAlertCopyboard] = useState(false);
 
   const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
-  // const localDone = (localStorage.getItem('doneRecipes'));
   localDone.forEach((local) => console.log('local', local));
 
   function copyLinkRecipe() {
@@ -19,7 +16,6 @@ function DoneRecipes() {
     }
     setAlertCopyboard(true);
   }
-
 
   return (
     <div>
@@ -37,7 +33,6 @@ function DoneRecipes() {
           if (typeof (tags) === 'string') {
             tagList.push(tags?.split(','));
           }
-          // console.log(tags);
           console.log(tagList);
           return (
             <div key={ index }>
@@ -92,13 +87,8 @@ function DoneRecipes() {
             </div>);
         })}
       </section>
-
     </div>
   );
 }
-
-// DoneRecipes.propTypes = {
-//   recipe: PropTypes.arrayOf.isRequired,
-// };
 
 export default DoneRecipes;

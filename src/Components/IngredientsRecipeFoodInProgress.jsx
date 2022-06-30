@@ -10,22 +10,6 @@ function IngredientsRecipeFoodInProgress({ recipe, countIngredients }) {
     local?.meals?.[id] || [],
   );
 
-  function recipeInProgress() {
-    if (local) {
-      // const objs = Object.values(local);
-      // console.log(local.meals[id]);
-      // const recipeList = objs.reduce((acc, curr) => {
-      //   acc.meals = { ...curr, [id]: inProgressRecipe };
-      //   return acc;
-      // }, { meals: '' });
-      const test = { ...local, meals: { ...local.meals, [id]: inProgressRecipe } };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(test));
-    } else {
-      const recipeList = { meals: { [id]: inProgressRecipe } };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
-    }
-  }
-
   function listProgressChange({ target }) {
     if (target.checked) {
       setInProgressRecipe([...inProgressRecipe, target.name]);
@@ -59,13 +43,22 @@ function IngredientsRecipeFoodInProgress({ recipe, countIngredients }) {
   const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
 
   useEffect(() => {
-    recipeInProgress();
+    if (local) {
+      const test = { ...local, meals: { ...local.meals, [id]: inProgressRecipe } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(test));
+    } else {
+      const recipeList = { meals: { [id]: inProgressRecipe } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
+    }
     countIngredients(inProgressRecipe.length, ingredients.length);
   }, [inProgressRecipe]);
 
   return (ingredients.map((item, index) => (
     <div key={ index }>
-      <label data-testid={ `${index}-ingredient-step` } htmlFor={ index }>
+      <label
+        data-testid={ `${index}-ingredient-step` }
+        htmlFor={ index }
+      >
         <input
           type="checkbox"
           name={ item }

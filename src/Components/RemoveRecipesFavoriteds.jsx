@@ -1,47 +1,32 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import PropTypes from 'prop-types';
-import { useParams } from 'react-router-dom';
 
 import blackHeartIcon from '../images/blackHeartIcon.svg';
 import whiteHearthIcon from '../images/whiteHeartIcon.svg';
 import shareIcon from '../images/shareIcon.svg';
 
+import RecipesContext from '../Context/RecipesContext';
+
 const copy = require('clipboard-copy');
 
-export default function FavoritedFood({ recipe }) {
+export default function RemoveRecipesFavoriteds({ id, index, type }) {
   const [isFavorited, setIsFavorited] = useState(false);
   const [alertCopyboard, setAlertCopyboard] = useState(false);
-  const { id } = useParams();
+
+  const { setFavoriteRecipes } = useContext(RecipesContext);
 
   function handleFavorite() {
-    const objRecipe = {
-      id: recipe.idMeal,
-      type: 'food',
-      nationality: recipe.strArea,
-      category: recipe.strCategory,
-      alcoholicOrNot: '',
-      name: recipe.strMeal,
-      image: recipe.strMealThumb,
-    };
     let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
-    if (!favoriteRecipes) {
-      localStorage.setItem('favoriteRecipes', JSON.stringify([objRecipe]));
-      setIsFavorited(true);
-    } else {
-      const isInLocalStorage = favoriteRecipes.some(
-        (item) => item.id === recipe.idMeal,
+    const isInLocalStorage = favoriteRecipes.some(
+      (item) => item.id === id,
+    );
+    if (isInLocalStorage) {
+      favoriteRecipes = favoriteRecipes.filter(
+        (favorite) => favorite.id !== id,
       );
-      if (isInLocalStorage) {
-        favoriteRecipes = favoriteRecipes.filter(
-          (favorite) => favorite.id !== objRecipe.id,
-        );
-        localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-        setIsFavorited(false);
-      } else {
-        favoriteRecipes.push(objRecipe);
-        localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
-        setIsFavorited(true);
-      }
+      setFavoriteRecipes(favoriteRecipes);
+      localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
+      setIsFavorited(false);
     }
   }
 
@@ -66,7 +51,7 @@ export default function FavoritedFood({ recipe }) {
 
   function copyLinkRecipe() {
     if (!alertCopyboard) {
-      copy(`http://localhost:3000/foods/${id}`);
+      copy(`http://localhost:3000/${type === 'food' ? 'foods' : 'drinks'}/${id}`);
     }
     setAlertCopyboard(true);
   }
@@ -75,7 +60,7 @@ export default function FavoritedFood({ recipe }) {
     <div>
       <button
         type="button"
-        data-testid="share-btn"
+        data-testid={ `${index}-horizontal-share-btn` }
         onClick={ copyLinkRecipe }
         src={ shareIcon }
       >
@@ -85,7 +70,7 @@ export default function FavoritedFood({ recipe }) {
       { alertCopyboard && <h4>Link copied!</h4> }
       <button
         type="button"
-        data-testid="favorite-btn"
+        data-testid={ `${index}-horizontal-favorite-btn` }
         src={ iconFavorite() }
         onClick={ handleFavorite }
       >
@@ -96,13 +81,8 @@ export default function FavoritedFood({ recipe }) {
   );
 }
 
-FavoritedFood.propTypes = {
-  recipe: PropTypes.shape({
-    idMeal: PropTypes.string.isRequired,
-    strArea: PropTypes.string.isRequired,
-    strCategory: PropTypes.string.isRequired,
-    strAlcoholic: PropTypes.string.isRequired,
-    strMeal: PropTypes.string.isRequired,
-    strMealThumb: PropTypes.string.isRequired,
-  }).isRequired,
+RemoveRecipesFavoriteds.propTypes = {
+  id: PropTypes.string.isRequired,
+  index: PropTypes.number.isRequired,
+  type: PropTypes.string.isRequired,
 };

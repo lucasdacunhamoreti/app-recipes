@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { getRecipeDrinks } from '../services/dataDrinks';
-import IngredientsRecipeDrink from '../Components/IngredientsRecipeDrink';
+
+import IngredientsRecipe from '../Components/IngredientsRecipe';
 
 import './FoodDetails.css';
 
@@ -69,7 +70,7 @@ export default function DrinkDetails() {
         <FavoritedDrink recipe={ recipe } />
 
         <ul>
-          <IngredientsRecipeDrink recipe={ recipe } />
+          <IngredientsRecipe recipe={ recipe } />
         </ul>
         <span data-testid="instructions">{ recipe.strInstructions }</span>
 

@@ -7,7 +7,9 @@ const copy = require('clipboard-copy');
 function DoneRecipes() {
   const [alertCopyboard, setAlertCopyboard] = useState(false);
 
-  const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
+  let localDone = JSON.parse(localStorage?.getItem('doneRecipes'));
+  if (!localDone) localDone = [];
+
   // localDone.forEach((local) => console.log('local', local));;
 
   function copyLinkRecipe() {

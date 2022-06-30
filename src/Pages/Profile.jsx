@@ -8,13 +8,12 @@ function Profile() {
     localStorage.clear();
   };
 
-  const keyEmail = localStorage.getItem('user');
-  const email = JSON.parse(keyEmail);
+  const email = JSON.parse(localStorage?.getItem('user'));
 
   return (
     <div>
       <Header />
-      <b data-testid="profile-email">{email.email}</b>
+      <b data-testid="profile-email">{email?.email}</b>
       <Link to="/done-recipes">
         <button data-testid="profile-done-btn" type="submit">
           Done Recipes

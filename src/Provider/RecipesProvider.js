@@ -9,8 +9,13 @@ function RecipesProvider({ children }) {
 
   const localFavorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const [favoriteRecipes, setFavoriteRecipes] = useState(localFavorite);
+
   const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
   const [doneRecipes, setDoneRecipes] = useState(localDone);
+
+  const [exploreSearch, setExploreSearch] = useState(
+    { isCameExplore: false, nameIngredient: '' },
+  );
 
   const context = {
     dataApiFoods,
@@ -23,6 +28,8 @@ function RecipesProvider({ children }) {
     setFavoriteRecipes,
     doneRecipes,
     setDoneRecipes,
+    exploreSearch,
+    setExploreSearch,
   };
 
   return (

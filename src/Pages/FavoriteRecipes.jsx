@@ -101,9 +101,6 @@ function FavoriteRecipes() {
           Drinks
         </button>
       </div>
-      {/* { !favoriteRecipes || favoriteRecipes?.length === 0
-        ? <h2>Não há receitas favoritadas!</h2>
-        : listFavoriteRecipes() } */}
 
       { listFavoriteRecipes() }
     </div>

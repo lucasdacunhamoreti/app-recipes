@@ -76,8 +76,6 @@ export default function DrinkInProgress() {
     } else {
       setAllChecked(true);
     }
-    // console.log('checked', checked);
-    // console.log('total', total);
   };
 
   return (

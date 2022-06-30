@@ -3,23 +3,15 @@ import { Link } from 'react-router-dom/cjs/react-router-dom.min';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import RecipesContext from '../Context/RecipesContext';
-
 const copy = require('clipboard-copy');
-
 function DoneRecipes() {
   const {
     doneRecipes,
   } = useContext(RecipesContext);
   const [filteredRecipes, setFilteredRecipes] = useState(doneRecipes);
   const [alertCopyboard, setAlertCopyboard] = useState(false);
-
-  // const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
-  // if (localDone) {
-  //   localDone.forEach((local) => console.log('local', local));
-  // }
-
+  
   const filterDoneRecipes = (recipe) => {
-    // console.log('doneRecipes', doneRecipes);
     if (recipe === 'foods') {
       const foods = doneRecipes.filter((type) => type.type === 'food');
       setFilteredRecipes(foods);
@@ -33,8 +25,6 @@ function DoneRecipes() {
       setFilteredRecipes(doneRecipes);
     }
   };
-  // changeFilter(){
-  // }
 
   function copyLinkRecipe(id) {
     if (!alertCopyboard) {
@@ -42,19 +32,18 @@ function DoneRecipes() {
     }
     setAlertCopyboard(true);
   }
-
   const getTags = (recipe, index) => {
-    // console.log('getTags');
+    
     const { tags } = recipe;
     let tagList = [];
-    // console.log('tags', tags);
+
     if (typeof (tags) === 'object') {
       tagList = tags;
     }
     if (typeof (tags) === 'string') {
       tagList = tags.split(',');
     }
-    // console.log('taglist', tagList);
+
     const myTags = [];
     if (tagList) {
       myTags.push(tagList[0]);
@@ -62,7 +51,7 @@ function DoneRecipes() {
     if (tagList) {
       myTags.push(tagList[1]);
     }
-    // console.log('myTags', myTags);
+
     return (
       <>
         {myTags.map((tag) => (
@@ -77,33 +66,6 @@ function DoneRecipes() {
       </>
     );
   };
-  // const getTags = (recipe, index) => {
-  //   console.log('getTags');
-  //   const { tags } = recipe;
-  //   const tagList = [];
-  //   if (typeof (tags) === 'string') {
-  //     tagList.push(tags?.split(','));
-  //   }
-  //   console.log(tagList);
-  //   return (
-  //     tagList.map((tag, tagIndex) => {
-  //       console.log(tag);
-  //       if (tagIndex < 2) {
-  //         return (
-  //           <p
-  //             key={ tag }
-  //             data-testid={ `${index}-${tag}-horizontal-tag` }
-  //           >
-  //             {tag}
-  //           </p>
-  //         );
-  //       }
-  //       return (
-  //         ''
-  //       );
-  //     })
-  //   );
-  // };
 
   function getFoodCard(recipe, index) {
     return (
@@ -128,7 +90,6 @@ function DoneRecipes() {
           >
             {recipe.doneDate}
           </span>
-
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
@@ -136,7 +97,6 @@ function DoneRecipes() {
             src={ shareIcon }
           >
             <img src={ shareIcon } alt={ shareIcon } />
-
           </button>
           {getTags(recipe, index)}
         </div>
@@ -166,7 +126,6 @@ function DoneRecipes() {
           >
             {recipe.doneDate}
           </span>
-
           <button
             type="button"
             data-testid={ `${index}-horizontal-share-btn` }
@@ -174,14 +133,12 @@ function DoneRecipes() {
             src={ shareIcon }
           >
             <img src={ shareIcon } alt={ shareIcon } />
-
           </button>
           {getTags(recipe, index)}
         </div>
       </div>
     );
   }
-
   return (
     <div>
       <Header />
@@ -208,7 +165,6 @@ function DoneRecipes() {
           Drinks
         </button>
       </section>
-
       <section>
         {filteredRecipes && filteredRecipes.length > 0
         && filteredRecipes.map((recipe, index) => {
@@ -224,5 +180,4 @@ function DoneRecipes() {
     </div>
   );
 }
-
 export default DoneRecipes;

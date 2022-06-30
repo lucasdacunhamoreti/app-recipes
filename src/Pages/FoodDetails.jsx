@@ -2,7 +2,8 @@ import React, { useEffect, useState } from 'react';
 import { useHistory, useParams } from 'react-router-dom';
 
 import { getRecipeFood } from '../services/dataFoods';
-import IngredientsRecipeFood from '../Components/IngredientsRecipeFood';
+
+import IngredientsRecipe from '../Components/IngredientsRecipe';
 
 import './FoodDetails.css';
 
@@ -13,7 +14,6 @@ export default function FoodDetails() {
   const history = useHistory();
   const { id } = useParams();
   const [recipe, setRecipe] = useState({});
-
   const [status, setStatus] = useState('');
 
   useEffect(() => {
@@ -66,7 +66,7 @@ export default function FoodDetails() {
 
         <span data-testid="recipe-category">{recipe.strCategory}</span>
         <ul>
-          <IngredientsRecipeFood recipe={ recipe } />
+          <IngredientsRecipe recipe={ recipe } />
         </ul>
         <span data-testid="instructions">{ recipe.strInstructions }</span>
         <div>

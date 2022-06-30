@@ -14,7 +14,7 @@ export default function FavoritedDrink({ recipe }) {
   const { id } = useParams();
 
   function handleFavorite() {
-    const favoriteRecipe = {
+    const objRecipe = {
       id: recipe.idDrink,
       type: 'drink',
       nationality: '',
@@ -23,26 +23,23 @@ export default function FavoritedDrink({ recipe }) {
       name: recipe.strDrink,
       image: recipe.strDrinkThumb,
     };
-    const favoriteRecipeString = JSON.stringify([favoriteRecipe]);
-    if (!localStorage.getItem('favoriteRecipes')) {
-      localStorage.setItem('favoriteRecipes', favoriteRecipeString);
+    let favoriteRecipes = JSON.parse(localStorage.getItem('favoriteRecipes'));
+    if (!favoriteRecipes) {
+      localStorage.setItem('favoriteRecipes', JSON.stringify([objRecipe]));
       setIsFavorited(true);
     } else {
-      const getLocalStorage = JSON.parse(localStorage.getItem('favoriteRecipes'));
-      const verifiedLocalStorage = getLocalStorage.some(
+      const isInLocalStorage = favoriteRecipes.some(
         (item) => item.id === recipe.idDrink,
       );
-      if (verifiedLocalStorage) {
-        const deletedRecipe = getLocalStorage.filter(
-          (favorite) => favorite.id !== favoriteRecipe.id,
+      if (isInLocalStorage) {
+        favoriteRecipes = favoriteRecipes.filter(
+          (favorite) => favorite.id !== objRecipe.id,
         );
-        const deletedRecipeString = JSON.stringify(deletedRecipe);
-        localStorage.setItem('favoriteRecipes', deletedRecipeString);
+        localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
         setIsFavorited(false);
       } else {
-        getLocalStorage.push(favoriteRecipe);
-        const newLocalStorageString = JSON.stringify(getLocalStorage);
-        localStorage.setItem('favoriteRecipes', [newLocalStorageString]);
+        favoriteRecipes.push(objRecipe);
+        localStorage.setItem('favoriteRecipes', JSON.stringify(favoriteRecipes));
         setIsFavorited(true);
       }
     }
@@ -100,5 +97,11 @@ export default function FavoritedDrink({ recipe }) {
 }
 
 FavoritedDrink.propTypes = {
-  recipe: PropTypes.arrayOf.isRequired,
+  recipe: PropTypes.shape({
+    idDrink: PropTypes.string.isRequired,
+    strCategory: PropTypes.string.isRequired,
+    strAlcoholic: PropTypes.string.isRequired,
+    strDrink: PropTypes.string.isRequired,
+    strDrinkThumb: PropTypes.string.isRequired,
+  }).isRequired,
 };

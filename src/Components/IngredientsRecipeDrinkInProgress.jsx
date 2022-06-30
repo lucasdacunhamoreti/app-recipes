@@ -10,23 +10,6 @@ function IngredientsRecipeDrinkInProgress({ recipe }) {
     local?.cocktails?.[id] || [],
   );
 
-  function recipeInProgress() {
-    if (local) {
-      // const objs = Object.values(local);
-      // const recipeList = objs.reduce((acc, curr) => {
-      //   acc.cocktails = { ...curr, [id]: inProgressRecipe };
-      //   return acc;
-      // }, { cocktails: '' });
-      const test = { ...local,
-        cocktails: { ...local.cocktails, [id]: inProgressRecipe } };
-
-      localStorage.setItem('inProgressRecipes', JSON.stringify(test));
-    } else {
-      const recipeList = { cocktails: { [id]: inProgressRecipe } };
-      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
-    }
-  }
-
   function listProgressChange({ target }) {
     if (target.checked) {
       setInProgressRecipe([...inProgressRecipe, target.name]);
@@ -59,8 +42,16 @@ function IngredientsRecipeDrinkInProgress({ recipe }) {
   const ingredients = filterIngredientsAndMeasures(recipe, 'strIngredient');
   const measure = filterIngredientsAndMeasures(recipe, 'strMeasure');
 
+  // ///////////
   useEffect(() => {
-    recipeInProgress();
+    if (local) {
+      const test = { ...local,
+        cocktails: { ...local.cocktails, [id]: inProgressRecipe } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(test));
+    } else {
+      const recipeList = { cocktails: { [id]: inProgressRecipe } };
+      localStorage.setItem('inProgressRecipes', JSON.stringify(recipeList));
+    }
   }, [inProgressRecipe]);
 
   return (ingredients.map((item, index) => (

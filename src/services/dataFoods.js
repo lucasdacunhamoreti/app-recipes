@@ -55,12 +55,35 @@ export const getRecomendedCardDrink = async () => {
   return apiResponseJson.drinks.slice(0, MAX_QUANTITY);
 };
 
+export const getIngredientsFoods = async () => {
+  const MAX_QUANTITY = 12;
+  const apiResponse = await fetch('https://www.themealdb.com/api/json/v1/1/list.php?i=list');
+  const apiResponseJson = await apiResponse.json();
+  return apiResponseJson.meals.slice(0, MAX_QUANTITY);
+};
+
 export const getRandomRecipeFoods = async () => {
   const apiCategory = await fetch(
     'https://www.themealdb.com/api/json/v1/1/random.php',
   );
   const apiCategoryJson = await apiCategory.json();
   return apiCategoryJson;
+};
+
+export const getNationalities = async () => {
+  const apiNationalities = await fetch(
+    'https://www.themealdb.com/api/json/v1/1/list.php?a=list',
+  );
+  const getNationalitiesJson = await apiNationalities.json();
+  return getNationalitiesJson;
+};
+
+export const getRecipesNationality = async (nationality) => {
+  const apiRecipeNationalities = await fetch(
+    `https://www.themealdb.com/api/json/v1/1/filter.php?a=${nationality}`,
+  );
+  const getNationalitiesJson = await apiRecipeNationalities.json();
+  return getNationalitiesJson;
 };
 
 export default apiFoods;

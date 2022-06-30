@@ -16,6 +16,13 @@ function ExploreDrinks() {
         By Ingredient
       </button>
       <button
+        data-testid="explore-by-nationality"
+        type="button"
+        onClick={ () => history.push('/explore/drinks/nationalities') }
+      >
+        By Nationality
+      </button>
+      <button
         data-testid="explore-surprise"
         type="button"
         onClick={ () => history.push('/explore/drinks/ingredients') }

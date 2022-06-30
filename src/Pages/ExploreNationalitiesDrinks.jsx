@@ -6,6 +6,7 @@ function ExploreNationalitiesDrinks() {
   return (
     <div>
       <Header />
+      <h3>Not Found</h3>
       <Footer />
     </div>
   );

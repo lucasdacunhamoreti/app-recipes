@@ -8,7 +8,7 @@ function DoneRecipes() {
   const [alertCopyboard, setAlertCopyboard] = useState(false);
 
   const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
-  localDone.forEach((local) => console.log('local', local));
+  // localDone.forEach((local) => console.log('local', local));;
 
   function copyLinkRecipe() {
     if (!alertCopyboard) {
@@ -33,7 +33,6 @@ function DoneRecipes() {
           if (typeof (tags) === 'string') {
             tagList.push(tags?.split(','));
           }
-          console.log(tagList);
           return (
             <div key={ index }>
               <div>
@@ -65,7 +64,6 @@ function DoneRecipes() {
 
                 { tagList.length > 0
                   ? tagList.map((tag, tagIndex) => {
-                    console.log(tag);
                     if (tagIndex < 2) {
                       return (
                         <span

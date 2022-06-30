@@ -30,7 +30,7 @@ export default function FoodDetails() {
     history.push(`/foods/${id}/in-progress`);
   }
 
-  function verifyRecipeInitialized() {
+  useEffect(() => {
     const startRecipe = 'Start Recipe';
 
     if (!localStorage.getItem('inProgressRecipes')) {
@@ -49,10 +49,6 @@ export default function FoodDetails() {
       }
       setStatus(startRecipe);
     }
-  }
-
-  useEffect(() => {
-    verifyRecipeInitialized();
   }, []);
 
   return (

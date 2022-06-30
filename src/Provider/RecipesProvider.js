@@ -9,6 +9,9 @@ function RecipesProvider({ children }) {
 
   const localFavorite = JSON.parse(localStorage.getItem('favoriteRecipes'));
   const [favoriteRecipes, setFavoriteRecipes] = useState(localFavorite);
+  const [exploreSearch, setExploreSearch] = useState(
+    { isCameExplore: false, nameIngredient: '' },
+  );
 
   const context = {
     dataApiFoods,
@@ -19,6 +22,8 @@ function RecipesProvider({ children }) {
     setTypeFilter,
     favoriteRecipes,
     setFavoriteRecipes,
+    exploreSearch,
+    setExploreSearch,
   };
 
   return (

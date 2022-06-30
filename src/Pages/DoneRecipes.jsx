@@ -9,7 +9,6 @@ function DoneRecipes() {
   const {
     doneRecipes,
   } = useContext(RecipesContext);
-  const [selectedFilter, setSelectedFilter] = useState('all');
   const [filteredRecipes, setFilteredRecipes] = useState(doneRecipes);
   const [alertCopyboard, setAlertCopyboard] = useState(false);
 

@@ -7,11 +7,14 @@ function Profile() {
   const deleteItens = () => {
     localStorage.clear();
   };
-  const email = localStorage.getItem('user');
+
+  const keyEmail = localStorage.getItem('user');
+  const email = JSON.parse(keyEmail);
+
   return (
     <div>
       <Header />
-      <p data-testid="profile-email">{email}</p>
+      <b data-testid="profile-email">{email.email}</b>
       <Link to="/done-recipes">
         <button data-testid="profile-done-btn" type="submit">
           Done Recipes

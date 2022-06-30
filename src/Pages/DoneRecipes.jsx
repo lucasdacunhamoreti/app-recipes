@@ -1,4 +1,4 @@
-import React, { useState, useContext } from 'react';
+import React, { useState, useContext, useEffect } from 'react';
 import Header from '../Components/Header';
 import shareIcon from '../images/shareIcon.svg';
 import RecipesContext from '../Context/RecipesContext';
@@ -6,17 +6,39 @@ import RecipesContext from '../Context/RecipesContext';
 const copy = require('clipboard-copy');
 
 function DoneRecipes() {
-  const [alertCopyboard, setAlertCopyboard] = useState(false);
   const {
     doneRecipes,
   } = useContext(RecipesContext);
+  const [selectedFilter, setSelectedFilter] = useState('all');
+  const [filteredRecipes, setFilteredRecipes] = useState(doneRecipes);
+  const [alertCopyboard, setAlertCopyboard] = useState(false);
 
   // const localDone = JSON.parse(localStorage.getItem('doneRecipes'));
   // if (localDone) {
   //   localDone.forEach((local) => console.log('local', local));
   // }
 
-  console.log('doneRecipes', doneRecipes);
+  const filterDoneRecipes = (recipe) => {
+    // console.log('doneRecipes', doneRecipes);
+    if (recipe === 'foods') {
+      const foods = doneRecipes.filter((type) => type.type === 'food');
+      setFilteredRecipes(foods);
+      // console.log('foods', foods);
+      // console.log(doneRecipes.filter((type) => type === 'food'));
+    } else if (recipe === 'drinks') {
+      const drinks = doneRecipes.filter((type) => type.type === 'drink');
+      // console.log('drinks', drinks);
+      setFilteredRecipes(drinks);
+    } else {
+      setFilteredRecipes(doneRecipes);
+    }
+  };
+  // changeFilter(){
+  // }
+
+  useEffect(() => {
+    // filterDoneRecipes();
+  }, [filteredRecipes]);
 
   function copyLinkRecipe() {
     if (!alertCopyboard) {
@@ -26,17 +48,17 @@ function DoneRecipes() {
   }
 
   const getTags = (recipe, index) => {
-    console.log('getTags');
+    // console.log('getTags');
     const { tags } = recipe;
     let tagList = [];
-    console.log('tags', tags);
+    // console.log('tags', tags);
     if (typeof (tags) === 'object') {
       tagList = tags;
     }
     if (typeof (tags) === 'string') {
       tagList = tags.split(',');
     }
-    console.log('taglist', tagList);
+    // console.log('taglist', tagList);
     const myTags = [];
     if (tagList) {
       myTags.push(tagList[0]);
@@ -47,19 +69,15 @@ function DoneRecipes() {
     // console.log('myTags', myTags);
     return (
       <>
-        {myTags.map((tag) => {
-        // tags?.split(',').map((tag, tagIndex) => {
-          console.log(tag);
-          return (
-            <div
-              key={ tag }
-              name={ tag }
-              data-testid={ `${index}-${tag}-horizontal-tag` }
-            >
-              {tag}
-            </div>
-          );
-        })}
+        {myTags.map((tag) => (
+          <div
+            key={ tag }
+            name={ tag }
+            data-testid={ `${index}-${tag}-horizontal-tag` }
+          >
+            {tag}
+          </div>
+        ))}
       </>
     );
   };
@@ -144,7 +162,6 @@ function DoneRecipes() {
           <span
             data-testid={ `${index}-horizontal-done-date` }
           >
-            {console.log('recipe.doneDate', recipe.doneDate)}
             {recipe.doneDate}
           </span>
 
@@ -167,14 +184,32 @@ function DoneRecipes() {
     <div>
       <Header />
       <section>
-        <button data-testid="filter-by-all-btn" type="button">All</button>
-        <button data-testid="filter-by-food-btn" type="button">Food</button>
-        <button data-testid="filter-by-drink-btn" type="button">Drinks</button>
+        <button
+          data-testid="filter-by-all-btn"
+          type="button"
+          onClick={ () => filterDoneRecipes('all') }
+        >
+          All
+        </button>
+        <button
+          data-testid="filter-by-food-btn"
+          type="button"
+          onClick={ () => filterDoneRecipes('foods') }
+        >
+          Foods
+        </button>
+        <button
+          data-testid="filter-by-drink-btn"
+          type="button"
+          onClick={ () => filterDoneRecipes('drinks') }
+        >
+          Drinks
+        </button>
       </section>
 
       <section>
-        {doneRecipes && doneRecipes.length > 0
-        && doneRecipes.map((recipe, index) => {
+        {filteredRecipes && filteredRecipes.length > 0
+        && filteredRecipes.map((recipe, index) => {
           let result;
           if (recipe.type === 'food') {
             result = getFoodCard(recipe, index);

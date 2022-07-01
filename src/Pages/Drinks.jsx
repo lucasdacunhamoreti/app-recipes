@@ -54,13 +54,17 @@ function Drinks() {
               className="card"
               data-testid={ `${index}-recipe-card` }
             >
-              <img
-                data-testid={ `${index}-card-img` }
-                src={ drink.strDrinkThumb }
-                alt={ drink.strDrinkThumb }
-              />
-              <div className="card-name-container">
-                <span data-testid={ `${index}-card-name` }>{ drink.strDrink }</span>
+              <div className="card-container">
+                <div className="card-img-conainer">
+                  <img
+                    data-testid={ `${index}-card-img` }
+                    src={ drink.strDrinkThumb }
+                    alt={ drink.strDrinkThumb }
+                  />
+                </div>
+                <div className="card-name-conainer">
+                  <span data-testid={ `${index}-card-name` }>{ drink.strDrink }</span>
+                </div>
               </div>
             </div>
           </Link>)

@@ -1,0 +1,13 @@
+.category-container {
+  display: flex;
+}
+
+.category-container button {
+  background-color: antiquewhite;
+  border: none;
+}
+
+.category-container button:hover {
+  color: brown;
+}
+

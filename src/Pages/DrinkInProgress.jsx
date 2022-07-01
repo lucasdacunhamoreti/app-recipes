@@ -1,12 +1,13 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useContext } from 'react';
 import { useParams, useHistory } from 'react-router-dom';
+import RecipesContext from '../Context/RecipesContext';
 
 import IngredientsRecipeDrinkInProgress
 from '../Components/IngredientsRecipeDrinkInProgress';
 
 import { getRecipeDrinks } from '../services/dataDrinks';
 import FavoritedDrink from '../Components/FavoritedDrink';
-import { setDoneDrinkRecipe } from '../services/localSorage';
+// import { setDoneDrinkRecipe } from '../services/localSorage';
 
 export default function DrinkInProgress() {
   const { id } = useParams();
@@ -14,9 +15,50 @@ export default function DrinkInProgress() {
 
   const [recipe, setRecipe] = useState({});
   const [allChecked, setAllChecked] = useState(true);
+  const {
+    setDoneRecipes,
+  } = useContext(RecipesContext);
+
+  const verifyRecipe = (local) => local?.some((e) => e.id === id);
+
+  function setDoneDrinkRecipe() {
+    // console.log('recipe', recipe);
+    // console.log('recipe.area', recipe.strArea);
+    const data = new Date();
+    const doneRecipe = {
+      id: recipe.idDrink,
+      type: 'drink',
+      nationality: '',
+      // nationality: recipe.strArea,
+      category: recipe.strCategory,
+      alcoholicOrNot: recipe.strAlcoholic,
+      name: recipe.strDrink,
+      image: recipe.strDrinkThumb,
+      doneDate: data.toLocaleDateString(),
+      tags: recipe.strTags,
+    };
+    // console.log('doneRecipe out', doneRecipe);
+    // const doneRecipeString = JSON.stringify([doneRecipe]);
+    const doneRecipeString = JSON.stringify([doneRecipe]);
+    if (!localStorage.getItem('doneRecipes')) {
+      localStorage.setItem('doneRecipes', doneRecipeString);
+      setDoneRecipes(doneRecipe);
+    } else {
+      // console.log('doneRecipe else', doneRecipe);
+      const local = JSON.parse(localStorage.getItem('doneRecipes'));
+      // console.log('veri', verifyRecipe(local, doneRecipe.id));
+      // console.log('veri', doneRecipe.id);
+      // console.log('local', local);
+      if (!(verifyRecipe(local))) {
+        // console.log('doneRecipe in', doneRecipe);
+        localStorage.setItem('doneRecipes', JSON.stringify([...local, doneRecipe]));
+        setDoneRecipes([...local, doneRecipe]);
+      }
+    }
+  }
 
   const doneRecipe = () => {
-    setDoneDrinkRecipe(recipe);
+    setDoneDrinkRecipe();
     history.push('/done-recipes');
   };
 

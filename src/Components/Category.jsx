@@ -1,5 +1,6 @@
 import React, { useEffect, useState, useContext } from 'react';
 import { useHistory } from 'react-router-dom';
+import './Category.css';
 
 // merge
 
@@ -74,7 +75,7 @@ export default function Category() {
   };
 
   return (
-    <div>
+    <div className="category-container">
       <button
         value="All"
         data-testid="All-category-filter"

@@ -1,5 +1,55 @@
 .card {
   align-items: center;
   background-color: bisque;
+  border: 1px solid brown;
+  box-shadow: 2px 2px 0.5px 0.5px rgba(0, 0, 0, 0.2);
+  color: brown;
+  display: flex;
+  height: 182px;
+  margin: 4px;
+  padding: 4px;
   width: 160px;
 }
+
+.card-container {
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+}
+
+.card img {
+  border-radius: 10px;
+  box-shadow: 2px 2px;
+  max-width: 110px;
+  width: 160px;
+}
+
+.card-img-conainer {
+  align-items: center;
+  background-color: rgb(242, 237, 214);
+  border-radius: 10px 10px 0 0;
+  display: flex;
+  height: 120px;
+  justify-content: center;
+  padding-bottom: 5px;
+  padding-top: 5px;
+  width: 140px;
+}
+
+.card span {
+  border-radius: 0 0 10px 10px;
+  display: flex;
+  flex-direction: column;
+  height: 50px;
+  text-align: center;
+  width: 130px;
+}
+
+.card-name-conainer {
+  background-color: rgb(249, 247, 242);
+  border-radius: 0 0 10px 10px;
+  color: brown;
+  display: flex;
+  justify-content: center;
+}
+

@@ -1,7 +1,9 @@
 .container {
+  align-items: center;
   background-color: burlywood;
   bottom: 0;
   display: flex;
+  height: 60px;
   justify-content: space-between;
   max-width: 360px;
   position: fixed;
@@ -10,9 +12,11 @@
 .container button {
   background-color: burlywood;
   border: none;
+
 }
 
-img {
-  max-height: 100px;
-  max-width: 120px;
+.container button:hover {
+  background-color: burlywood;
+  border: 1px;
+
 }

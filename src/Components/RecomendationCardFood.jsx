@@ -9,7 +9,7 @@ export default function RecomendationCardFood() {
     return (
       <>
         <h1>Recommended</h1>
-        <div className="card-container">
+        <div className="recomended-card-container">
           {recommended.map((drink, index) => (
             <div
               key={ index }

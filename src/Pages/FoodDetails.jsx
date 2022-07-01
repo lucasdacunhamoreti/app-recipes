@@ -52,45 +52,60 @@ export default function FoodDetails() {
   }, []);
 
   return (
-    <div>
-      <div key={ recipe.idMeal }>
-        <img
-          data-testid="recipe-photo"
-          src={ recipe.strMealThumb }
-          alt={ recipe.strMealThumb }
-        />
-        <span data-testid="recipe-title">{recipe.strMeal}</span>
-        <FavoritedFood recipe={ recipe } />
+    <div className="details-container">
+      <div
+        className="header-details"
+        key={ recipe.idMeal }
+      >
+        <div className="details-image-container">
+          <img
+            className="details-img"
+            data-testid="recipe-photo"
+            src={ recipe.strMealThumb }
+            alt={ recipe.strMealThumb }
+          />
 
-        <span data-testid="recipe-category">{recipe.strCategory}</span>
-        <ul>
-          <IngredientsRecipe recipe={ recipe } />
-        </ul>
-        <span data-testid="instructions">{ recipe.strInstructions }</span>
-        <div>
-          <section>
-            <iframe
-              src={ `https://www.youtube.com/embed/${recipe?.strYoutube?.split('=')[1]}` }
-              data-testid="video"
-              title="video player"
-              width="360"
-              heigth="420"
-            />
-            <RecomendationCardFood />
-          </section>
         </div>
-        <div className="btn-start-recipe-container">
-          {!(verifyRecipe(localDone, id)) && (
-            <button
-              className="btn-start-recipe"
-              data-testid="start-recipe-btn"
-              type="button"
-              onClick={ recipeStatus }
-            >
-              { status }
-            </button>
-          )}
+        <div className="header-title-conainer">
+          <div className="left">
+            <h3 data-testid="recipe-title">
+              {recipe.strMeal}
+            </h3>
+            <p data-testid="recipe-category">{recipe.strCategory}</p>
+          </div>
+          <div className="header-details-btns-container">
+            <FavoritedFood recipe={ recipe } />
+          </div>
         </div>
+      </div>
+
+      <ul>
+        <IngredientsRecipe recipe={ recipe } />
+      </ul>
+      <span data-testid="instructions">{ recipe.strInstructions }</span>
+      <div>
+        <section>
+          <iframe
+            src={ `https://www.youtube.com/embed/${recipe?.strYoutube?.split('=')[1]}` }
+            data-testid="video"
+            title="video player"
+            width="360"
+            heigth="420"
+          />
+          <RecomendationCardFood />
+        </section>
+      </div>
+      <div className="btn-start-recipe-container">
+        {!(verifyRecipe(localDone, id)) && (
+          <button
+            className="btn-start-recipe"
+            data-testid="start-recipe-btn"
+            type="button"
+            onClick={ recipeStatus }
+          >
+            { status }
+          </button>
+        )}
       </div>
     </div>
   );

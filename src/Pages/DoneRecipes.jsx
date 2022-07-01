@@ -23,16 +23,22 @@ function DoneRecipes() {
     <div>
       <Header />
       <section>
-        <button data-testid="filter-by-all-btn" type="button">All</button>
-        <button data-testid="filter-by-food-btn" type="button">Food</button>
-        <button data-testid="filter-by-drink-btn" type="button">Drinks</button>
+        <button data-testid="filter-by-all-btn" type="button">
+          All
+        </button>
+        <button data-testid="filter-by-food-btn" type="button">
+          Food
+        </button>
+        <button data-testid="filter-by-drink-btn" type="button">
+          Drinks
+        </button>
       </section>
 
       <section>
         {localDone.map((recipe, index) => {
           const { tags } = recipe;
           const tagList = [];
-          if (typeof (tags) === 'string') {
+          if (typeof tags === 'string') {
             tagList.push(tags?.split(','));
           }
           return (
@@ -43,15 +49,13 @@ function DoneRecipes() {
                   src={ recipe.image }
                   alt=""
                 />
-                <span data-testid={ `${index}-horizontal-name` }>{recipe.name}</span>
-                <span
-                  data-testid={ `${index}-horizontal-top-text` }
-                >
+                <span data-testid={ `${index}-horizontal-name` }>
+                  {recipe.name}
+                </span>
+                <span data-testid={ `${index}-horizontal-top-text` }>
                   {recipe.category}
                 </span>
-                <span
-                  data-testid={ `${index}-horizontal-done-date` }
-                >
+                <span data-testid={ `${index}-horizontal-done-date` }>
                   {recipe.doneData}
                 </span>
 
@@ -61,11 +65,10 @@ function DoneRecipes() {
                   onClick={ copyLinkRecipe }
                 >
                   <img src={ shareIcon } alt={ shareIcon } />
-
                 </button>
 
-                { tagList.length > 0
-                  ? tagList.map((tag, tagIndex) => {
+                {tagList.length > 0 ? (
+                  tagList.map((tag, tagIndex) => {
                     if (tagIndex < 2) {
                       return (
                         <span
@@ -76,15 +79,17 @@ function DoneRecipes() {
                         </span>
                       );
                     }
-                    return ('');
+                    return '';
                   })
-                  : (
-                    <span
-                      key={ index + index }
-                      data-testid={ `${index}-${'Pasta'}-horizontal-tag` }
-                    />)}
+                ) : (
+                  <span
+                    key={ index + index }
+                    data-testid={ `${index}-${'Pasta'}-horizontal-tag` }
+                  />
+                )}
               </div>
-            </div>);
+            </div>
+          );
         })}
       </section>
     </div>

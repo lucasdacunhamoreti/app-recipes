@@ -10,7 +10,6 @@ export default function Login() {
   const [password, setPassword] = useState('');
 
   const validityEmail = (newEmail) => {
-    // https://www.horadecodar.com.br/2020/09/13/como-validar-email-com-javascript/
     const response = /\S+@\S+\.\S+/;
     setEmail(newEmail);
     setVerifyEmail(response.test(newEmail));

@@ -31,7 +31,7 @@ export default function DrinkDetails() {
     history.push(`/drinks/${id}/in-progress`);
   }
 
-  function verifyRecipeInitialized() {
+  useEffect(() => {
     const startRecipe = 'Start Recipe';
 
     if (!localStorage.getItem('inProgressRecipes')) {
@@ -50,10 +50,6 @@ export default function DrinkDetails() {
       }
       setStatus(startRecipe);
     }
-  }
-
-  useEffect(() => {
-    verifyRecipeInitialized();
   }, []);
 
   return (

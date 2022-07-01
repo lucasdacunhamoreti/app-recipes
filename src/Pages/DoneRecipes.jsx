@@ -18,11 +18,8 @@ function DoneRecipes() {
     if (recipe === 'foods') {
       const foods = doneRecipes.filter((type) => type.type === 'food');
       setFilteredRecipes(foods);
-      // console.log('foods', foods);
-      // console.log(doneRecipes.filter((type) => type === 'food'));
     } else if (recipe === 'drinks') {
       const drinks = doneRecipes.filter((type) => type.type === 'drink');
-      // console.log('drinks', drinks);
       setFilteredRecipes(drinks);
     } else {
       setFilteredRecipes(doneRecipes);

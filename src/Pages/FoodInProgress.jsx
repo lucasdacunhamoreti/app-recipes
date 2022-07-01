@@ -19,12 +19,9 @@ export default function FoodInProgress() {
     setDoneRecipes,
   } = useContext(RecipesContext);
 
-  // const verifyRecipe = (local, id) => local?.some((e) => e.id === id);
   const verifyRecipe = (local) => local?.some((e) => e.id === id);
 
-  // function setDoneFoodRecipe(recipe) {
   function setDoneFoodRecipe() {
-    // console.log('recipe', recipe);
     const data = new Date();
     const doneRecipe = {
       id: recipe.idMeal,
@@ -37,19 +34,13 @@ export default function FoodInProgress() {
       doneDate: data.toLocaleDateString(),
       tags: recipe.strTags,
     };
-    // console.log('doneRecipe out', doneRecipe);
     const doneRecipeString = JSON.stringify([doneRecipe]);
     if (!localStorage.getItem('doneRecipes')) {
       localStorage.setItem('doneRecipes', doneRecipeString);
       setDoneRecipes(doneRecipe);
     } else {
-      // console.log('doneRecipe else', doneRecipe);
       const local = JSON.parse(localStorage.getItem('doneRecipes'));
-      // console.log('veri', verifyRecipe(local, doneRecipe.id));
-      // console.log('veri', doneRecipe.id);
-      // console.log('local', local);
       if (!(verifyRecipe(local))) {
-        // console.log('doneRecipe in', doneRecipe);
         localStorage.setItem('doneRecipes', JSON.stringify([...local, doneRecipe]));
         setDoneRecipes([...local, doneRecipe]);
       }
@@ -101,7 +92,6 @@ export default function FoodInProgress() {
         <span data-testid="instructions">{ recipe.strInstructions }</span>
 
         <div className="btn-start-recipe-container">
-          {console.log('isDisabled', isDisabled)}
           <button
             className="btn-start-recipe"
             data-testid="finish-recipe-btn"

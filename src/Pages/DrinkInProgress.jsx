@@ -22,8 +22,6 @@ export default function DrinkInProgress() {
   const verifyRecipe = (local) => local?.some((e) => e.id === id);
 
   function setDoneDrinkRecipe() {
-    // console.log('recipe', recipe);
-    // console.log('recipe.area', recipe.strArea);
     const data = new Date();
     const doneRecipe = {
       id: recipe.idDrink,
@@ -37,20 +35,13 @@ export default function DrinkInProgress() {
       doneDate: data.toLocaleDateString(),
       tags: recipe.strTags,
     };
-    // console.log('doneRecipe out', doneRecipe);
-    // const doneRecipeString = JSON.stringify([doneRecipe]);
     const doneRecipeString = JSON.stringify([doneRecipe]);
     if (!localStorage.getItem('doneRecipes')) {
       localStorage.setItem('doneRecipes', doneRecipeString);
       setDoneRecipes(doneRecipe);
     } else {
-      // console.log('doneRecipe else', doneRecipe);
       const local = JSON.parse(localStorage.getItem('doneRecipes'));
-      // console.log('veri', verifyRecipe(local, doneRecipe.id));
-      // console.log('veri', doneRecipe.id);
-      // console.log('local', local);
       if (!(verifyRecipe(local))) {
-        // console.log('doneRecipe in', doneRecipe);
         localStorage.setItem('doneRecipes', JSON.stringify([...local, doneRecipe]));
         setDoneRecipes([...local, doneRecipe]);
       }

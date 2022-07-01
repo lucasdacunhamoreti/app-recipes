@@ -1,9 +1,7 @@
 .details-container {
-  /* align-items: center; */
   background-color: bisque;
   display: flex;
   flex-direction: column;
-  /* justify-content: center; */
 }
 
 .header-details {
@@ -56,24 +54,6 @@
   background-color: rgb(249, 247, 242);
   border: none;
 }
-
-/* .header-details h3 {
-  border-radius: 0 0 10px 10px;
-  display: flex;
-  flex-direction: column;
-  height: 50px;
-  text-align: center;
-  width: 130px;
-} */
-
-/* .header-details p {
-  border-radius: 0 0 10px 10px;
-  display: flex;
-  flex-direction: column;
-  height: 50px;
-  text-align: center;
-  width: 130px;
-} */
 
 .recomended-card-container {
   display: flex;

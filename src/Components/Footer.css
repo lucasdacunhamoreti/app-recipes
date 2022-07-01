@@ -1,7 +1,6 @@
 .container {
   align-items: center;
   background-color: burlywood;
-  /* background-color: #477caf; */
   bottom: 0;
   display: flex;
   height: 60px;
@@ -18,13 +17,6 @@
 
 .container button:hover {
   background-color: burlywood;
-  /* background-color: rgb(144, 96, 33); */
-  /* background-color: #477caf; */
   border: 1px;
 
-}
-
-img {
-  /* max-height: 100px; */
-  /* max-width: 120px; */
 }

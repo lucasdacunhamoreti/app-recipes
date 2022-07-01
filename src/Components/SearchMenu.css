@@ -1,21 +1,38 @@
 .search-menu {
+  align-items: center;
   background-color: burlywood;
   display: flex;
   flex-direction: column;
+  justify-content: center;
   width: 360px;
 }
 
 .filter-container {
   margin: 3px;
   padding: 3px;
+  padding-left: 6px;
 }
 
 .search-menu label {
   margin: 2px;
   padding: 2px;
+  padding-right: 8px;
+}
+
+.search-menu button {
+  background-color: burlywood;
+  border: 1px solid brown;
+  border-radius: 4px;
+  color: brown;
+  font-style: italic;
+  margin-left: 5px;
+  padding-left: 2px;
 }
 
 .search-input {
+  border: none;
+  border-radius: 5px;
   margin: 3px;
   padding: 3px;
+  width: 300px;
 }

@@ -40,7 +40,7 @@
   border: none;
 }
 
-.header-title-conainer {
+.header-title-container {
   align-items: center;
   background-color: rgb(249, 247, 242);
   border-radius: 0 0 10px 10px;
@@ -53,4 +53,22 @@
 .details-img {
   object-fit: cover;
   width: 100%;
+}
+
+.done-recipe-menu-container {
+  background-color: bisque;
+  display: flex;
+  flex-wrap: wrap;
+  width: 360px;
+}
+
+.done-recipe-menu-container button {
+  background-color: bisque;
+  border: none;
+  margin-top: 10px;
+  width: 120px;
+}
+
+.done-recipe-menu-container button:hover {
+  color: brown;
 }

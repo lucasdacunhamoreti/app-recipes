@@ -1,3 +1,5 @@
+@import url('https://fonts.googleapis.com/css2?family=Neucha&display=swap') ;
+
 .details-container {
   background-color: bisque;
   display: flex;
@@ -42,6 +44,23 @@
   display: flex;
   justify-content: center;
   width: 250px;
+}
+
+.header-title-conainer h4 {
+  font-family: Neucha , serif;
+}
+
+.header-title-conainer p {
+
+}
+
+.header-title-conainer a {
+  color: brown;
+  text-decoration: none;
+}
+
+.link {
+  text-decoration: none;
 }
 
 .header-title-conainer span {

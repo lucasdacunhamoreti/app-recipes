@@ -1,10 +1,11 @@
 .card {
   align-items: center;
   background-color: bisque;
-  border: 1px solid brown;
   box-shadow: 2px 2px 0.5px 0.5px rgba(0, 0, 0, 0.2);
   color: brown;
   display: flex;
+  font-family: Neucha , cursive;
+  font-size: large;
   height: 182px;
   margin: 4px;
   padding: 4px;
@@ -12,16 +13,18 @@
 }
 
 .card-container {
+  border-radius: 10px;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  overflow: hidden;
 }
 
 .card img {
   border-radius: 10px;
-  box-shadow: 2px 2px;
-  max-width: 110px;
-  width: 160px;
+  object-fit: cover;
+  width: 100%;
+
 }
 
 .card-img-conainer {
@@ -52,4 +55,3 @@
   display: flex;
   justify-content: center;
 }
-

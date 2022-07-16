@@ -34,12 +34,6 @@ npm install
 npm start
 ``` 
 
-## 🧪 Executando os testes
-
-```bash
-npm test
-```
-
 ## 👨‍💻👩‍💻 Contribuintes
 <div>
     <table>

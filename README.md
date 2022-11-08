@@ -1,6 +1,5 @@
 # Recipes App
-Projeto da [Trybe](https://www.betrybe.com/) - Bloco 18 - Aplicação de receitas feita com React, utilizando Context API e React Hooks.
-> [Acessar página do projeto](https://lucasdacunhamoreti.github.io/Projeto-App-de-Receitas)
+Aplicação de receitas feita com React, utilizando Context API e React Hooks.
 > - ATENÇÃO: Utilizar as dimensões 360x640
 
 ## 💻 Projeto

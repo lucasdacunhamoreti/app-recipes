@@ -5,7 +5,7 @@ Projeto da [Trybe](https://www.betrybe.com/) - Bloco 18 - Aplicação de receita
 
 ## 💻 Projeto
 
-Aplicação de receitas feita em React, com Context API e React Hooks, com foco em dispositivos móveis, em que é possível buscar, filtrar, favoritar e acompanhar o progresso de preparação de receitas e drinks.
+> Aplicação de receitas feita em React, com Context API e React Hooks, com foco em dispositivos móveis, em que é possível buscar, filtrar, favoritar e acompanhar o progresso de preparação de receitas e drinks.
 
 ## 🚀 Tecnologias
 > Este projeto foi desenvolvido com as seguintes tecnologias:
@@ -46,9 +46,3 @@ npm start
         </tr>
     </table>
 </div>
-
-<!-- ## 📄 Licença
-
-Esse projeto está sob licença. Veja o arquivo [LICENÇA](LICENSE.md) para mais detalhes.
-
-[⬆ Voltar ao topo](#nome-do-projeto)<br> -->
